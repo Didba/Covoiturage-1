@@ -36,6 +36,7 @@
 			}
 			echo  $this->head->to_html() . $this->html . '</div>' .$scripts . '</body>
 						</html>';
+			unset($_SESSION['msg']);
 		}
 
 		//Ajout des script nécessaires à la page (ex: jQuery, plugins...)

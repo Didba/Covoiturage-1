@@ -8,9 +8,18 @@ session_start();
 
 	include_once 'config/connexion2.php';
 	include_once 'models/TrajetsManager.class.php';
+	include_once 'models/MembersManager.class.php';
+	include_once 'models/MessagesManager.class.php';
 	if(isset($_GET))
 	{
+		$GET = true;
 		extract($_GET);
+	}
+
+	if(isset($_POST))
+	{
+		$POST = true;
+		extract($_POST);
 	}
 
 	$traj_manager = new TrajetManager($db);
@@ -18,149 +27,359 @@ session_start();
 	$msg_manager = new MsgManager($db);
 	//On vérifie si l'utilisateur désire une page particulière
 
-	//Vérification si l'utilisateur est un admin connecté
-	if(isset($action)&&isset($_SESSION['admin']))
+	/*-------------------------------------------------------------------------------*/
+	/*--------------- Vérification si l'utilisateur est un admin -------------*/
+	/*-------------------------------------------------------------------------------*/
+	if(isset($action))
 	{
-		//Analyse de la page désirée
-		switch ($action) {
+		if (isset($_SESSION['admin']))
+		{
+			//Analyse de la page désirée
+			switch ($action)
+			{
 
-			/*-------------------------------------------------------*/
-			/*--- AFFICHAGE DES TRAJETS - ADMIN --*/
-			/*-------------------------------------------------------*/
-			case 'trajets':
+				/*-------------------------------------------------------*/
+				/*--- AFFICHAGE DES TRAJETS - ADMIN --*/
+				/*-------------------------------------------------------*/
+				case 'trajets':
 
-				include_once 'admin/views/v_trajets.class.php';
-				//On instancie alors la page correspondante
-				$page = new v_trajets("Liste des trajets");
-				$page->set_html($traj_manager->getList());
-				break;
+					include_once 'admin/views/v_trajets.class.php';
+					//On instancie alors la page correspondante
+					$page = new v_trajets("Liste des trajets");
+					$page->set_html($traj_manager->getList());
+					break;
 
-			/*-------------------------------------------------------*/
-			/*--- AFFICHAGE D'UN TRAJET PRÉCIS-- */
-			/*-------------------------------------------------------*/
-			case 'trajet':
-				//On vérifie si un ID a bien été fourni
-				if(isset($id))
-				{
-					include_once 'admin/views/v_trajet.class.php';
-					$page = new v_trajet("Trajet " + $id);
-					$page->set_html($traj_manager->getTrajet($id));
-				}
-				else
-				{
-					$_SESSION['msg'] = 'Veuillez demander un trajet valide';
+				/*-------------------------------------------------------*/
+				/*--- AFFICHAGE D'UN TRAJET PRÉCIS-- */
+				/*-------------------------------------------------------*/
+				case 'trajet':
+					//On vérifie si un ID a bien été fourni
+					if(isset($id))
+					{
+						include_once 'admin/views/v_trajet.class.php';
+						$page = new v_trajet("Trajet " + $id);
+						$page->set_html($traj_manager->getTrajet($id));
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez demander un trajet valide';
+						header('Location: index.php?action=trajets');
+					}
+					break;
+
+				/*-------------------------------------------------------*/
+				/*-------- AFFICHAGE DES MEMBRES -------*/
+				/*-------------------------------------------------------*/
+				case 'membres':
+
+					include_once 'admin/views/v_membres.class.php';
+					//On instancie alors la page correspondante
+					$page = new v_membres("Liste des membres");
+					$page->set_html($mb_manager->getList());
+					break;
+
+				/*-------------------------------------------------------*/
+				/*--- AFFICHAGE D'UN MEMBRE PRÉCIS-- */
+				/*-------------------------------------------------------*/
+				case 'membre':
+					//On vérifie si un ID a bien été fourni
+					if(isset($id))
+					{
+						include_once 'admin/views/v_membre.class.php';
+						$page = new v_membre("Membre " + $id);
+						$page->set_html($mb_manager->getMembre($id));
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez demander un membre valide';
+						header('Location: index.php?action=membres');
+					}
+					break;
+
+				/*-------------------------------------------------------------------------------*/
+				/*------------------- SUPPRESSION D'UN TRAJET -----------------*/
+				/*-------------------------------------------------------------------------------*/
+				case 'supp_trajet':
+					//On vérifie si un id a bien été fourni
+					if(isset($id))
+					{
+						if($traj_manager->remove($id))
+						{
+							$_SESSION['msg'] = 'Le trajet a bien été supprimé';
+						}
+						else
+						{
+							$_SESSION['msg'] = 'La suppression du trajet a échoué';
+						}
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez supprimer un trajet valide';
+					}
+
 					header('Location: index.php?action=trajets');
-				}
-				break;
 
-			/*-------------------------------------------------------*/
-			/*-------- AFFICHAGE DES MEMBRES -------*/
-			/*-------------------------------------------------------*/
-			case 'membres':
+					break;
 
-				include_once 'admin/views/v_membres.class.php';
-				//On instancie alors la page correspondante
-				$page = new v_membres("Liste des membres");
-				$page->set_html($mb_manager->getList());
-				break;
+				/*-------------------------------------------------------------------------------*/
+				/*------------------- SUPPRESSION D'UN MEMBRE -----------------*/
+				/*-------------------------------------------------------------------------------*/
+				case 'supp_membre':
+					//On vérifie si un id a bien été fourni
+					if(isset($id))
+					{
+						if($mb_manager->remove($id))
+						{
+							$_SESSION['msg'] = 'Le membre a bien été supprimé';
+						}
+						else
+						{
+							$_SESSION['msg'] = 'La suppression du membre a échoué';
+						}
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez supprimer un membre valide';
+					}
 
-			/*-------------------------------------------------------*/
-			/*--- AFFICHAGE D'UN MEMBRE PRÉCIS-- */
-			/*-------------------------------------------------------*/
-			case 'membre':
-				//On vérifie si un ID a bien été fourni
-				if(isset($id))
-				{
-					include_once 'admin/views/v_membre.class.php';
-					$page = new v_membre("Membre " + $id);
-					$page->set_html($mb_manager->getMembre($id));
-				}
-				else
-				{
-					$_SESSION['msg'] = 'Veuillez demander un membre valide';
 					header('Location: index.php?action=membres');
-				}
-				break;
 
-			/*-------------------------------------------------------------------------------*/
-			/*------------------- SUPPRESSION D'UN TRAJET -----------------*/
-			/*-------------------------------------------------------------------------------*/
-			case 'supp_trajet':
-				//On vérifie si un id a bien été fourni
-				if(isset($id))
-				{
-					$traj_manager->remove($id);
-				}
-				else
-				{
-					$_SESSION['msg'] = 'Veuillez supprimer un trajet valide';
-				}
+					break;
 
-				header('Location: index.php?action=trajets');
+				/*-------------------------------------------------------------------------------*/
+				/*------------- ENVOI D'UN MESSAGE À UN MEMBRE -----------*/
+				/*-------------------------------------------------------------------------------*/
+				case 'message':
+					//On vérifie si le formulaie du message a été envoyé
+					if (isset($form_message)) {
+						if($msg_manager->add($_POST, 0))
+						{
+							$_SESSION['msg'] = 'Votre message a bien été envoyé.';
+						}
+						else
+						{
+							$_SESSION['msg'] = 'L\'envoi du message a échoué';
+						}
+						header('Location: index.php?action=membres');
+					}
+					else if(isset($id))
+					{
+						include_once 'admin/views/v_newMessage.class.php';
+						$page = new v_newMessage("Nouveau message");
+						$page->set_html($mb_manager->getMembre($id));
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez demander un membre valide';
+						header('Location: index.php?action=membres');
+					}
+					break;
 
-				break;
+				case default:
+					include_once 'admin/views/v_trajets.class.php';
+					//On instancie alors la page correspondante
+					$page = new v_trajets("Liste des trajets");
+					$page->set_html($traj_manager->getList());
+					break;
 
-			/*-------------------------------------------------------------------------------*/
-			/*------------------- SUPPRESSION D'UN MEMBRE -----------------*/
-			/*-------------------------------------------------------------------------------*/
-			case 'supp_membre':
-				//On vérifie si un id a bien été fourni
-				if(isset($id))
-				{
-					$mb_manager->remove($id);
-				}
-				else
-				{
-					$_SESSION['msg'] = 'Veuillez supprimer un membre valide';
-				}
+			}//if(switch)
+		}//if(admin)
 
-				header('Location: index.php?action=membres');
+		/*-------------------------------------------------------------------------------*/
+		/*--------------------------- Utilisateur connecté -------------------------*/
+		/*-------------------------------------------------------------------------------*/
 
-				break;
+		else if(($_SESSION['login']&&$_SESSION['id']))
+		{
+			include_once 'models/ReservationsManager.class.php';
+			$res_manager = new MsgManager($db);
 
-			/*-------------------------------------------------------------------------------*/
-			/*------------- ENVOI D'UN MESSAGE À UN MEMBRE -----------*/
-			/*-------------------------------------------------------------------------------*/
-			case 'message':
-				//On vérifie si le formulaie du message a été envoyé
-				if (isset($form_message)) {
-					$msg_manager->add($_GET);
-					$_SESSION['msg'] = 'Votre message a bien été envoyé.';
-					header('Location: index.php?action=membres');
-				}
-				else if(isset($id))
-				{
-					include_once 'admin/views/v_newMessage.class.php';
-					$page = new v_newMessage("Nouveau message");
-					$page->set_html($mb_manager->getMembre($id));
-				}
-				else
-				{
-					$_SESSION['msg'] = 'Veuillez demander un membre valide';
-					header('Location: index.php?action=membres');
-				}
-				break;
+			switch ($action) {
+				/*-------------------------------------------------------------------------------*/
+				/*----------------------- AFFICHAGE DU PROFIL ----------------------*/
+				/*-------------------------------------------------------------------------------*/
 
-			case default:
-				include_once 'admin/views/v_trajets.class.php';
-				//On instancie alors la page correspondante
-				$page = new v_trajets("Liste des trajets");
-				$page->set_html($traj_manager->getList());
-				break;
-	}
-	// CAS SI UN UTILISATEUR EST CONNECTÉ
-	else if(($_SESSION['login']&&$_SESSION['pwd'])&&isset($action))
+				case 'profil':
+					include_once 'user/views/v_profile.class.php';
+					//On instancie alors la page correspondante
+					$page = new v_trajets("Mon profil");
+					$page->set_html($mb_manager->getMembre($_SESSION['id']));
+
+					break;
+
+				/*-------------------------------------------------------*/
+				/*--- AFFICHAGE DES TRAJETS - USER --*/
+				/*-------------------------------------------------------*/
+				case 'trajets':
+
+					include_once 'user/views/v_trajets.class.php';
+					//On instancie alors la page correspondante
+					$page = new v_trajets("Liste des trajets");
+					$page->set_html($traj_manager->getList());
+					break;
+
+				/*-------------------------------------------------------*/
+				/*--- AFFICHAGE D'UN TRAJET PRÉCIS-- */
+				/*-------------------------------------------------------*/
+				case 'trajet':
+					//On vérifie si un ID a bien été fourni
+					if(isset($id))
+					{
+						include_once 'user/views/v_trajet.class.php';
+						$page = new v_trajet("Trajet " + $id);
+						$page->set_html($traj_manager->getTrajet($id));
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez demander un trajet valide';
+						header('Location: index.php?action=trajets');
+					}
+					break;
+
+
+				/*-------------------------------------------------------------------------------*/
+				/*------------------- RESERVATION D'UN TRAJET ------------------*/
+				/*-------------------------------------------------------------------------------*/
+
+				case 'reserver':
+					if (isset($id))
+					{
+						if($res_manager->add($id, $_SESSION['id']))
+						{
+							$_SESSION['msg'] = 'Votre trajet est réservé';
+						}
+						else
+						{
+							$_SESSION['msg'] = 'La réservation a échoué';
+						}
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez fournir un trajet';
+					}
+					header('Location: index?action=profil');
+
+					break;
+
+				/*-------------------------------------------------------------------------------*/
+				/*--------------------- ANNULATION D'UN TRAJET -------------------*/
+				/*-------------------------------------------------------------------------------*/
+				case 'annuler':
+					if(isset($id))
+					{
+						if($res_manager->remove($id,$_SESSION['id']))
+						{
+							$_SESSION['msg'] = 'Votre réservation a été annulée';
+						}
+						else
+						{
+							$_SESSION['msg'] = 'Votre annulation a échoué';
+						}
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez fournir un trajet';
+					}
+
+					header('Location: index?action=profil');
+					break;
+
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------ ENVOI D'UN MESSAGE ----------------------*/
+				/*-------------------------------------------------------------------------------*/
+				case 'envoi':
+					if(isset($id)&&isset($msg))
+					{
+						if($msg_manager->new($_POST, $_SESSION['id']))
+						{
+							$_SESSION['msg'] = 'Votre message a bien été envoyé';
+						}
+						else
+						{
+							$_SESSION['msg'] = 'L\'envoi de votre message a échoué';
+						}
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez fournir un message et un destinataire';
+					}
+					break;
+
+				/*-------------------------------------------------------------------------------*/
+				/*---------------------- MISE À JOUR DU PROFIL ---------------------*/
+				/*-------------------------------------------------------------------------------*/
+				case 'miseajour':
+					if(isset($_POST))
+					{
+						if($mb_manager->update($_SESSION['id']))
+						{
+							$_SESSION['msg'] = 'Votre profil a bien été mis à jour';
+						}
+						else
+						{
+							$_SESSION['msg'] = 'La mise à jour de votre profil à échouée';
+						}
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez faire quelque chose :\'(';
+					}
+					header('Location: index.php?action=profil');
+					break;
+
+				default:
+					$_SESSION['msg'] = 'La page que vous demandez n\'existe pas';
+					header('Location: index.php')
+					break;
+			}//switch
+		}//if(user)
+		else
+		{
+			switch ($action) {
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------ Formulaire de recherche ---------------------*/
+				/*-------------------------------------------------------------------------------*/
+				case 'recherche':
+					include_once 'admin/views/v_trajets.class.php';
+					if (isset($_POST)) {
+						extract $_POST;
+						$datas = array("start" => $start,"finish" => $finish, "date" => $date, "time" => $time);
+						$_SESSION['recherche'] = $datas;
+						$page = new v_trajets("Résultat de la recherche");
+						$page->set_html($traj_manager->search($datas));
+					}
+					else
+					{
+						$page = new v_trajets("Résultat de la recherche");
+						$_SESSION['msg'] = 'Veuillez saisir des informations.';
+						$page->set_html($traj_manager->getList());
+					}
+					break;
+
+				default:
+					# code...
+					break;
+			}
+		}//if(!user&&!admin)
+
+	}//if(isset($action))
+
+	/*-------------------------------------------------------------------------------*/
+	/*------------------ Si l'utilisateur n'est pas un admin -----------------*/
+	/*-------------------------------------------------------------------------------*/
+	else
 	{
-		switch ($action) {
-			case '':
-				# code...
-				break;
 
-			default:
-				# code...
-				break;
+		else
+		{
+			header('Location: index.php');
 		}
-	}
+		if (condition)
+		{
+			# code...
+		}
+	}//if(action)
+
 
 
 

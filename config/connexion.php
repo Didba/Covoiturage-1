@@ -14,12 +14,12 @@
 
         $check = $db->query("SELECT 1 FROM produits");
         if ($check !== FALSE) {
-            $GLOBALS['co'] = true;
+            $_SESSION['co'] = true;
         }
         else
         {
-            $GLOBALS['msg'] = 'La table "produits" n\'existe pas. Vous pouvez la créer depuis le menu.'; //die('Erreur : '.$e->getMessage());
-            $GLOBALS['co'] = false;
+            $_SESSION['msg'] = 'La table "produits" n\'existe pas. Vous pouvez la créer depuis le menu.'; //die('Erreur : '.$e->getMessage());
+            $_SESSION['co'] = false;
         }
     }
     catch(Exception $e)
@@ -28,8 +28,8 @@
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         $db->query("SET lc_time_names = 'fr_FR'");
         $db->exec("SET CHARACTER SET utf8");
-        $GLOBALS['msg'] = "La base de données n'existe pas. Vous pouvez la créer depuis le menu."; //die('Erreur : '.$e->getMessage());
-        $GLOBALS['co'] = false;
+        $_SESSION['msg'] = "La base de données n'existe pas. Vous pouvez la créer depuis le menu."; //die('Erreur : '.$e->getMessage());
+        $_SESSION['co'] = false;
     }
 
     define('SALT', '²ebdè"nk');
