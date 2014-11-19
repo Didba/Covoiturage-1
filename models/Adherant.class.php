@@ -11,7 +11,7 @@
 		private $_sexe;
 		private $_telephone;
 		private $_dateNaiss;
-		private $mail;
+		private $_mail;
 		private $_password;
 
 		public function id()
@@ -96,7 +96,7 @@
 		
 		public function toString()
 		{
-			return "L'animal " . $this->_id . ", un(e) " . $this->_prenom . " de " . $this->_age . "ans, s'appelle " . $this->_nom . ", appartient à " . $this->_sexe . " et pousse souvent des " . $this->_cri;
+			return "L'adhérant " . $this->_id . ", ". $this->_nom ." ". $this->_prenom . " sexe : " . $this->_sexe . " tel : " . $this->_telephone . ", naissance : " . $this->_dateNaiss . " mail : " . $this->_mail;
 		}
 
 		public function hydrate(array $data)

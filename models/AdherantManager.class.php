@@ -22,7 +22,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO adherant(nom,prenom,sexe,telephone,dateNaiss,mail,password) VALUES (:nom, :prix, :categorie)');
+			$query = $this->_db->prepare('INSERT INTO adherant(nom,prenom,sexe,telephone,dateNaiss,mail,password) VALUES (:nom, :prenom, :sexe, :telephone, :dateNaiss, :mail, :password)');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
 			$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);
@@ -71,8 +71,8 @@
 
 			$result = $query->fetch();
 			$result['adherant'] = $this->AdManager->get(array("id"=>$result['adherant']));
-			$produit = new Adherant();
-			$produit->hydrate($result);
+			$adherant = new Adherant();
+			$adherant->hydrate($result);
 			return $adherant;
 		}
 
