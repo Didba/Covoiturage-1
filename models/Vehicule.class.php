@@ -11,7 +11,7 @@
 		private $_type;
 		private $_couleur;
 		private $_carburant;
-		private $immarticulation;
+		private $_immarticulation;
 		
 
 		public function id()

@@ -3,7 +3,7 @@
 	/**
 	* Classe adhérant
 	*/
-	class Produit
+	class adherant
 	{
 		private $_id;
 		private $_nom;
