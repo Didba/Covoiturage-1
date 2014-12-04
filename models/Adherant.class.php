@@ -5,7 +5,7 @@
 	*/
 	class adherant
 	{
-		private $_id;
+		private $id_Adherant;
 		private $_nom;
 		private $_prenom;
 		private $_sexe;
@@ -14,9 +14,9 @@
 		private $_mail;
 		private $_password;
 
-		public function id()
+		public function idAdherant()
 		{
-			return $this->_id;
+			return $this->id_Adherant;
 		}
 
 		public function nom()
@@ -54,9 +54,9 @@
 			return $this->_password;
 		}
 		
-		public function setId($i)
+		public function setIdAdherant($i)
 		{
-			$this->_id = $i;
+			$this->id_Adherant = $i;
 		}
 
 		public function setNom($nom)
@@ -94,10 +94,6 @@
 			$this->_password = md5($password);
 		}
 		
-		public function toString()
-		{
-			return "L'adhérant " . $this->_id . ", ". $this->_nom ." ". $this->_prenom . " sexe : " . $this->_sexe . " tel : " . $this->_telephone . ", naissance : " . $this->_dateNaiss . " mail : " . $this->_mail;
-		}
 
 		public function hydrate(array $data)
 		{

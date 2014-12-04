@@ -5,7 +5,7 @@
 	*/
 	class vehicule
 	{
-		private $_id;
+		private $_id_Vehicule;
 		private $_marque;
 		private $_modele;
 		private $_type;
@@ -16,7 +16,7 @@
 
 		public function id()
 		{
-			return $this->_id;
+			return $this->_id_Vehicule;
 		}
 
 		public function marque()
@@ -53,7 +53,7 @@
 		
 		public function setId($i)
 		{
-			$this->_id = $i;
+			$this->_id_Vehicule = $i;
 		}
 
 		public function setMarque($marque)
@@ -82,11 +82,6 @@
 			$this->_immarticulation = $immarticulation;
 		}
 		
-		
-		public function toString()
-		{
-			return "Le véhicule " . $this->_id . ", marque : " . $this->_marque .  ", modèle : " . $this->_modele . ", type : " . $this->_type. ", couleur : " . $this->_couleur. ", carburant : " . $this->_carburant. ", immarticulation : " . $this->_immarticulation   ;
-		}
 
 		public function hydrate(array $data)
 		{

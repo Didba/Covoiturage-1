@@ -29,10 +29,6 @@
 			$this->_numPermis =  $n;
 		}
 		
-		public function toString()
-		{
-			return "Le conducteur " . $this->_idAdherent . ", ". $this->_numPermis ;
-		}
 
 		public function hydrate(array $data)
 		{

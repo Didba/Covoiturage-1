@@ -1,34 +1,33 @@
 <?php
 
 	/**
-	* Classe caractéristique
+	* Classe Equipements
 	*/
-	class caracteristique
+	class Equipements
 	{
-		private $_id_Caracteristique;
+		private $_id_Equipement;
 		private $_nom;
-		
 
-		public function id()
+		public function id_Equipement()
 		{
-			return $this->_id_Caracteristique;
+			return $this->_id_Equipement;
 		}
-
+		
 		public function nom()
 		{
 			return $this->_nom;
 		}
 		
-		public function setId($i)
+		public function setId_Equipement($i)
 		{
-			$this->_id_Caracteristique = $i;
+			$this->_id_Equipement = $i;
 		}
 
-		public function setNom($nom)
+		public function setNom($n)
 		{
-			$this->_nom =  $nom;
+			$this->_nom =  $n;
 		}
-		
+
 		public function hydrate(array $data)
 		{
 			foreach ($data as $key => $value)

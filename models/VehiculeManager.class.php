@@ -37,39 +37,31 @@
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id))
+			if(isset($id_Vehicule))
 			{
-				$query = $this->_db->prepare('DELETE FROM vehicule WHERE id=:id');
-				$query -> bindParam(':id', $id,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM vehicule WHERE id_Vehicule=:id_Vehicule');
+				$query -> bindParam(':id_Vehicule', $id_Vehicule,PDO::PARAM_INT);
 			}
-			else if(isset($marque))
-			{
-				$query = $this->_db->prepare('DELETE FROM vehicule WHERE marque=:marque');
-				$query -> bindParam(':marque', $marque,PDO::PARAM_STR);
-			}
+			
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
-		* Fonction permettant de récupérer un vehicule. Paramètre: array contenant soit id=>$id soit marque=>$marque (pour que la recherche fonctionne avec l'un et l'autre)
+		* Fonction permettant de récupérer un vehicule.
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id))
+			if(isset($id_Vehicule))
 			{
-				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE id=:id');
-				$query -> bindParam(':id', $id,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE id_Vehicule=:id_Vehicule');
+				$query -> bindParam(':id_Vehicule', $id_Vehicule,PDO::PARAM_INT);
 			}
-			else if(isset($marque))
-			{
-				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE marque=:marque');
-				$query -> bindParam(':marque', $marque,PDO::PARAM_STR);
-			}
+			
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['vehicule'] = $this->AdManager->get(array("id"=>$result['vehicule']));
+			$result['vehicule'] = $this->AdManager->get(array("id_Vehicule"=>$result['vehicule']));
 			$vehicule = new Vehicule();
 			$vehicule->hydrate($result);
 			return $vehicule;
@@ -103,7 +95,7 @@
 			// On ajoute au tableau de retour les objets vehicule créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$vehicule = new Adherant();
-				$value['vehicule'] = $this->AdManager->get(array("id"=>$value['vehicule']));
+				$value['vehicule'] = $this->AdManager->get(array("id_Vehicule"=>$value['vehicule']));
 				$vehicule->hydrate($value);
 				array_push($list, $vehicule);
 			}
@@ -115,8 +107,7 @@
 		**/
 		function update($vehicule){
 			extract($vehicule);
-			$query = $this->_db->prepare('UPDATE vehicule SET marque=:marque,modele=:modele,type=:type,couleur=:couleur,carburant=:carburant,immarticulation=:immarticulation,WHERE id=:id');
-			$query -> bindParam(':id', $id,PDO::PARAM_INT);
+			$query = $this->_db->prepare('UPDATE vehicule SET marque=:marque,modele=:modele,type=:type,couleur=:couleur,carburant=:carburant,immarticulation=:immarticulation,WHERE id_Vehicule=:id_Vehicule');
 			$query -> bindParam(':marque', $marque,PDO::PARAM_STR);
 			$query -> bindParam(':modele', $modele,PDO::PARAM_STR);
 			$query -> bindParam(':type', $type,PDO::PARAM_STR);

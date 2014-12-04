@@ -38,10 +38,10 @@
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id))
+			if(isset($id_Adherant))
 			{
-				$query = $this->_db->prepare('DELETE FROM adherant WHERE id=:id');
-				$query -> bindParam(':id', $id,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM adherant WHERE id_Adherant=:id_Adherant');
+				$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
@@ -52,14 +52,14 @@
 		}
 
 		/**
-		* Fonction permettant de récupérer un Adherant. Paramètre: array contenant soit id=>$id soit nom=>$nom (pour que la recherche fonctionne avec l'un et l'autre)
+		* Fonction permettant de récupérer un Adherant. Paramètre: array contenant soit id_Adherant=>$id_Adherant soit nom=>$nom (pour que la recherche fonctionne avec l'un et l'autre)
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id))
+			if(isset($id_Adherant))
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherant WHERE id=:id');
-				$query -> bindParam(':id', $id,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM adherant WHERE id_Adherant=:id_Adherant');
+				$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
@@ -70,7 +70,7 @@
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['adherant'] = $this->AdManager->get(array("id"=>$result['adherant']));
+			$result['adherant'] = $this->AdManager->get(array("id_Adherant"=>$result['adherant']));
 			$adherant = new Adherant();
 			$adherant->hydrate($result);
 			return $adherant;
@@ -104,7 +104,7 @@
 			// On ajoute au tableau de retour les objets adherant créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$adherant = new Adherant();
-				$value['adherant'] = $this->AdManager->get(array("id"=>$value['adherant']));
+				$value['adherant'] = $this->AdManager->get(array("id_Adherant"=>$value['adherant']));
 				$adherant->hydrate($value);
 				array_push($list, $adherant);
 			}
@@ -116,8 +116,7 @@
 		**/
 		function update($adherant){
 			extract($adherant);
-			$query = $this->_db->prepare('UPDATE adherant SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,dateNaiss=:dateNaiss,mail=:mail,password=:password WHERE id=:id');
-			$query -> bindParam(':id', $id,PDO::PARAM_INT);
+			$query = $this->_db->prepare('UPDATE adherant SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,dateNaiss=:dateNaiss,mail=:mail,password=:password WHERE id_Adherant=:id_Adherant');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
 			$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);
