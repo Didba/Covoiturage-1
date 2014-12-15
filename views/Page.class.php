@@ -6,7 +6,7 @@
 /*------------- correspondantes, un string contenant le contenu de la page------------*/
 /*-------------------------------------------------------------------------------------------------------*/
 
-	include_once 'Head2.class.php';
+	include_once 'Head.class.php';
 	/**
 	* Page class
 	*/

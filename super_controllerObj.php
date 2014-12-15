@@ -6,61 +6,36 @@ session_start();
 /*--------------- chaque demande par le biais des modèles correspondants -----------*/
 /*--------------------------------------------------------------------------------------------------------*/
 
-	include_once 'config/connexion.php';
-	include_once 'Action.class.php';
-	include_once 'models/Manager.class.php';
+	include_once 'config/connexion2.php';
+	include_once 'models/TrajetsManager.class.php';
+	include_once 'models/MembersManager.class.php';
+	include_once 'models/MessagesManager.class.php';
+	if(isset($_GET))
+	{
+		$GET = true;
+		extract($_GET);
+	}
 
-	$managerMaker = new Manager($db);
+	if(isset($_POST))
+	{
+		$POST = true;
+		extract($_POST);
+	}
+
+	$traj_manager = new TrajetManager($db);
+	$mb_manager = new MbManager($db);
+	$msg_manager = new MsgManager($db);
 	//On vérifie si l'utilisateur désire une page particulière
 
 	/*-------------------------------------------------------------------------------*/
 	/*--------------- Vérification si l'utilisateur est un admin -------------*/
 	/*-------------------------------------------------------------------------------*/
-	if(isset($application)&&isset($apptype))
+	if(isset($action))
 	{
-		//index.php?apptype=Action&application=Supp_trajet&id=152
-
-		$manager = array_reverse(explode('_', $application))[0] . 'Manager';
-		$manager = new $manager($db);
-
-		if($type=="Action")
-		{
-			if(isset($_POST))
-			{
-				$POST = true;
-				extract($_POST);
-			}
-			$actionStr = "Action" . $application;
-			if(isset($id)&&$POST):$actionStr = new $action($manager, $application, $id, $_POST);
-			elseif(isset($id)):$actionStr = new $action($manager, $application, $id);
-			endif;
-			$action->setStr();
-			$action->exec();
-		}
-
-		//index.php?apptype=Display&application=trajets&id=152
-		else if($type=="Display")
-		{
-			if(isset($_GET))
-			{
-				$GET = true;
-				extract($_GET);
-			}
-			$actionStr = "Display" . $application;
-			if(isset($id)&&$POST):$actionStr = new $action($manager, $application, $id, $_POST);
-			elseif(isset($id)):$actionStr = new $action($manager, $application, $id);
-			endif;
-		}
-
-
 		if (isset($_SESSION['admin']))
 		{
 			//Analyse de la page désirée
-
-
-
-
-			switch ($application)
+			switch ($action)
 			{
 
 				/*-------------------------------------------------------*/
@@ -208,7 +183,7 @@ session_start();
 					header('Location: index.php');
 					break;
 
-				default:
+				case default:
 					include_once 'views/admin/v_index.class.php';
 					//On instancie alors la page correspondante
 					$page = new v_index("Accueil administrateur");
@@ -227,7 +202,7 @@ session_start();
 			include_once 'models/ReservationsManager.class.php';
 			$res_manager = new MsgManager($db);
 
-			switch ($application) {
+			switch ($action) {
 				/*-------------------------------------------------------------------------------*/
 				/*----------------------- AFFICHAGE DU PROFIL ----------------------*/
 				/*-------------------------------------------------------------------------------*/
@@ -371,7 +346,7 @@ session_start();
 					header('Location: index.php');
 					break;
 
-				default:
+				case default:
 					include_once 'views/user/v_index.class.php';
 					//On instancie alors la page correspondante
 					$page = new v_index("Accueil");
@@ -382,14 +357,14 @@ session_start();
 		}//if(user)
 		else
 		{
-			switch ($application) {
+			switch ($action) {
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------ Formulaire de recherche ---------------------*/
 				/*-------------------------------------------------------------------------------*/
 				case 'recherche':
 					include_once 'views/admin/v_trajets.class.php';
 					if (isset($_POST)) {
-						extract($_POST);
+						extract $_POST;
 						$datas = array("start" => $start,"finish" => $finish, "date" => $date, "time" => $time);
 						$_SESSION['recherche'] = $datas;
 						$page = new v_trajets("Résultat de la recherche");
@@ -403,7 +378,7 @@ session_start();
 					}
 					break;
 
-				default:
+				case default:
 					include_once 'views/v_index.class.php';
 					//On instancie alors la page correspondante
 					$page = new v_index("Accueil");
@@ -412,27 +387,7 @@ session_start();
 			}
 		}//if(!user&&!admin)
 
-	}//if(isset($application))
-
-	else
-	{
-		include_once 'views/v_index.class.php';
-		//On instancie alors la page correspondante
-		$page = new v_index("Accueil");
-		$page->set_html();
-	}
-
-
-
-
-
-
-
-
-
-
-
-
+	}//if(isset($action))
 	// 		/*-------------------------------------------------------*/
 	// 		/*------- MODIFICATION D'UN produit -------*/
 	// 		/*-------------------------------------------------------*/
@@ -639,5 +594,4 @@ session_start();
 
 	//On ajoute les feuilles de styles nécessaires à la page
 	$page->head->add_css("css/style.css");
-	$page->head->add_css("http://fonts.googleapis.com/css?family=Raleway");
 ?>

@@ -27,9 +27,9 @@
 				<![endif]-->';
 
 			//On vérifie maintenant si le système a enregistré un message à communiquer à l'utilisateur (confirmation d'ajout, suppression etc.). Si oui, on initialise l'attribut correspondant. Sinon, on init. à False
-			if(isset($GLOBALS['msg']))
+			if(isset($_SESSION['msg']))
 			{
-				$this->message = $GLOBALS['msg'];
+				$this->message = $_SESSION['msg'];
 			}
 			else
 			{
@@ -48,45 +48,43 @@
 		* Rendu HTML de l'head: on ajoute l'ensemble de l'HTML dans une variable string
 		**/
 		function to_html(){
-			$result = $this->html . '<title>' . $this->title . '</title>';
+			$html = $this->html . '<title>' . $this->title . '</title>';
 			if(!empty($this->css))
 			{
 				foreach ($this->css as $link) {
-					$result .= '<link href="' . $link . '" rel="stylesheet" type="text/css">';
+					$html .= '<link href="' . $link . '" rel="stylesheet" type="text/css">';
 				}
 			}
-			$result .= '</head>
+			$html .= '</head>
 			<body>';
 
-			$result .= '<header>';
-			$result .= '<h1>Boutique</h1>';
-			$result .= '</header>';
-			$result .= '<div class="content large">';
-			$result .= '<nav>';
+			$html .= '<header>';
+			$html .= '<img src="images/logoCovoit.png" alt="Covoiturage en côte d\'Or" class="main_logo">';
 			//On n'affiche pas liens d'interraction avec la BDD dans le menu si la base n'existe pas
-			if ($GLOBALS['co']) {
-				$result .= '	<div class="nav_td"><a href="TD-04.php" class="nav_link animalerie">Liste des produit</a></div>';
-				if (isset($_SESSION['admin'])) {
-					$result .= '	<div class="nav_td"><a href="TD-04.php?action=ajout" class="nav_link animalerie">Ajouter un produit</a></div>';
-				}
-				else
-				{
-					$result .= '	<div class="nav_td"><a href="TD-04.php?action=panier" class="nav_link animalerie">Panier</a></div>';
-				}
-				$result .= '	<div class="nav_td"><a href="TD-04.php?action=rechercher" class="nav_link animalerie">Rechercher un produit</a></div>';
+			if ($_SESSION['co']) {
+				$html .= '<nav>';
+				$html .= '<ul class="nav">';
+				$html .= '<li><a href="super_controller.php?apptype=display&application=profil"><img src="images/user.png" alt=""><span class="username">Mon profil</span></a></li>';
+				$html .= '</ul>';
+				$html .= '</nav>';
 			}
-			//$result .= '	<div class="nav_td"><a href="config/createTable.php" class="nav_link animalerie">Créer / Réinitialiser la BDD</a></div>';
-			$result .= '</nav>';
+
+			$html .= '</header>';
+			$html .= '<div class="content large">';
+
 			//Si un message est à afficher, on l'ajoute au contenu de l'en-tête
-			if(isset($_SESSION['admin']))
-			{
-				$result .= '<div class="disconnexion"><a href="TD-04.php?action=deconnexion">DECONNEXION</a></div>';
-			}
 			if($this->message)
 			{
-				$result .= '<div class="alert">' . $this->message . '</div>';
+				$html .= '<div class="alert">' . $this->message . '</div>';
 			}
-			return $result;
+			return $html;
+		}
+
+		/**
+		* getter title
+		**/
+		function title(){
+			return $this->title;
 		}
 	}
 
