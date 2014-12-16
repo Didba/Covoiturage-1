@@ -1,6 +1,6 @@
 <?php
 
-	include_once 'models/Trajet_Caracteristique.class.php';
+	include_once 'models/CaracteristiqueManager.class.php';
 	include_once 'models/TrajetManager.class.php';
 	/**
 	* Classe de gestion des caracteristique
@@ -14,7 +14,7 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->caManager = new Trajet_CaracteristiqueManager($db);
+			$this->caManager = new CaracteristiqueManager($db);
 		}
 
 		/**
@@ -74,7 +74,7 @@
 		* Fonction permettant d'obtenir une liste des caracteristiques
 		**/
 		function getList($champs=NULL){
-			// On vérifie le paramètre. 
+			// On vérifie le paramètre.
 			if($champs==NULL)
 			{
 				$query = $this->_db->prepare('SELECT * FROM Trajet_Caracteristique');

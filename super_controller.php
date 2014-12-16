@@ -13,6 +13,8 @@ session_start();
 	$managerMaker = new Manager($db);
 	//On vérifie si l'utilisateur désire une page particulière
 
+	if(isset($_GET)):extract($_GET);endif;
+
 	/*-------------------------------------------------------------------------------*/
 	/*--------------- Vérification si l'utilisateur est un admin -------------*/
 	/*-------------------------------------------------------------------------------*/
@@ -20,10 +22,10 @@ session_start();
 	{
 		//index.php?apptype=Action&application=Supp_trajet&id=152
 
-		$manager = array_reverse(explode('_', $application))[0] . 'Manager';
-		$manager = new $manager($db);
+		// $manager = array_reverse(explode('_', $application))[0] . 'Manager';
+		// $manager = new $manager($db);
 
-		if($type=="Action")
+		if($apptype=="Action")
 		{
 			if(isset($_POST))
 			{
@@ -39,7 +41,7 @@ session_start();
 		}
 
 		//index.php?apptype=Display&application=trajets&id=152
-		else if($type=="Display")
+		else if($apptype=="Display")
 		{
 			if(isset($_GET))
 			{
@@ -222,7 +224,7 @@ session_start();
 		/*--------------------------- Utilisateur connecté -------------------------*/
 		/*-------------------------------------------------------------------------------*/
 
-		else if(($_SESSION['login']&&$_SESSION['id']))
+		else if(isset($_SESSION['login'])&&isset($_SESSION['id']))
 		{
 			include_once 'models/ReservationsManager.class.php';
 			$res_manager = new MsgManager($db);
@@ -387,19 +389,39 @@ session_start();
 				/*------------------------ Formulaire de recherche ---------------------*/
 				/*-------------------------------------------------------------------------------*/
 				case 'recherche':
-					include_once 'views/admin/v_trajets.class.php';
+					include_once 'views/v_trajets.class.php';
+					include_once 'models/TrajetManager.class.php';
+					$traj_manager = new TrajetManager($db);
 					if (isset($_POST)) {
 						extract($_POST);
-						$datas = array("start" => $start,"finish" => $finish, "date" => $date, "time" => $time);
+						$datas = array("Lieu_Depart" => $start,"Lieu_arrivee" => $finish, "date" => $date);
 						$_SESSION['recherche'] = $datas;
 						$page = new v_trajets("Résultat de la recherche");
-						$page->set_html($traj_manager->search($datas));
+						$page->set_html($traj_manager->getList($datas));
 					}
 					else
 					{
 						$page = new v_trajets("Résultat de la recherche");
 						$_SESSION['msg'] = 'Veuillez saisir des informations.';
 						$page->set_html($traj_manager->getList());
+					}
+					break;
+
+				/*-------------------------------------------------------*/
+				/*--- AFFICHAGE D'UN TRAJET PRÉCIS-- */
+				/*-------------------------------------------------------*/
+				case 'trajet':
+					//On vérifie si un ID a bien été fourni
+					if(isset($id))
+					{
+						include_once 'views/v_trajet.class.php';
+						$page = new v_trajet("Trajet " + $id);
+						$page->set_html($traj_manager->getTrajet($id));
+					}
+					else
+					{
+						$_SESSION['msg'] = 'Veuillez demander un trajet valide';
+						header('Location: index.php?action=trajets');
 					}
 					break;
 

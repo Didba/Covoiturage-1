@@ -19,7 +19,7 @@
 		{
 			return $this->_id_trajet;
 		}
-		
+
 		public function num_permis()
 		{
 			return $this->_num_permis;
@@ -40,26 +40,21 @@
 			return $this->_date;
 		}
 
-		public function id_adherant()
-		{
-			return $this->_id_adherant;
-		}
-		
 		public function lieu_depart()
 		{
 			return $this->_lieu_depart;
 		}
-		
+
 		public function lieu_arrivee()
 		{
 			return $this->_lieu_arrivee;
 		}
-		
+
 		public function nb_passager_max()
 		{
 			return $this->_nb_passager_max;
 		}
-		
+
 		public function setId_trajet($i)
 		{
 			$this->_id_trajet = $i;
@@ -79,27 +74,27 @@
 		{
 			$this->_date = $date;
 		}
-		
+
 		public function setIdAdherant($id_adherant)
 		{
 			$this->_id_adherant = $id_adherant;
 		}
-		
+
 		public function setLieuA($lieu_arrivee)
 		{
 			$this->_lieu_arrivee = $lieu_arrivee;
 		}
-		
+
 		public function setLieuD($lieu_depart)
 		{
 			$this->_lieu_depart = $lieu_depart;
 		}
-		
+
 		public function setNb_Passagers_Max($nb_passager_max)
 		{
 			$this->_nb_passager_max = $nb_passager_max;
 		}
-		
+
 		public function toString()
 		{
 			return "Le trajet " . $this->_id_trajet;

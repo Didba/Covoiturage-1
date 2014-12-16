@@ -30,6 +30,28 @@ body
 	background-size: cover;
 }
 
+.content
+{
+	background-color: #fff;
+	margin: auto;
+	text-align: center;
+	height: 80%;
+	margin-top: 6.25rem;
+}
+
+.content_dummy
+{
+	height: 100%;
+	vertical-align: middle;
+	position: relative;
+	display: inline-block;
+}
+
+.large
+{
+	width: 1300px;
+}
+
 h2
 {
 	font-size: 4rem;
@@ -49,6 +71,7 @@ header
 	position: fixed;
 	left: 0;
 	right: 0;
+	top: 0;
 }
 
 .main_logo
@@ -124,27 +147,6 @@ nav li a img
 	margin-right: 1rem;
 	color: white;
 	width: auto;
-}
-
-.content
-{
-	background-color: #fff;
-	margin: auto;
-	text-align: center;
-	height: 80%;
-}
-
-.content_dummy
-{
-	height: 100%;
-	vertical-align: middle;
-	position: relative;
-	display: inline-block;
-}
-
-.large
-{
-	width: 1300px;
 }
 
 @media screen and (max-width: 1300px)

@@ -1,11 +1,11 @@
 <?php
 
 	include_once 'models/caracteristique.class.php';
-	
+
 	/**
 	* Classe de gestion des caracteristique
 	*/
-	class caracteristiquesManager
+	class CaracteristiqueManager
 	{
 		private $_db;
 		public $_CarManager;
@@ -14,7 +14,7 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->_CarManager = new caracteristiqueManager($db);
+			// $this->_CarManager = new caracteristiqueManager($db);    Appel récursif à lui même???
 		}
 
 		/**

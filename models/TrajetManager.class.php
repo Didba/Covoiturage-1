@@ -1,7 +1,7 @@
 <?php
 
 	include_once 'models/Trajet.class.php';
-	include_once 'models/Trajet_CaractéristiqueManager.class.php';
+	include_once 'models/Trajet_CaracteristiqueManager.class.php';
 	include_once 'models/ParticipeManager.class.php';
 	/**
 	* Classe de gestion des trajets
@@ -15,7 +15,7 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->caManager = new Trajet_CaractéristiqueManager($db);
+			$this->caManager = new Trajet_CaracteristiqueManager($db);
 		}
 
 		/**
@@ -80,7 +80,7 @@
 		* Fonction permettant d'obtenir une liste des trajets
 		**/
 		function getList($champs=NULL){
-			// On vérifie le paramètre. 
+			// On vérifie le paramètre.
 			if($champs==NULL)
 			{
 				$query = $this->_db->prepare('SELECT * FROM trajet');
@@ -104,7 +104,10 @@
 			// On ajoute au tableau de retour les objets trajet créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$trajet = new Trajet();
-				$value['Trajet_Caractéristique'] = $this->caManager->get(array("id_Trajet"=>$value['Trajet_Caractéristique']));
+				if(isset($value['Trajet_Caracteristique']))
+				{
+					$value['Trajet_Caracteristique'] = $this->caManager->get(array("id_Trajet"=>$value['Trajet_Caracteristique']));
+				}
 				$trajet->hydrate($value);
 				array_push($list, $trajet);
 			}
@@ -116,7 +119,7 @@
 		**/
 		function update($trajet){
 			extract($trajet);
-			$query = $this->_db->prepare('UPDATE trajets SET commentaire=:commentaire,Date=:Date,Lieu_Depart=:Lieu_Depart,Lieu_arrivee=:Lieu_arrivee,Nb_Passagers_Max=:Nb_Passagers_Max,Trajet_Caractéristique=:Trajet_Caractéristique WHERE id_Trajet=:id_Trajet');
+			$query = $this->_db->prepare('UPDATE trajets SET commentaire=:commentaire,Date=:Date,Lieu_Depart=:Lieu_Depart,Lieu_arrivee=:Lieu_arrivee,Nb_Passagers_Max=:Nb_Passagers_Max,Trajet_Caracteristique=:Trajet_Caracteristique WHERE id_Trajet=:id_Trajet');
 			$query -> bindParam(':id_Trajet', $id_Trajet,PDO::PARAM_INT);
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':Date', $Date,PDO::PARAM_STR);
@@ -124,7 +127,7 @@
 			$query -> bindParam(':Lieu_Depart', $Lieu_Depart,PDO::PARAM_STR);
 			$query -> bindParam(':Nb_Passagers_Max', $Nb_Passagers_Max,PDO::PARAM_STR);
 			$query -> bindParam(':Num_Permis', $Num_Permis,PDO::PARAM_STR);
-			$query -> bindParam(':Trajet_Caractéristique', $Trajet_Caractéristique,PDO::PARAM_STR);
+			$query -> bindParam(':Trajet_Caracteristique', $Trajet_Caracteristique,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 	}
