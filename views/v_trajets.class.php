@@ -15,16 +15,27 @@
 
 			$html .= '<div class="query_data">';
 			$html .= '<h3>Recherche</h3>';
-			$html .= $_SESSION['recherche']['Lieu_Depart'] . ' > ' . $_SESSION['recherche']['Lieu_arrivee'] . ' - Le ' . date('d/m/Y', strtotime($_SESSION['recherche']['date'])); //on récupère les données de la requete de l'utilisateur dans la varible de session qu'on a défini dans le controller
+			$html .= $_SESSION['recherche']['Lieu_Depart'] . ' > ' . $_SESSION['recherche']['Lieu_arrivee'] . ' - Le ' . date('d/m/Y', strtotime($_SESSION['recherche']['date'])); // On récupère les données de la requete de l'utilisateur dans la variable de session qu'on a définie dans le controller
 
 			$html .= '</div>';
-			$html .= '<h4>Liste des trajets correspondants :</h4>';
 			$html .= '<ul class="results">';
+			$html .= '<h4>Liste des trajets correspondants :</h4>';
+			if(empty($list)):$html .= 'Aucun résultat ne correspond à vos critères.'; //Si la liste est vide, on annonce que la recherche n'a retourné aucun résultat
+			else:
+
 			foreach ($list as $key => $trajet) {
-				$html .= '<li class="result">Trajet n°' . $trajet->id_trajet() . ' - ' .  $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '. - Le ' . $trajet->date() . '</li>';
+
+				$html .= '<li class="result">';
+				$html .= '<div class="result_data">';
+				$html .= ucfirst($trajet->date());
+				$html .= '</div>';
+				$html .= '<div class="result_driver">';
+				$html .= $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '.';
+				$html .= '</div>';
+				$html .= '</li>';
 			}
 			$html .= '</ul>';
-
+			endif;
 			//On retourne tout ce qu'on vient de créer en HTML dans l'attribut correspondant de la page
 			$this->html = $html;
 		}

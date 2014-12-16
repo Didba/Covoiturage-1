@@ -61,10 +61,18 @@
 			$html .= '<header>';
 			$html .= '<a href="super_controller.php"><img src="images/logoCovoit.png" alt="Covoiturage en côte d\'Or" class="main_logo"></a>';
 			//On n'affiche pas liens d'interraction avec la BDD dans le menu si la base n'existe pas
-			if ($_SESSION['co']) {
+			if (isset($_SESSION['id'])) {
 				$html .= '<nav>';
 				$html .= '<ul class="nav">';
-				$html .= '<li><a href="super_controller.php?apptype=display&application=profil"><img src="images/user.png" alt=""><span class="username">Mon profil</span></a></li>';
+				$html .= '<li><a href="super_controller.php?apptype=display&application=profil&id=' . $_SESSION['id'] . '"><img src="images/user.png" alt=""><span class="username">Mon profil</span></a></li>';
+				$html .= '</ul>';
+				$html .= '</nav>';
+			}
+			else
+			{
+				$html .= '<nav>';
+				$html .= '<ul class="nav">';
+				$html .= '<li><form action="super_controller.php" method="post"><input type="hidden" name="apptype" value="Action"><input type="hidden" name="application" value="connexion">Connexion: <input type="text" name="mail" placeholder="Email..." required><input type="password" name="pwd" required placeholder="Mot de passe..."><input type="image" name="submit" src="images/ok.png"></form></li>';
 				$html .= '</ul>';
 				$html .= '</nav>';
 			}

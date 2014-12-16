@@ -7,7 +7,6 @@
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         $db->query("SET lc_time_names = 'fr_FR'");
         $db->exec("SET CHARACTER SET utf8");
-        $_SESSION['co'] = true;
 
         // /**
         // * On vérifie maintenant si la table "produits" existe. Si oui, o valide la connexion dans la supervariable co, sinon on précise le message

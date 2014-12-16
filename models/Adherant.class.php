@@ -5,7 +5,7 @@
 	*/
 	class adherant
 	{
-		private $id_Adherant;
+		private $Id_Adherent;
 		private $_nom;
 		private $_prenom;
 		private $_sexe;
@@ -14,9 +14,9 @@
 		private $_mail;
 		private $_password;
 
-		public function idAdherant()
+		public function Id_Adherent()
 		{
-			return $this->id_Adherant;
+			return $this->Id_Adherent;
 		}
 
 		public function nom()
@@ -38,25 +38,25 @@
 		{
 			return $this->_telephone;
 		}
-		
-		public function dateNaiss()
+
+		public function Date_Naissance()
 		{
 			return $this->_dateNaiss;
 		}
-		
+
 		public function mail()
 		{
 			return $this->_mail;
 		}
-		
+
 		public function password()
 		{
 			return $this->_password;
 		}
-		
-		public function setIdAdherant($i)
+
+		public function setId_Adherent($i)
 		{
-			$this->id_Adherant = $i;
+			$this->Id_Adherent = $i;
 		}
 
 		public function setNom($nom)
@@ -73,27 +73,27 @@
 		{
 			$this->_sexe = $sexe;
 		}
-		
+
 		public function setTelephone($telephone)
 		{
 			$this->_telephone = $telephone;
 		}
-		
-		public function setDateNaiss($DateNaiss)
+
+		public function setDate_Naissance($DateNaiss)
 		{
 			$this->_DateNaiss = $DateNaiss;
 		}
-		
+
 		public function setMail($mail)
 		{
 			$this->_mail = $mail;
 		}
-		
+
 		public function setPassword($password)
 		{
 			$this->_password = md5($password);
 		}
-		
+
 
 		public function hydrate(array $data)
 		{

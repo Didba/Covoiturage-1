@@ -32,9 +32,8 @@ body
 
 .content
 {
-	background-color: #fff;
+	background-color: rgba(255,255,255,0.9);
 	margin: auto;
-	text-align: center;
 	height: 80%;
 	margin-top: 6.25rem;
 }
@@ -58,6 +57,19 @@ h2
 	color: white;
 	text-shadow: 1px 1px 15px black;
 	margin-bottom: 1rem;
+}
+
+h3
+{
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+h4
+{
+	font-size: 1.5rem;
+	margin-bottom: 1rem;
+	text-indent: 2rem;
 }
 
 /*-------------------------------------------------*/
@@ -135,6 +147,7 @@ nav li a img
 	width: 50%;
 	height: 20%;
 	margin: auto;
+	text-align: center;
 }
 
 .index_form input
@@ -225,4 +238,47 @@ label.color-radio-label
 .td
 {
 	display: table-cell;
+}
+
+/*-------------------------------------------------*/
+/*-------------- RECHERCHE --------------*/
+/*-------------------------------------------------*/
+
+.query_data
+{
+	margin-left: 2rem;
+	font-size: 1.5rem;
+	text-align: center;
+}
+
+.results
+{
+	padding: 2rem;
+	list-style-type: none;
+}
+
+.result
+{
+	display: block;
+	height: 12rem;
+	background-color: ;
+	margin-bottom: 1rem;
+}
+
+.result_driver, .result_data
+{
+	display: inline-block;
+	height: 92%;
+	padding: 0.5rem;
+}
+
+.result_driver
+{
+	width: 77%;
+}
+
+.result_data
+{
+	width: 20%;
+	text-align: center;
 }

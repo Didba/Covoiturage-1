@@ -56,24 +56,32 @@
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id_Adherant))
+			if(isset($id_Adherent))
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_Adherent=:id_Adherant');
-				$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_Adherent=:id_Adherent');
+				$query -> bindParam(':id_Adherent', $id_Adherent,PDO::PARAM_INT);
 			}
-			else if(isset($nom))
+			else if(isset($mail))
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherant WHERE nom=:nom');
-				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
+				$query = $this->_db->prepare('SELECT * FROM adherent WHERE Mail=:Mail && Password=:pwd');
+				$query -> bindParam(':Mail', $mail,PDO::PARAM_STR);
+				$query -> bindParam(':pwd', $pwd,PDO::PARAM_STR);
 			}
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
 
-			// $result['adherant'] = $this->AdManager->get(array("id_Adherant"=>$result['adherant'])); WTF??
-			$adherant = new Adherant();
-			$adherant->hydrate($result);
+			//On vérifie si la requête a bien retourné un utilisateur
+			if(!empty($result))
+			{
+				$adherant = new Adherant();
+				$adherant->hydrate($result);
+			}
+			else
+			{
+				$adherant = false;
+			}
 			return $adherant;
 		}
 

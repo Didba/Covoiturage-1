@@ -107,14 +107,13 @@
 
 			// On ajoute au tableau de retour les objets trajet créés avec chaque ligne de la BDD retournée
 				foreach ($result as $key => &$value) {
-
 					//Mise en forme de la date en passant par les méthodes SQL
 					$this->_db->exec("SET lc_time_names = 'fr_FR';SELECT @@lc_time_names"); //On définit la locale pour la langue des jours/mois
 					$query = $this->_db->prepare('SELECT YEAR(date) as y, MONTHNAME(date) as m, DAY(date) as d, DAYNAME(date) as D FROM trajet WHERE id_trajet=:id');
 					$query -> bindParam(':id', $value['Id_Trajet'],PDO::PARAM_INT);
 					$query->execute() or die(print_r($query->errorInfo()));
-					$result = $query->fetch();
-					$value['date'] = $result['D'] . ' ' . $result['d'] . ' ' . $result['m'] . ' ' . $result['y'];
+					$result2 = $query->fetch();
+					$value['date'] = $result2['D'] . ' ' . $result2['d'] . ' ' . $result2['m'] . ' ' . $result2['y'];
 
 					$trajet = new Trajet();
 					if(isset($value['Trajet_Caracteristique']))
@@ -124,7 +123,7 @@
 					$query = $this->_db->prepare('SELECT Prenom, Nom FROM adherent WHERE Id_Adherent=:id');
 					$query -> bindParam(':id', $value['Id_Adherent'],PDO::PARAM_INT);
 					$query->execute() or die(print_r($query->errorInfo()));
-					$result = $query->fetch();
+					$result2 = $query->fetch();
 
 					$value['conducteur'] = $mb_manager->get(array('id_Adherant'=>$value['Id_Adherent']));
 
