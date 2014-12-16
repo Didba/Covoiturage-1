@@ -64,7 +64,8 @@
 			if (isset($_SESSION['id'])) {
 				$html .= '<nav>';
 				$html .= '<ul class="nav">';
-				$html .= '<li><a href="super_controller.php?apptype=display&application=profil&id=' . $_SESSION['id'] . '"><img src="images/user.png" alt=""><span class="username">Mon profil</span></a></li>';
+				$html .= '<li><a href="super_controller.php?application=profil&id=' . $_SESSION['id'] . '"><img src="images/user.png" alt=""><span class="username">Mon profil</span></a></li>';
+				$html .= '<li class="deconnexion_link"><a href="super_controller.php?application=deconnexion">Deconnexion</a></li>';
 				$html .= '</ul>';
 				$html .= '</nav>';
 			}
@@ -73,6 +74,7 @@
 				$html .= '<nav>';
 				$html .= '<ul class="nav">';
 				$html .= '<li><form action="super_controller.php" method="post"><input type="hidden" name="apptype" value="Action"><input type="hidden" name="application" value="connexion">Connexion: <input type="text" name="mail" placeholder="Email..." required><input type="password" name="pwd" required placeholder="Mot de passe..."><input type="image" name="submit" src="images/ok.png"></form></li>';
+				$html .= '<li><a href="super_controller.php?application=inscription">Inscription</a></li>';
 				$html .= '</ul>';
 				$html .= '</nav>';
 			}

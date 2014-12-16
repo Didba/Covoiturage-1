@@ -125,7 +125,7 @@
 					$query->execute() or die(print_r($query->errorInfo()));
 					$result2 = $query->fetch();
 
-					$value['conducteur'] = $mb_manager->get(array('id_Adherant'=>$value['Id_Adherent']));
+					$value['conducteur'] = $mb_manager->get(array('id_Adherent'=>$value['Id_Adherent']));
 
 					$trajet->hydrate($value);
 					array_push($list, $trajet);

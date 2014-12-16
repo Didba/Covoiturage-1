@@ -21,14 +21,5 @@
 						$_SESSION['msg'] = 'Veuillez demander un trajet valide';
 						header('Location: index.php?action=trajets');
 					}
-
-
-
-
 	}
-
-
-
-
-
 ?>

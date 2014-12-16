@@ -22,7 +22,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO adherant(nom,prenom,sexe,telephone,dateNaiss,mail,password) VALUES (:nom, :prenom, :sexe, :telephone, :dateNaiss, :mail, :password)');
+			$query = $this->_db->prepare('INSERT INTO adherent(nom,prenom,sexe,telephone,date_naissance,mail,password) VALUES (:nom, :prenom, :sexe, :telephone, :dateNaiss, :mail, :password)');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
 			$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);
@@ -67,7 +67,10 @@
 				$query -> bindParam(':Mail', $mail,PDO::PARAM_STR);
 				$query -> bindParam(':pwd', $pwd,PDO::PARAM_STR);
 			}
-
+			else
+			{
+				$_SESSION['msg'] = 'Adherent get échoué';
+			}
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();

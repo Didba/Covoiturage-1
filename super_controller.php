@@ -78,6 +78,33 @@ session_start();
 
 					break;
 
+				case 'deconnexion':
+					session_destroy();
+					header('Location: super_controller.php');
+					break;
+
+
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------------ INSCRIPTION ----------------------------*/
+				/*-------------------------------------------------------------------------------*/
+
+				case 'inscription':
+					include_once('views/v_inscription.class.php');
+					$page = new v_inscription("Inscription");
+					$page->set_html();
+					break;
+
+				case 'nouvelle_inscription':
+					include_once('models/AdherantManager.class.php');
+					$mb_manager = new AdherantManager($db);
+					$mb_manager->add($_POST);
+					$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
+					header('Location: super_controller.php');
+					break;
+
+				/*-------------------------------------------------------------------------------*/
+				/*---------------------------- Affichage du profil --------------------------*/
+				/*-------------------------------------------------------------------------------*/
 				case 'profil':
 					//On vérifie si un ID a bien été fourni
 					if(isset($id))
