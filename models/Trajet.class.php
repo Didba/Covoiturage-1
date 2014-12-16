@@ -14,6 +14,7 @@
 		private $_lieu_arrivee;
 		private $_nb_passager_max;
 		private $_num_permis;
+		private $_conducteur;
 
 		public function id_trajet()
 		{
@@ -28,6 +29,11 @@
 		public function id_adherant()
 		{
 			return $this->_id_adherant;
+		}
+
+		public function conducteur()
+		{
+			return $this->_conducteur;
 		}
 
 		public function commentaire()
@@ -93,6 +99,11 @@
 		public function setNb_Passagers_Max($nb_passager_max)
 		{
 			$this->_nb_passager_max = $nb_passager_max;
+		}
+
+		public function setConducteur($adh)
+		{
+			$this->_conducteur = $adh;
 		}
 
 		public function toString()

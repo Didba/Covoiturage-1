@@ -1,11 +1,11 @@
 <?php
 
 	include_once 'models/Adherant.class.php';
-	
+
 	/**
 	* Classe de gestion des adherant
 	*/
-	class AdherantsManager
+	class AdherantManager
 	{
 		private $_db;
 		public $AdManager;
@@ -14,7 +14,7 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->AdManager = new AdherantManager($db);
+			// $this->AdManager = new AdherantManager($db); //Encore appel recursif??
 		}
 
 		/**
@@ -58,7 +58,7 @@
 			extract($data);
 			if(isset($id_Adherant))
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherant WHERE id_Adherant=:id_Adherant');
+				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_Adherent=:id_Adherant');
 				$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
@@ -70,7 +70,8 @@
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['adherant'] = $this->AdManager->get(array("id_Adherant"=>$result['adherant']));
+
+			// $result['adherant'] = $this->AdManager->get(array("id_Adherant"=>$result['adherant'])); WTF??
 			$adherant = new Adherant();
 			$adherant->hydrate($result);
 			return $adherant;

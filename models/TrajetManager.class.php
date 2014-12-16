@@ -3,6 +3,7 @@
 	include_once 'models/Trajet.class.php';
 	include_once 'models/Trajet_CaracteristiqueManager.class.php';
 	include_once 'models/ParticipeManager.class.php';
+	include_once 'models/AdherantManager.class.php';
 	/**
 	* Classe de gestion des trajets
 	*/
@@ -81,6 +82,9 @@
 		**/
 		function getList($champs=NULL){
 			// On vérifie le paramètre.
+
+			$mb_manager = new AdherantManager($this->_db);
+
 			if($champs==NULL)
 			{
 				$query = $this->_db->prepare('SELECT * FROM trajet');
@@ -102,15 +106,22 @@
 			$list = array();
 
 			// On ajoute au tableau de retour les objets trajet créés avec chaque ligne de la BDD retournée
-			foreach ($result as $key => &$value) {
-				$trajet = new Trajet();
-				if(isset($value['Trajet_Caracteristique']))
-				{
-					$value['Trajet_Caracteristique'] = $this->caManager->get(array("id_Trajet"=>$value['Trajet_Caracteristique']));
+				foreach ($result as $key => &$value) {
+					$trajet = new Trajet();
+					if(isset($value['Trajet_Caracteristique']))
+					{
+						$value['Trajet_Caracteristique'] = $this->caManager->get(array("id_Trajet"=>$value['Trajet_Caracteristique']));
+					}
+					$query = $this->_db->prepare('SELECT Prenom, Nom FROM adherent WHERE Id_Adherent=:id');
+					$query -> bindParam(':id', $value['Id_Adherent'],PDO::PARAM_INT);
+					$query->execute() or die(print_r($query->errorInfo()));
+					$result = $query->fetch();
+
+					$value['conducteur'] = $mb_manager->get(array('id_Adherant'=>$value['Id_Adherent']));
+
+					$trajet->hydrate($value);
+					array_push($list, $trajet);
 				}
-				$trajet->hydrate($value);
-				array_push($list, $trajet);
-			}
 			return $list;
 		}
 

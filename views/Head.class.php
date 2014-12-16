@@ -59,7 +59,7 @@
 			<body>';
 
 			$html .= '<header>';
-			$html .= '<img src="images/logoCovoit.png" alt="Covoiturage en côte d\'Or" class="main_logo">';
+			$html .= '<a href="super_controller.php"><img src="images/logoCovoit.png" alt="Covoiturage en côte d\'Or" class="main_logo"></a>';
 			//On n'affiche pas liens d'interraction avec la BDD dans le menu si la base n'existe pas
 			if ($_SESSION['co']) {
 				$html .= '<nav>';
