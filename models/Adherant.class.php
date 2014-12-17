@@ -81,7 +81,7 @@
 
 		public function setDate_Naissance($DateNaiss)
 		{
-			$this->_DateNaiss = $DateNaiss;
+			$this->_dateNaiss = $DateNaiss;
 		}
 
 		public function setMail($mail)
