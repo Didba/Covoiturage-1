@@ -110,10 +110,23 @@ session_start();
 					if(isset($id))
 					{
 						include_once 'views/v_profil.class.php';
+
 						include 'models/AdherantManager.class.php';
 						$mb_manager = new AdherantManager($db);
+
+						include_once('models/conducteurManager.class.php');
+						$cd_manager = new conducteurManager($db);
 						$page = new v_profil("Mon profil");
-						$page->set_html(array("adherent" => $mb_manager->get(array("id_Adherent" => $id))));
+
+						if($conducteur = $cd_manager->get(array("id_Adherent_Conducteur"=>$id)))
+						{
+							$page->set_html(array("adherent" => $cd_manager->get(array("id_Adherent_Conducteur" => $id))));
+						}
+						else
+						{
+							$page->set_html(array("adherent" => $mb_manager->get(array("id_Adherent" => $id))));
+						}
+
 					}
 					else
 					{

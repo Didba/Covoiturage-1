@@ -22,6 +22,7 @@
 			$html .= '<br /><class="result"><b>Date naiss : </b>' .   date('d/m/Y',strtotime($adherent->date_Naissance())) . '</class><br />';
 			$html .= '<br /><class="result"><b>Mail : </b>' .  $adherent->mail() . '</class><br />';
 
+
 			//On retourne tout ce qu'on vient de créer en HTML dans l'attribut correspondant de la page
 			$this->html = $html;
 		}

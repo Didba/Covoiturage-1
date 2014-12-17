@@ -72,6 +72,16 @@ h4
 	text-indent: 2rem;
 }
 
+.alert
+{
+	text-align: center;
+	background-color: rgba(255,0,0,0.6);
+	color: white;
+	font-size: 1.3rem;
+	padding-top: 0.6rem;
+	padding-bottom: 0.6rem;
+}
+
 /*-------------------------------------------------*/
 /*------------------- Header -------------------*/
 /*-------------------------------------------------*/
@@ -95,7 +105,7 @@ header
 nav
 {
 	position: absolute;
-	height: 50%;
+	height: 90%;
 	top:0;
 	bottom: 0;
 	margin-top: auto;

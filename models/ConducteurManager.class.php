@@ -3,20 +3,18 @@
 	include_once 'models/conducteur.class.php';
 	include_once 'models/Adherant.class.php';
 	include_once 'models/AdherantManager.class.php';
-	
+
 	/**
 	* Classe de gestion des conducteur
 	*/
 	class conducteurManager
 	{
 		private $_db;
-		public $_ConManager;
 
 		//Constructeur du manager, on y instancie PDO
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->_ConManager = new conducteurManager($db);
 		}
 
 		/**
@@ -52,10 +50,10 @@
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id_Adherant))
+			if(isset($id_Adherent_Conducteur))
 			{
-				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_Adherant=:id_Adherant');
-				$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_Adherent_Conducteur=:id_Adherent_Conducteur');
+				$query -> bindParam(':id_Adherent_Conducteur', $id_Adherent_Conducteur,PDO::PARAM_INT);
 			}
 			else if(isset($numPermis))
 			{
@@ -66,9 +64,18 @@
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['conducteur'] = $this->_ConManager->get(array("id_Adherant"=>$result['conducteur']));
-			$conducteur = new conducteurManager();
-			$conducteur->hydrate($result);
+
+			$conducteur = new conducteur();
+
+			if(!empty($result))
+			{
+				$result['conducteur'] = $this->get(array("id_Adherent_Conducteur"=>$result['conducteur']));
+				$conducteur->hydrate($result);
+			}
+			else
+			{
+				$conducteur = false;
+			}
 			return $conducteur;
 		}
 
@@ -100,7 +107,7 @@
 			// On ajoute au tableau de retour les objets conducteur créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$conducteur = new conducteur();
-				$value['conducteur'] = $this->_ConManager->get(array("id_Adherant"=>$value['conducteur']));
+				$value['conducteur'] = $this->get(array("id_Adherant"=>$value['conducteur']));
 				$conducteur->hydrate($value);
 				array_push($list, $conducteur);
 			}
