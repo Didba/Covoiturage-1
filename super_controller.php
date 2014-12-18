@@ -101,6 +101,24 @@ session_start();
 					$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
 					header('Location: super_controller.php');
 					break;
+				
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------------PROPOSER TRAJET ----------------------------*/
+				/*-------------------------------------------------------------------------------*/
+
+				case 'proposer':
+					include_once('views/v_proposer.class.php');
+					$page = new v_proposer("proposer");
+					$page->set_html();
+					break;
+
+				case 'nouvelle_proposition':
+					include_once('models/TrajetManager.class.php');
+					$mb_manager = new TrajetManager($db);
+					$mb_manager->add($_POST);
+					$_SESSION['msg'] = "Votre proposition a bien été prise en compte";
+					header('Location: super_controller.php');
+					break;	
 
 				/*-------------------------------------------------------------------------------*/
 				/*---------------------------- Affichage du profil --------------------------*/
