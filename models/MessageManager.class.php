@@ -1,10 +1,9 @@
 <?php
 
 	include_once 'models/Message.class.php';
-	include_once 'models/Adherant.class.php';
 	
 	/**
-	* Class de gestion Communiques
+	* Class de gestion Message
 	*/
 	class MessageManager
 	{
@@ -15,7 +14,7 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->MeManager = new MessageManager($db);
+			
 		}
 
 		/**
@@ -23,9 +22,9 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO Message(id_AdherantE,id_AdherantR,date,message,sujet) VALUES (:id_AdherantE,:id_AdherantR,:date,:message,:sujet)');
-			$query -> bindParam(':id_AdherantE', $id_AdherantE,PDO::PARAM_STR);
-			$query -> bindParam(':id_AdherantR', $id_AdherantR,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO Message(id_Adherant_From,id_Adherant_To,date,message,sujet) VALUES (:id_Adherant_From,:id_Adherant_To,:date,:message,:sujet)');
+			$query -> bindParam(':id_Adherant_From', $id_AdherantE,PDO::PARAM_STR);
+			$query -> bindParam(':id_Adherant_To', $id_AdherantR,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
 			$query -> bindParam(':message', $message,PDO::PARAM_STR);
 			$query -> bindParam(':sujet', $sujet,PDO::PARAM_STR);

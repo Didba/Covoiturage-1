@@ -106,7 +106,7 @@
 					array_push($list, $trajet);
 				}
 			return $list;
-		}}
+		}
 
 		/**
 		* Fonction permettant de mettre à jour un trajet
@@ -114,7 +114,6 @@
 		function update($trajet){
 			extract($trajet);
 			$query = $this->_db->prepare('UPDATE trajets SET commentaire=:commentaire,Date=:Date,Lieu_Depart=:Lieu_Depart,Lieu_arrivee=:Lieu_arrivee,Nb_Passagers_Max=:Nb_Passagers_Max WHERE id_Trajet=:id_Trajet');
-			$query -> bindParam(':id_Trajet', $id_Trajet,PDO::PARAM_INT);
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':Date', $Date,PDO::PARAM_STR);
 			$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_STR);
@@ -123,7 +122,8 @@
 			$query -> bindParam(':Num_Permis', $Num_Permis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
-	}
+		
+	
 
 ?>
 

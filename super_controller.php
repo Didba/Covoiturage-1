@@ -101,6 +101,42 @@ session_start();
 					$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
 					header('Location: super_controller.php');
 					break;
+					
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------------ MESSAGERIE ----------------------------*/
+				/*-------------------------------------------------------------------------------*/
+
+				case 'message':
+					include_once('views/v_message.class.php');
+					$page = new v_message("message");
+					$page->set_html();
+					break;
+
+				case 'nouvelle_message':
+					include_once('models/MessageManager.class.php');
+					$mb_manager = new MessageManager($db);
+					$mb_manager->add($_POST);
+					$_SESSION['msg'] = "Votre message a bien été envoyé";
+					header('Location: super_controller.php');
+					break;	
+					
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------------ AJOUT VEHICULE ----------------------------*/
+				/*-------------------------------------------------------------------------------*/
+
+				case 'ajoutVehicule':
+					include_once('views/v_ajoutVehicule.class.php');
+					$page = new v_ajoutVehicule("ajoutVehicule");
+					$page->set_html();
+					break;
+
+				case 'nouvelle_ajoutVehicule':
+					include_once('models/AdherantManager.class.php');
+					$mb_manager = new VehiculeManager($db);
+					$mb_manager->add($_POST);
+					$_SESSION['msg'] = "Votre ajout a bien été prise en compte";
+					header('Location: super_controller.php');
+					break;	
 				
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------------PROPOSER TRAJET ----------------------------*/
