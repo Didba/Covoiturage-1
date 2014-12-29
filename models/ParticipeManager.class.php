@@ -1,7 +1,6 @@
 <?php
 
 	include_once 'models/Participe.class.php';
-	include_once 'models/Trajet.class.php';
 	include_once 'models/Adherant.class.php';
 	
 	/**
@@ -16,7 +15,6 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->PaManager = new ParticipeManager($db);
 		}
 
 		/**

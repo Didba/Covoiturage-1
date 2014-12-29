@@ -15,7 +15,6 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->NoManager = new NoteManager($db);
 		}
 
 		/**

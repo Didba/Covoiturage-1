@@ -1,6 +1,7 @@
 <?php
 
 	include_once 'models/Message.class.php';
+	include_once 'models/Adherant.class.php';
 	
 	/**
 	* Class de gestion Message
@@ -13,8 +14,7 @@
 		//Constructeur du manager, on y instancie PDO
 		function __construct($db)
 		{
-			$this->_db = $db;
-			
+			$this->_db = $db;	
 		}
 
 		/**

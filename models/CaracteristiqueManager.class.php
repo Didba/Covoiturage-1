@@ -1,6 +1,7 @@
 <?php
 
-	include_once 'models/caracteristique.class.php';
+	include_once 'models/Caracteristique.class.php';
+	include_once 'models/Trajet_Caracteristique.class.php';
 
 	/**
 	* Classe de gestion des caracteristique
@@ -14,7 +15,6 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			// $this->_CarManager = new caracteristiqueManager($db);    Appel récursif à lui même???
 		}
 
 		/**

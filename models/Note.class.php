@@ -6,8 +6,8 @@
 	class note
 	{
 		private $_id_note;
-		private $_id_AdherantE;
-		private $_id_AdherantR;
+		private $_id_Adherant_From;
+		private $_id_Adherant_To;
 		private $_date;
 		private $_commentaire;
 		
@@ -18,14 +18,14 @@
 			return $this->_id_note;
 		}
 		
-		public function idAdherantE()
+		public function idAdherant_From()
 		{
-			return $this->_id_AdherantE;
+			return $this->_id_Adherant_From;
 		}
 		
-		public function idAdherantR()
+		public function idAdherant_To()
 		{
-			return $this->_id_AdherantR;
+			return $this->_id_Adherant_To;
 		}
 
 		public function date()
@@ -44,14 +44,14 @@
 			$this->_id_Note = $i;
 		}
 		
-		public function setIdAdherantE($i)
+		public function setIdAdherant_From($i)
 		{
-			$this->_id_AdherantE = $i;
+			$this->_id_Adherant_From = $i;
 		}
 		
-		public function setIdAdherantR($i)
+		public function setIdAdherant_To($i)
 		{
-			$this->_id_AdherantR = $i;
+			$this->_id_Adherant_To = $i;
 		}
 
 		public function setDate($d)

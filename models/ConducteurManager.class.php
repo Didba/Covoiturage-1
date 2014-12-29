@@ -2,7 +2,6 @@
 
 	include_once 'models/conducteur.class.php';
 	include_once 'models/Adherant.class.php';
-	include_once 'models/AdherantManager.class.php';
 
 	/**
 	* Classe de gestion des conducteur
@@ -50,7 +49,7 @@
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id_Adherent_Conducteur))
+			if(isset($id_Adherent))
 			{
 				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_Adherent_Conducteur=:id_Adherent_Conducteur');
 				$query -> bindParam(':id_Adherent_Conducteur', $id_Adherent_Conducteur,PDO::PARAM_INT);

@@ -1,7 +1,7 @@
 <?php
 
-	include_once 'models/CaracteristiqueManager.class.php';
-	include_once 'models/TrajetManager.class.php';
+	include_once 'models/Caracteristique.class.php';
+	include_once 'models/Trajet.class.php';
 	/**
 	* Classe de gestion des caracteristique
 	*/
@@ -14,7 +14,6 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->caManager = new CaracteristiqueManager($db);
 		}
 
 		/**
@@ -22,8 +21,8 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO Trajet_Caracteristique(id_Trajet_Caracteristique) VALUES (:id_Trajet_Caracteristique)');
-			$query -> bindParam(':id_Trajet_Caracteristique', $id_Trajet_Caracteristique,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO Trajet_Caracteristique(id_Caracteristique) VALUES (:id_Caracteristique)');
+			$query -> bindParam(':id_Caracteristique', $id_Caracteristique,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -52,8 +51,8 @@
 			extract($data);
 			if(isset($id_Trajet_Caracteristique))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Trajet_Caracteristique WHERE id_Trajet_Caracteristique=:id_Trajet_Caracteristique');
-				$query -> bindParam(':id_Trajet_Caracteristique', $id_Trajet_Caracteristique,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM Trajet_Caracteristique WHERE id_Caracteristique=:id_Caracteristique');
+				$query -> bindParam(':id_Caracteristique', $id_Trajet_Caracteristique,PDO::PARAM_INT);
 			}
 			else if(isset($id_Trajet))
 			{
@@ -64,7 +63,7 @@
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['Trajet_Caracteristique_Caractéristique'] = $this->caManager->get(array("id_Trajet_Caracteristique"=>$result['Trajet_Caracteristique_Caractéristique']));
+			$result['Trajet_Caracteristique'] = $this->caManager->get(array("id_Caracteristique"=>$result['Trajet_Caracteristique']));
 			$Trajet_Caracteristique = new Trajet_Caracteristique();
 			$Trajet_Caracteristique->hydrate($result);
 			return $Trajet_Caracteristique;
@@ -98,7 +97,7 @@
 			// On ajoute au tableau de retour les objets Trajet_Caracteristique créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$Trajet_Caracteristique = new Trajet_Caracteristique();
-				$value['Trajet_Caracteristique'] = $this->caManager->get(array("id_Trajet_Caracteristique"=>$value['Trajet_Caracteristique']));
+				$value['Trajet_Caracteristique'] = $this->caManager->get(array("id_Caracteristique"=>$value['Trajet_Caracteristique']));
 				$Trajet_Caracteristique->hydrate($value);
 				array_push($list, $Trajet_Caracteristique);
 			}

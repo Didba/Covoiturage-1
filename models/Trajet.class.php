@@ -6,7 +6,6 @@
 	class trajet
 	{
 		private $_id_trajet;
-		private $_nom;
 		private $_commentaire;
 		private $_date;
 		private $_id_adherant;

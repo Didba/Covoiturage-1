@@ -1,7 +1,7 @@
 <?php
 
 	include_once 'models/Etapes.class.php';
-	include_once 'models/TrajetManager.class.php';
+	include_once 'models/Trajet.class.php';
 	/**
 	* Classe de gestion des etapes
 	*/
@@ -14,7 +14,6 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->etManager = new EtapesManager($db);
 		}
 
 		/**

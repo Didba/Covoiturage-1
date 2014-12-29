@@ -14,7 +14,6 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->eqManager = new EquipementManager($db);
 		}
 
 		/**

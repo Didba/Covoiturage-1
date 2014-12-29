@@ -1,8 +1,9 @@
 <?php
 
-	include_once 'models/Vehicule_equipement.class.php';
-	include_once 'models/VehiculeManager.class.php';
-	include_once 'models/Vehicule_equipementManager.class.php';
+	include_once 'models/Vehicule_Equipement.class.php';
+	include_once 'models/Equipement.class.php';
+	include_once 'models/Vehicule.class.php';
+
 
 	/**
 	* Classe de gestion des Vehicule_equipement
@@ -16,7 +17,6 @@
 		function __construct($db)
 		{
 			$this->_db = $db;
-			$this->VeEqManager = new Vehicule_equipementManager($db);
 		}
 
 		/**
