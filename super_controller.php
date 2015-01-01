@@ -62,13 +62,25 @@ session_start();
 				/*-------------------------------------------------------*/
 				case 'connexion':
 					include 'models/AdherantManager.class.php';
+					include 'models/ConducteurManager.class.php';
 					$mb_manager = new AdherantManager($db);
+					$cd_manager = new ConducteurManager($db);
 
 					if($adherent = $mb_manager->get($_POST))
 					{
-						$_SESSION['id'] = $adherent->Id_Adherent();
-						$_SESSION['co'] = true;
-						header('Location: super_controller.php');
+						if($conducteur = $cd_manager->get(array("id_Adherent"=>$adherent->Id_Adherent())))
+						{
+							$_SESSION['id'] = $conducteur->Id_Adherent();
+							$_SESSION['co'] = true;
+							$_SESSION['permis'] = $conducteur->numPermis();
+							header('Location: super_controller.php');
+						}
+						else
+						{
+							$_SESSION['id'] = $adherent->Id_Adherent();
+							$_SESSION['co'] = true;
+							header('Location: super_controller.php');
+						}
 					}
 					else
 					{
@@ -101,7 +113,7 @@ session_start();
 					$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
 					header('Location: super_controller.php');
 					break;
-					
+
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------------ MESSAGERIE ----------------------------*/
 				/*-------------------------------------------------------------------------------*/
@@ -118,8 +130,8 @@ session_start();
 					$mb_manager->add($_POST);
 					$_SESSION['msg'] = "Votre message a bien été envoyé";
 					header('Location: super_controller.php');
-					break;	
-					
+					break;
+
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------------ AJOUT VEHICULE ----------------------------*/
 				/*-------------------------------------------------------------------------------*/
@@ -136,15 +148,15 @@ session_start();
 					$mb_manager->add($_POST);
 					$_SESSION['msg'] = "Votre ajout a bien été prise en compte";
 					header('Location: super_controller.php');
-					break;	
-				
+					break;
+
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------------PROPOSER TRAJET ----------------------------*/
 				/*-------------------------------------------------------------------------------*/
 
 				case 'proposer':
 					include_once('views/v_proposer.class.php');
-					$page = new v_proposer("proposer");
+					$page = new v_proposer("Proposer un nouveau trajet");
 					$page->set_html();
 					break;
 
@@ -154,7 +166,7 @@ session_start();
 					$mb_manager->add($_POST);
 					$_SESSION['msg'] = "Votre proposition a bien été prise en compte";
 					header('Location: super_controller.php');
-					break;	
+					break;
 
 				/*-------------------------------------------------------------------------------*/
 				/*---------------------------- Affichage du profil --------------------------*/

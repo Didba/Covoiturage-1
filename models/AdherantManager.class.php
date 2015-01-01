@@ -8,13 +8,11 @@
 	class AdherantManager
 	{
 		private $_db;
-		public $AdManager;
 
 		//Constructeur du manager, on y instancie PDO
 		function __construct($db)
 		{
 			$this->_db = $db;
-			// $this->AdManager = new AdherantManager($db); //Encore appel recursif??
 		}
 
 		/**

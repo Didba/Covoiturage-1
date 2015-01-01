@@ -49,27 +49,28 @@
 		**/
 		function get(array $data){
 			extract($data);
+
 			if(isset($id_Adherent))
 			{
-				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_Adherent_Conducteur=:id_Adherent_Conducteur');
-				$query -> bindParam(':id_Adherent_Conducteur', $id_Adherent_Conducteur,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE Id_Adherent_Conducteur=:id_Adherent_Conducteur');
+				$query -> bindParam(':id_Adherent_Conducteur', $id_Adherent,PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+				$result = $query->fetch();
 			}
 			else if(isset($numPermis))
 			{
-				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE numPermis=:numPermis');
+				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE Num_Permis=:numPermis');
 				$query -> bindParam(':numPermis', $numPermis,PDO::PARAM_STR);
+				$query->execute() or die(print_r($query->errorInfo()));
+				$result = $query->fetch();
 			}
-
-			$query->execute() or die(print_r($query->errorInfo()));
-
-			$result = $query->fetch();
 
 			$conducteur = new conducteur();
 
 			if(!empty($result))
 			{
-				$result['conducteur'] = $this->get(array("id_Adherent_Conducteur"=>$result['conducteur']));
-				$conducteur->hydrate($result);
+				// $result['conducteur'] = $this->get(array("id_Adherent_Conducteur"=>$result['conducteur']));
+				$conducteur->hydrate(array("Id_Adherent"=>$result['Id_Adherent_Conducteur'], "numPermis"=>$result['Num_Permis']));
 			}
 			else
 			{

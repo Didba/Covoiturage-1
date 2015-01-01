@@ -22,6 +22,19 @@
 			$html .= '<br /><class="result"><b>Date naiss : </b>' .   date('d/m/Y',strtotime($adherent->date_Naissance())) . '</class><br />';
 			$html .= '<br /><class="result"><b>Mail : </b>' .  $adherent->mail() . '</class><br />';
 
+			$html .= '<aside>';
+			$html .= '<ul>';
+
+			if(isset($_SESSION['permis']))
+			{
+				$html .= '	<li><a href="super_controller.php?application=proposer">Proposer un trajet</a></li>';
+			}
+
+			$html .= '
+				<li><a href=""></a></li>
+				<li><a href=""></a></li>
+			</ul>'	;
+			$html .= '</aside>';
 
 			//On retourne tout ce qu'on vient de créer en HTML dans l'attribut correspondant de la page
 			$this->html = $html;

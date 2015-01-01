@@ -31,7 +31,8 @@
 
 		public function sexe()
 		{
-			return $this->_sexe;
+			if($this->_sexe==0): return "Femme";
+			else: return "Homme"; endif;
 		}
 
 		public function telephone()
