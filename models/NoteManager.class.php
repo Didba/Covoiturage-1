@@ -22,11 +22,11 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO Note(id_AdherantE,id_AdherantR,date,commentaire) VALUES (:id_AdherantE,:id_AdherantR,:date,:commentaire)');
-			$query -> bindParam(':id_note', $id_note,PDO::PARAM_STR);
-			$query -> bindParam(':id_AdherantE', $id_AdherantE,PDO::PARAM_STR);
-			$query -> bindParam(':id_AdherantR', $id_AdherantR,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO note(id_adherent_from,id_adherant_to,date,note,commentaire) VALUES (:id_adherent_from,:id_adherant_to,:date,:note,:commentaire)');
+			$query -> bindParam(':id_adherent_from', $id_AdherantE,PDO::PARAM_STR);
+			$query -> bindParam(':id_adherant_to', $id_AdherantR,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
+			$query -> bindParam(':note', $id_note,PDO::PARAM_STR);
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -38,8 +38,8 @@
 			extract($data);
 			if(isset($id_note))
 			{
-				$query = $this->_db->prepare('DELETE FROM Note WHERE id_note=:id_note');
-				$query -> bindParam(':id_note', $id_note,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM note WHERE id_adherent_from=:id_adherent_from');
+				$query -> bindParam(':id_adherent_from', $id_note,PDO::PARAM_INT);
 			}
 		
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -52,15 +52,15 @@
 			extract($data);
 			if(isset($id_note))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Note WHERE id_note=:id_note');
-				$query -> bindParam(':id_note', $id_note,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM note WHERE id_adherent_from=:id_adherent_from');
+				$query -> bindParam(':id_adherent_from', $id_note,PDO::PARAM_INT);
 			}
 			
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['Note'] = $this->NoManager->get(array("id_note"=>$result['Note']));
+			$result['note'] = $this->NoManager->get(array("id_adherent_from"=>$result['note']));
 			$Note = new Note();
 			$Note->hydrate($result);
 			return $Note;
@@ -73,11 +73,11 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM Note');
+				$query = $this->_db->prepare('SELECT * FROM note');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM Note WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM note WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -94,7 +94,7 @@
 			// On ajoute au tableau de retour les objets Note créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$Note = new Note();
-				$value['Note'] = $this->AdManager->get(array("id"=>$value['Note']));
+				$value['note'] = $this->AdManager->get(array("id_adherent_from"=>$value['note']));
 				$Note->hydrate($value);
 				array_push($list, $Note);
 			}
@@ -106,7 +106,7 @@
 		**/
 		function update($Note){
 			extract($Note);
-			$query = $this->_db->prepare('UPDATE note SET commentaire=:commentaire,note=:note,WHERE id_note=:id_note');
+			$query = $this->_db->prepare('UPDATE note SET commentaire=:commentaire,note=:note,WHERE id_adherent_from=:id_adherent_from');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':note', $note,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));

@@ -38,8 +38,8 @@
 			extract($data);
 			if(isset($id_Vehicule))
 			{
-				$query = $this->_db->prepare('DELETE FROM vehicule WHERE id_Vehicule=:id_Vehicule');
-				$query -> bindParam(':id_Vehicule', $id_Vehicule,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM vehicule WHERE id_vehicule=:id_vehicule');
+				$query -> bindParam(':id_vehicule', $id_Vehicule,PDO::PARAM_INT);
 			}
 			
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -52,15 +52,15 @@
 			extract($data);
 			if(isset($id_Vehicule))
 			{
-				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE id_Vehicule=:id_Vehicule');
-				$query -> bindParam(':id_Vehicule', $id_Vehicule,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE id_vehicule=:id_vehicule');
+				$query -> bindParam(':id_vehicule', $id_Vehicule,PDO::PARAM_INT);
 			}
 			
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['vehicule'] = $this->AdManager->get(array("id_Vehicule"=>$result['vehicule']));
+			$result['vehicule'] = $this->AdManager->get(array("id_vehicule"=>$result['vehicule']));
 			$vehicule = new Vehicule();
 			$vehicule->hydrate($result);
 			return $vehicule;
@@ -94,7 +94,7 @@
 			// On ajoute au tableau de retour les objets vehicule créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$vehicule = new Adherant();
-				$value['vehicule'] = $this->AdManager->get(array("id_Vehicule"=>$value['vehicule']));
+				$value['vehicule'] = $this->AdManager->get(array("id_vehicule"=>$value['vehicule']));
 				$vehicule->hydrate($value);
 				array_push($list, $vehicule);
 			}
@@ -106,7 +106,7 @@
 		**/
 		function update($vehicule){
 			extract($vehicule);
-			$query = $this->_db->prepare('UPDATE vehicule SET marque=:marque,modele=:modele,type=:type,couleur=:couleur,carburant=:carburant,immarticulation=:immarticulation,WHERE id_Vehicule=:id_Vehicule');
+			$query = $this->_db->prepare('UPDATE vehicule SET marque=:marque,modele=:modele,type=:type,couleur=:couleur,carburant=:carburant,immarticulation=:immarticulation,WHERE id_vehicule=:id_vehicule');
 			$query -> bindParam(':marque', $marque,PDO::PARAM_STR);
 			$query -> bindParam(':modele', $modele,PDO::PARAM_STR);
 			$query -> bindParam(':type', $type,PDO::PARAM_STR);

@@ -21,9 +21,9 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO Etapes(Lieu, Ordre) VALUES (:Lieu, :Ordre)');
-			$query -> bindParam(':Lieu', $Lieu,PDO::PARAM_STR);
-			$query -> bindParam(':Ordre', $Ordre,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO etapes(lieu, ordre) VALUES (:lieu, :ordre)');
+			$query -> bindParam(':lieu', $Lieu,PDO::PARAM_STR);
+			$query -> bindParam(':ordre', $Ordre,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -34,13 +34,13 @@
 			extract($data);
 			if(isset($id_Etapes))
 			{
-				$query = $this->_db->prepare('DELETE FROM Etapes WHERE id_Etapes=:id_Etapes');
-				$query -> bindParam(':id_Etapes', $id_Etapes,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM etapes WHERE id_etapes=:id_etapes');
+				$query -> bindParam(':id_etapes', $id_Etapes,PDO::PARAM_INT);
 			}
 			else if(isset($id_Trajet))
 			{
-				$query = $this->_db->prepare('DELETE FROM Etapes WHERE id_Trajet=:id_Trajet');
-				$query -> bindParam(':id_Trajet', $id_Trajet,PDO::PARAM_STR);
+				$query = $this->_db->prepare('DELETE FROM etapes WHERE id_trajet=:id_trajet');
+				$query -> bindParam(':id_trajet', $id_Trajet,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -52,19 +52,19 @@
 			extract($data);
 			if(isset($id_Etapes))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Etapes WHERE id_Etapes=:id_Etapes');
-				$query -> bindParam(':id_Etapes', $id_Etapes,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM etapes WHERE id_etapes=:id_etapes');
+				$query -> bindParam(':id_etapes', $id_Etapes,PDO::PARAM_INT);
 			}
 			else if(isset($id_Trajet))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Etapes WHERE id_Trajet=:id_Trajet');
-				$query -> bindParam(':id_Trajet', $id_Trajet,PDO::PARAM_STR);
+				$query = $this->_db->prepare('SELECT * FROM etapes WHERE id_trajet=:id_trajet');
+				$query -> bindParam(':id_trajet', $id_Trajet,PDO::PARAM_STR);
 			}
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['Etapes'] = $this->etManager->get(array("id_Etapes"=>$result['Etapes']));
+			$result['etapes'] = $this->etManager->get(array("id_etapes"=>$result['etapes']));
 			$Etapes = new Etapes();
 			$Etapes->hydrate($result);
 			return $Etapes;
@@ -77,11 +77,11 @@
 			// On vérifie le paramètre. 
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM Etapes');
+				$query = $this->_db->prepare('SELECT * FROM etapes');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM Etapes WHERE 1"; //Début de la requête.
+				$query_str = "SELECT * FROM etapes WHERE 1"; //Début de la requête.
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -98,7 +98,7 @@
 			// On ajoute au tableau de retour les objets Etapes créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$Etapes = new Etapes();
-				$value['Etapes'] = $this->etManager->get(array("id_Etapes"=>$value['Etapes']));
+				$value['etapes'] = $this->etManager->get(array("id_etapes"=>$value['etapes']));
 				$Etapes->hydrate($value);
 				array_push($list, $Etapes);
 			}
@@ -110,9 +110,9 @@
 		**/
 		function update($Etapes){
 			extract($Etapes);
-			$query = $this->_db->prepare('UPDATE Etapes SET ,Lieu=:Lieu, Ordre=:Ordre WHERE id_Etapes=:id_Etapes');
-			$query -> bindParam(':Lieu', $Lieu,PDO::PARAM_INT);
-			$query -> bindParam(':Ordre', $Ordre,PDO::PARAM_STR);
+			$query = $this->_db->prepare('UPDATE etapes SET ,lieu=:lieu, ordre=:ordre WHERE id_etapes=:id_etapes');
+			$query -> bindParam(':lieu', $Lieu,PDO::PARAM_INT);
+			$query -> bindParam(':ordre', $Ordre,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 	}

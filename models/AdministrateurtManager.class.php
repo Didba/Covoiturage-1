@@ -24,8 +24,8 @@
 			extract($data);
 			if(isset($id_Adherant))
 			{
-				$query = $this->_db->prepare('DELETE FROM administrateur WHERE id_Adherant=:id_Adherant');
-				$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM administrateur WHERE id_adherent=:id_adherent');
+				$query -> bindParam(':id_adherent', $id_Adherant,PDO::PARAM_INT);
 			}
 		
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -38,15 +38,15 @@
 			extract($data);
 			if(isset($id))
 			{
-				$query = $this->_db->prepare('SELECT * FROM administrateur WHERE id_Adherant=:id_Adherant');
-				$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM administrateur WHERE id_adherent=:id_adherent');
+				$query -> bindParam(':id_adherent', $id_Adherant,PDO::PARAM_INT);
 			}
 			
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['administrateur'] = $this->AdminManager->get(array("id_Adherant"=>$result['administrateur']));
+			$result['administrateur'] = $this->AdminManager->get(array("id_adherent"=>$result['administrateur']));
 			$administrateur = new Administrateur();
 			$administrateur->hydrate($result);
 			return $administrateur;
@@ -80,7 +80,7 @@
 			// On ajoute au tableau de retour les objets administrateur créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$administrateur = new Adherant();
-				$value['administrateur'] = $this->AdminManager->get(array("id"=>$value['administrateur']));
+				$value['administrateur'] = $this->AdminManager->get(array("id_adherent"=>$value['administrateur']));
 				$administrateur->hydrate($value);
 				array_push($list, $administrateur);
 			}

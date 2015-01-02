@@ -21,8 +21,8 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO Equipement(Nom) VALUES (:Nom)');
-			$query -> bindParam(':Nom', $Nom,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO equipement(nom) VALUES (:nom)');
+			$query -> bindParam(':nom', $Nom,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -33,12 +33,12 @@
 			extract($data);
 			if(isset($id_Equipement))
 			{
-				$query = $this->_db->prepare('DELETE FROM Equipement WHERE id_Equipement=:id_Equipement');
-				$query -> bindParam(':id_Equipement', $id_Equipement,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM equipement WHERE id_equipement=:id_equipement');
+				$query -> bindParam(':id_equipement', $id_Equipement,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
-				$query = $this->_db->prepare('DELETE FROM Equipement WHERE nom=:nom');
+				$query = $this->_db->prepare('DELETE FROM equipement WHERE nom=:nom');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -51,19 +51,19 @@
 			extract($data);
 			if(isset($id_Equipement))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Equipement WHERE id_Equipement=:id_Equipement');
-				$query -> bindParam(':id_Equipement', $id_Equipement,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM equipement WHERE id_equipement=:id_equipement');
+				$query -> bindParam(':id_equipement', $id_Equipement,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Equipement WHERE nom=:nom');
+				$query = $this->_db->prepare('SELECT * FROM equipement WHERE nom=:nom');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			}
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['Equipement'] = $this->etManager->get(array("id_Equipement"=>$result['Equipement']));
+			$result['equipement'] = $this->etManager->get(array("id_equipement"=>$result['equipement']));
 			$Equipement = new Equipement();
 			$Equipement->hydrate($result);
 			return $Equipement;
@@ -76,11 +76,11 @@
 			// On vérifie le paramètre. 
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM Equipement');
+				$query = $this->_db->prepare('SELECT * FROM equipement');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM Equipement WHERE 1"; //Début de la requête.
+				$query_str = "SELECT * FROM equipement WHERE 1"; //Début de la requête.
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -97,7 +97,7 @@
 			// On ajoute au tableau de retour les objets Equipement créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$Equipement = new Equipement();
-				$value['Equipement'] = $this->etManager->get(array("id_Equipement"=>$value['Equipement']));
+				$value['equipement'] = $this->etManager->get(array("id_equipement"=>$value['equipement']));
 				$Equipement->hydrate($value);
 				array_push($list, $Equipement);
 			}
@@ -109,8 +109,8 @@
 		**/
 		function update($Equipement){
 			extract($Equipement);
-			$query = $this->_db->prepare('UPDATE Equipement SET ,Nom=:Nom WHERE id_Equipement=:id_Equipement');
-			$query -> bindParam(':Nom', $Nom,PDO::PARAM_INT);
+			$query = $this->_db->prepare('UPDATE equipement SET ,nom=:nom WHERE id_equipement=:id_equipement');
+			$query -> bindParam(':nom', $Nom,PDO::PARAM_INT);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 	}

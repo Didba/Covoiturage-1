@@ -24,7 +24,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO Vehicule_equipement(commentaire) VALUES (:commentaire)');
+			$query = $this->_db->prepare('INSERT INTO vehicule_equipements(commentaire) VALUES (:commentaire)');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -36,8 +36,8 @@
 			extract($data);
 			if(isset($id_Vehicule_equipement))
 			{
-				$query = $this->_db->prepare('DELETE FROM Vehicule_equipement WHERE id_Vehicule_equipement=:id_Vehicule_equipement');
-				$query -> bindParam(':id_Vehicule_equipement', $id_Vehicule_equipement,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM vehicule_equipements WHERE id_vehicule=:id_vehicule');
+				$query -> bindParam(':id_vehicule', $id_Vehicule_equipement,PDO::PARAM_INT);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -49,19 +49,19 @@
 			extract($data);
 			if(isset($id_Vehicule))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Vehicule_equipement WHERE id_Vehicule=:id_Vehicule');
-				$query -> bindParam(':id_Vehicule', $id_Vehicule,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM vehicule_equipements WHERE id_vehicule=:id_vehicule');
+				$query -> bindParam(':id_vehicule', $id_Vehicule,PDO::PARAM_INT);
 			}
 			else if(isset($id_Equipement))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Vehicule_equipement WHERE id_Equipement=:id_Equipement');
-				$query -> bindParam(':id_Equipement', $id_Equipement,PDO::PARAM_STR);
+				$query = $this->_db->prepare('SELECT * FROM vehicule_equipements WHERE id_equipements=:id_equipements');
+				$query -> bindParam(':id_equipements', $id_Equipement,PDO::PARAM_STR);
 			}
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['Vehicule_equipement'] = $this->etManager->get(array("id_Vehicule_equipement"=>$result['Vehicule_equipement']));
+			$result['vehicule_equipements'] = $this->etManager->get(array("id_vehicule"=>$result['vehicule_equipements']));
 			$Vehicule_equipement = new Vehicule_equipement();
 			$Vehicule_equipement->hydrate($result);
 			return $Vehicule_equipement;
@@ -74,11 +74,11 @@
 			// On vérifie le paramètre. 
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM Vehicule_equipement');
+				$query = $this->_db->prepare('SELECT * FROM vehicule_equipements');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM Vehicule_equipement WHERE 1"; //Début de la requête.
+				$query_str = "SELECT * FROM vehicule_equipements WHERE 1"; //Début de la requête.
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -95,7 +95,7 @@
 			// On ajoute au tableau de retour les objets Vehicule_equipement créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$Vehicule_equipement = new Vehicule_equipement();
-				$value['Vehicule_equipement'] = $this->etManager->get(array("id_Vehicule"=>$value['Vehicule_equipement']));
+				$value['vehicule_equipements'] = $this->etManager->get(array("id_vehicule"=>$value['vehicule_equipements']));
 				$Vehicule_equipement->hydrate($value);
 				array_push($list, $Vehicule_equipement);
 			}
@@ -107,7 +107,7 @@
 		**/
 		function update($Vehicule_equipement){
 			extract($Vehicule_equipement);
-			$query = $this->_db->prepare('UPDATE Vehicule_equipement SET ,commentaire=:commentaire WHERE id_Vehicule=:id_Vehicule');
+			$query = $this->_db->prepare('UPDATE vehicule_equipements SET commentaire=:commentaire WHERE id_vehicule=:id_vehicule');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_INT);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}

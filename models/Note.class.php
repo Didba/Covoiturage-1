@@ -5,15 +5,15 @@
 	*/
 	class note
 	{
-		private $_id_note;
 		private $_id_Adherant_From;
 		private $_id_Adherant_To;
 		private $_date;
+		private $_note;
 		private $_commentaire;
 		
 		
 		
-		public function idNote()
+		public function Note()
 		{
 			return $this->_id_note;
 		}

@@ -34,8 +34,8 @@
 			extract($data);
 			if(isset($id_Caracteristique))
 			{
-				$query = $this->_db->prepare('DELETE FROM caracteristique WHERE id_Caracteristique=:id_Caracteristique');
-				$query -> bindParam(':id_Caracteristique', $id_Caracteristique,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM caracteristique WHERE id_caracteristique=:id_caracteristique');
+				$query -> bindParam(':id_caracteristique', $id_Caracteristique,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
@@ -52,8 +52,8 @@
 			extract($data);
 			if(isset($id_Caracteristique))
 			{
-				$query = $this->_db->prepare('SELECT * FROM caracteristique WHERE id_Caracteristique=:id_Caracteristique');
-				$query -> bindParam(':id_Caracteristique', $id_Caracteristique,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM caracteristique WHERE id_caracteristique=:id_caracteristique');
+				$query -> bindParam(':id_caracteristique', $id_Caracteristique,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
@@ -64,7 +64,7 @@
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['caracteristique'] = $this->_CarManager->get(array("id_Caracteristique"=>$result['caracteristique']));
+			$result['caracteristique'] = $this->_CarManager->get(array("id_caracteristique"=>$result['caracteristique']));
 			$caracteristique = new caracteristique();
 			$caracteristique->hydrate($result);
 			return $caracteristique;
@@ -98,7 +98,7 @@
 			// On ajoute au tableau de retour les objets caracteristique créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$caracteristique = new caracteristique();
-				$value['caracteristique'] = $this->_CarManager->get(array("id_Caracteristique"=>$value['caracteristique']));
+				$value['caracteristique'] = $this->_CarManager->get(array("id_caracteristique"=>$value['caracteristique']));
 				$caracteristique->hydrate($value);
 				array_push($list, $caracteristique);
 			}
@@ -110,8 +110,8 @@
 		**/
 		function update($caracteristique){
 			extract($caracteristique);
-			$query = $this->_db->prepare('UPDATE caracteristique SET nom=:nom WHERE id_Caracteristique=:id_Caracteristique');
-			$query -> bindParam(':id_Caracteristique', $id_Caracteristique,PDO::PARAM_INT);
+			$query = $this->_db->prepare('UPDATE caracteristique SET nom=:nom WHERE id_caracteristique=:id_caracteristique');
+			$query -> bindParam(':id_caracteristique', $id_Caracteristique,PDO::PARAM_INT);
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}

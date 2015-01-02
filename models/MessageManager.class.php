@@ -22,12 +22,12 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO Message(id_Adherant_From,id_Adherant_To,date,message,sujet) VALUES (:id_Adherant_From,:id_Adherant_To,:date,:message,:sujet)');
-			$query -> bindParam(':id_Adherant_From', $id_AdherantE,PDO::PARAM_STR);
-			$query -> bindParam(':id_Adherant_To', $id_AdherantR,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO message(id_adherent_from,id_adherent_to,date,sujet,message) VALUES (:id_adherent_from,:id_adherent_to,:date,:sujet,:message)');
+			$query -> bindParam(':id_adherent_from', $id_AdherantE,PDO::PARAM_STR);
+			$query -> bindParam(':id_adherent_to', $id_AdherantR,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
-			$query -> bindParam(':message', $message,PDO::PARAM_STR);
 			$query -> bindParam(':sujet', $sujet,PDO::PARAM_STR);
+			$query -> bindParam(':message', $message,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -38,8 +38,8 @@
 			extract($data);
 			if(isset($id_msg))
 			{
-				$query = $this->_db->prepare('DELETE FROM Message WHERE id_msg=:id_msg');
-				$query -> bindParam(':id_msg', $id_msg,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM message WHERE id_adherent_from=:id_adherent_from');
+				$query -> bindParam(':id_adherent_from', $id_msg,PDO::PARAM_INT);
 			}
 		
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -52,15 +52,15 @@
 			extract($data);
 			if(isset($id_msg))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Message WHERE id_msg=:id_msg');
-				$query -> bindParam(':id_msg', $id_msg,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM message WHERE id_adherent_from=:id_adherent_from');
+				$query -> bindParam(':id_adherent_from', $id_msg,PDO::PARAM_INT);
 			}
 			
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['Message'] = $this->MeManager->get(array("id_msg"=>$result['Message']));
+			$result['message'] = $this->MeManager->get(array("id_adherent_from"=>$result['message']));
 			$Message = new Message();
 			$Message->hydrate($result);
 			return $Message;
@@ -73,11 +73,11 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM Message');
+				$query = $this->_db->prepare('SELECT * FROM message');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM Message WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM message WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -94,7 +94,7 @@
 			// On ajoute au tableau de retour les objets Message créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$Message = new Message();
-				$value['Message'] = $this->MeManager->get(array("id"=>$value['Message']));
+				$value['message'] = $this->MeManager->get(array("id_adherent_from"=>$value['message']));
 				$Message->hydrate($value);
 				array_push($list, $Message);
 			}

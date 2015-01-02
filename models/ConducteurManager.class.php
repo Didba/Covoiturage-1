@@ -21,8 +21,8 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO conducteur(numPermis) VALUES (:numPermis )');
-			$query -> bindParam(':numPermis', $numPermis,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO conducteur(num_permis) VALUES (:num_permis )');
+			$query -> bindParam(':num_permis', $numPermis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -33,13 +33,13 @@
 			extract($data);
 			if(isset($id_Adherant))
 			{
-				$query = $this->_db->prepare('DELETE FROM conducteur WHERE id_Adherant=:id_Adherant');
-				$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM conducteur WHERE id_adherent=:id_adherent');
+				$query -> bindParam(':id_adherent', $id_Adherant,PDO::PARAM_INT);
 			}
 			else if(isset($numPermis))
 			{
-				$query = $this->_db->prepare('DELETE FROM conducteur WHERE numPermis=:numPermis');
-				$query -> bindParam(':numPermis', $numPermis,PDO::PARAM_STR);
+				$query = $this->_db->prepare('DELETE FROM conducteur WHERE num_permis=:num_permis');
+				$query -> bindParam(':num_permis', $numPermis,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -52,15 +52,15 @@
 
 			if(isset($id_Adherent))
 			{
-				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE Id_Adherent_Conducteur=:id_Adherent_Conducteur');
-				$query -> bindParam(':id_Adherent_Conducteur', $id_Adherent,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_adherent=:id_adherent');
+				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetch();
 			}
 			else if(isset($numPermis))
 			{
-				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE Num_Permis=:numPermis');
-				$query -> bindParam(':numPermis', $numPermis,PDO::PARAM_STR);
+				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE num_permis=:num_permis');
+				$query -> bindParam(':num_permis', $numPermis,PDO::PARAM_STR);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetch();
 			}
@@ -70,7 +70,7 @@
 			if(!empty($result))
 			{
 				// $result['conducteur'] = $this->get(array("id_Adherent_Conducteur"=>$result['conducteur']));
-				$conducteur->hydrate(array("Id_Adherent"=>$result['Id_Adherent_Conducteur'], "numPermis"=>$result['Num_Permis']));
+				$conducteur->hydrate(array("id_adherent"=>$result['id_adherent'], "num_permis"=>$result['num_permis']));
 			}
 			else
 			{
@@ -107,7 +107,7 @@
 			// On ajoute au tableau de retour les objets conducteur créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$conducteur = new conducteur();
-				$value['conducteur'] = $this->get(array("id_Adherant"=>$value['conducteur']));
+				$value['conducteur'] = $this->get(array("id_adherent"=>$value['conducteur']));
 				$conducteur->hydrate($value);
 				array_push($list, $conducteur);
 			}
@@ -119,9 +119,9 @@
 		**/
 		function update($conducteur){
 			extract($conducteur);
-			$query = $this->_db->prepare('UPDATE conducteur SET numPermis=:numPermis WHERE id_Adherant=:id_Adherant');
-			$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
-			$query -> bindParam(':numPermis', $numPermis,PDO::PARAM_STR);
+			$query = $this->_db->prepare('UPDATE conducteur SET num_permis=:num_permis WHERE id_adherent=:id_adherent');
+			$query -> bindParam(':id_adherent', $id_Adherant,PDO::PARAM_INT);
+			$query -> bindParam(':num_permis', $numPermis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 	}

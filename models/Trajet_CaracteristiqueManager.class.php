@@ -21,8 +21,8 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO Trajet_Caracteristique(id_Caracteristique) VALUES (:id_Caracteristique)');
-			$query -> bindParam(':id_Caracteristique', $id_Caracteristique,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO trajet_caracteristique(id_caracteristique) VALUES (:id_caracteristique)');
+			$query -> bindParam(':id_caracteristique', $id_Caracteristique,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -33,13 +33,13 @@
 			extract($data);
 			if(isset($id_Trajet_Caracteristique))
 			{
-				$query = $this->_db->prepare('DELETE FROM Trajet_Caracteristique WHERE id_Trajet_Caracteristique=:id_Trajet_Caracteristique');
-				$query -> bindParam(':id_Trajet_Caracteristique', $id_Trajet_Caracteristique,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
+				$query -> bindParam(':id_caracteristique', $id_Trajet_Caracteristique,PDO::PARAM_INT);
 			}
 			else if(isset($id_Trajet))
 			{
-				$query = $this->_db->prepare('DELETE FROM Trajet_Caracteristique WHERE id_Trajet=:id_Trajet');
-				$query -> bindParam(':id_Trajet', $id_Trajet,PDO::PARAM_STR);
+				$query = $this->_db->prepare('DELETE FROM trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
+				$query -> bindParam(':id_caracteristique', $id_Trajet,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -51,19 +51,19 @@
 			extract($data);
 			if(isset($id_Trajet_Caracteristique))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Trajet_Caracteristique WHERE id_Caracteristique=:id_Caracteristique');
-				$query -> bindParam(':id_Caracteristique', $id_Trajet_Caracteristique,PDO::PARAM_INT);
+				$query = $this->_db->prepare('SELECT * FROM trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
+				$query -> bindParam(':id_caracteristique', $id_Trajet_Caracteristique,PDO::PARAM_INT);
 			}
 			else if(isset($id_Trajet))
 			{
-				$query = $this->_db->prepare('SELECT * FROM Trajet_Caracteristique WHERE id_Trajet=:id_Trajet');
-				$query -> bindParam(':id_Trajet', $id_Trajet,PDO::PARAM_STR);
+				$query = $this->_db->prepare('SELECT * FROM trajet_caracteristique WHERE id_trajet=:id_trajet');
+				$query -> bindParam(':id_trajet', $id_Trajet,PDO::PARAM_STR);
 			}
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['Trajet_Caracteristique'] = $this->caManager->get(array("id_Caracteristique"=>$result['Trajet_Caracteristique']));
+			$result['trajet_caracteristique'] = $this->caManager->get(array("id_caracteristique"=>$result['trajet_caracteristique']));
 			$Trajet_Caracteristique = new Trajet_Caracteristique();
 			$Trajet_Caracteristique->hydrate($result);
 			return $Trajet_Caracteristique;
@@ -76,11 +76,11 @@
 			// On vérifie le paramètre.
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM Trajet_Caracteristique');
+				$query = $this->_db->prepare('SELECT * FROM trajet_caracteristique');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM Trajet_Caracteristique WHERE 1"; //Début de la requête.
+				$query_str = "SELECT * FROM trajet_caracteristique WHERE 1"; //Début de la requête.
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -97,7 +97,7 @@
 			// On ajoute au tableau de retour les objets Trajet_Caracteristique créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$Trajet_Caracteristique = new Trajet_Caracteristique();
-				$value['Trajet_Caracteristique'] = $this->caManager->get(array("id_Caracteristique"=>$value['Trajet_Caracteristique']));
+				$value['trajet_caracteristique'] = $this->caManager->get(array("id_caracteristique"=>$value['trajet_caracteristique']));
 				$Trajet_Caracteristique->hydrate($value);
 				array_push($list, $Trajet_Caracteristique);
 			}
