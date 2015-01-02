@@ -7,7 +7,7 @@
 	{
 		private $_id_trajet;
 		private $_commentaire;
-		private $_date;
+		private $_date_traj;
 		private $_id_adherent;
 		private $_lieu_depart;
 		private $_lieu_arrivee;
@@ -39,9 +39,9 @@
 			return $this->_commentaire;
 		}
 
-		public function date()
+		public function date_traj()
 		{
-			return $this->_date;
+			return $this->_date_traj;
 		}
 
 		public function lieu_depart()
@@ -74,9 +74,9 @@
 			$this->_commentaire = $commentaire;
 		}
 
-		public function setDate($date)
+		public function setDate_traj($date_traj)
 		{
-			$this->_date = $date;
+			$this->_date_traj = $date_traj;
 		}
 
 		public function setIdAdherant($id_adherent)

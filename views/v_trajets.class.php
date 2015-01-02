@@ -26,10 +26,28 @@
 			foreach ($list as $key => $trajet) {
 				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
-				$html .= ucfirst($trajet->date());
+				$html .= ucfirst($trajet->date_traj());
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '.';
+				$html .= '</div>';
+				$html .= '<div class="result_resa">';
+				if(isset($_SESSION['id']))
+				{
+					$html .= '<form action="super_controller.php" method="post">
+						<input type="hidden" value="reserver" name="application">
+						<input type="hidden" value="' . $trajet->id_trajet() . '" name="id_trajet">
+						<input type="hidden" value="' . $_SESSION['id'] . '" name="id_adherent">
+						<input type="number" name="nb_invites" value="0">
+						<input type="hidden" name="frais" value="10">
+						<input type="submit" name="submit" class="button" value="Réserver">
+					</form>';
+				}
+				else
+				{
+					$html .= '<p>Connectez vous pour réserver</p>';
+				}
+
 				$html .= '</div>';
 				$html .= '</li>';
 			}

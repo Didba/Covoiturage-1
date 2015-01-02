@@ -193,7 +193,7 @@ nav li a img
 .button
 {
 	display: inline-block;
-	font-size: 2rem;
+	font-size: 1.5rem;
 	color: #fff;
 	text-decoration: none;
 	text-transform: uppercase;
@@ -204,6 +204,7 @@ nav li a img
 	border-radius: 0.7rem;
 	padding: 0.5rem;
 	margin: 1rem 0 1rem 0;
+	cursor: pointer;
 }
 
 input[type=radio].color-radio
@@ -294,11 +295,17 @@ label.color-radio-label
 
 .result_driver
 {
-	width: 77%;
+	width: 55%;
 }
 
 .result_data
 {
 	width: 20%;
 	text-align: center;
+}
+
+.result_resa
+{
+	display: inline-block;
+	width: 20%;
 }

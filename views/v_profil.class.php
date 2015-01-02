@@ -31,8 +31,8 @@
 			}
 
 			$html .= '
-				<li><a href=""></a></li>
-				<li><a href=""></a></li>
+				<li><a href="super_controller.php?application=mes_trajets">Mes trajets</a></li>
+				<li><a href="super_controller.php?application=modif_profil">Modifier mon profil</a></li>
 			</ul>'	;
 			$html .= '</aside>';
 

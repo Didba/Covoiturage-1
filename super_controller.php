@@ -201,6 +201,27 @@ session_start();
 					}
 					break;
 
+				case 'reserver':
+					include_once('models/ParticipeManager.class.php');
+					$pa_manager = new ParticipeManager($db);
+
+					$pa_manager->add($_POST);
+					$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
+					header('Location: super_controller.php');
+					break;
+
+				case 'mes_trajets':
+					include_once('models/ParticipeManager.class.php');
+					$pa_manager = new ParticipeManager($db);
+
+					include_once 'views/v_mes_trajets.class.php';
+
+					$page = new v_mes_trajets("Mes trajets");
+
+					$page->set_html($pa_manager->getList(array("id_adherent"=>$_SESSION['id'])));
+
+					break;
+
 				default:
 					include_once 'views/v_index.class.php';
 					//On instancie alors la page correspondante
