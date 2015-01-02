@@ -26,7 +26,7 @@ session_start();
 					$traj_manager = new TrajetManager($db);
 					if (isset($_POST)) {
 						extract($_POST);
-						$datas = array("Lieu_Depart" => $start,"Lieu_arrivee" => $finish, "date" => $date); //On transmet les données de la requete dans un tableau
+						$datas = array("Lieu_Depart" => $start,"Lieu_arrivee" => $finish, "date" => $date); //On écrit les données de la requete dans un tableau
 						$_SESSION['recherche'] = $datas; //Afin de conserver la requete en mémoire pour l'affichage ultérieur, on le stock dans une var de session
 						$page = new v_trajets("Résultat de la recherche");
 						$page->set_html($traj_manager->getList($datas));
@@ -184,13 +184,13 @@ session_start();
 						$cd_manager = new conducteurManager($db);
 						$page = new v_profil("Mon profil");
 
-						if($conducteur = $cd_manager->get(array("id_Adherent_Conducteur"=>$id)))
+						if($conducteur = $cd_manager->get(array("id_adherent_conducteur"=>$id)))
 						{
-							$page->set_html(array("adherent" => $cd_manager->get(array("id_Adherent_Conducteur" => $id))));
+							$page->set_html(array("adherent" => $cd_manager->get(array("id_adherent_conducteur" => $id))));
 						}
 						else
 						{
-							$page->set_html(array("adherent" => $mb_manager->get(array("id_Adherent" => $id))));
+							$page->set_html(array("adherent" => $mb_manager->get(array("id_adherent" => $id))));
 						}
 
 					}

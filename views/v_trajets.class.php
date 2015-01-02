@@ -24,7 +24,6 @@
 			else:
 
 			foreach ($list as $key => $trajet) {
-
 				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
 				$html .= ucfirst($trajet->date());

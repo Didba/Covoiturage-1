@@ -54,24 +54,27 @@
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id_Adherent))
+			if(isset($id_adherent))
 			{
 				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_Adherent=:id_Adherent');
-				$query -> bindParam(':id_Adherent', $id_Adherent,PDO::PARAM_INT);
+				$query -> bindParam(':id_Adherent', $id_adherent,PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+
+				$result = $query->fetch();
 			}
 			else if(isset($mail))
 			{
 				$query = $this->_db->prepare('SELECT * FROM adherent WHERE Mail=:Mail && Password=:pwd');
 				$query -> bindParam(':Mail', $mail,PDO::PARAM_STR);
 				$query -> bindParam(':pwd', $pwd,PDO::PARAM_STR);
+				$query->execute() or die(print_r($query->errorInfo()));
+
+				$result = $query->fetch();
 			}
 			else
 			{
 				$_SESSION['msg'] = 'Adherent get échoué';
 			}
-			$query->execute() or die(print_r($query->errorInfo()));
-
-			$result = $query->fetch();
 
 			//On vérifie si la requête a bien retourné un utilisateur
 			if(!empty($result))

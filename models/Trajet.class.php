@@ -8,11 +8,10 @@
 		private $_id_trajet;
 		private $_commentaire;
 		private $_date;
-		private $_id_adherant;
+		private $_id_adherent;
 		private $_lieu_depart;
 		private $_lieu_arrivee;
 		private $_nb_passager_max;
-		private $_num_permis;
 		private $_conducteur;
 
 		public function id_trajet()
@@ -25,9 +24,9 @@
 			return $this->_num_permis;
 		}
 
-		public function id_adherant()
+		public function id_adherent()
 		{
-			return $this->_id_adherant;
+			return $this->_id_adherent;
 		}
 
 		public function conducteur()
@@ -65,9 +64,9 @@
 			$this->_id_trajet = $i;
 		}
 
-		public function setId_adherant($i)
+		public function setId_adherent($i)
 		{
-			$this->_id_adherant =  $i;
+			$this->_id_adherent =  $i;
 		}
 
 		public function setCom($commentaire)
@@ -80,17 +79,17 @@
 			$this->_date = $date;
 		}
 
-		public function setIdAdherant($id_adherant)
+		public function setIdAdherant($id_adherent)
 		{
-			$this->_id_adherant = $id_adherant;
+			$this->_id_adherent = $id_adherent;
 		}
 
-		public function setLieuA($lieu_arrivee)
+		public function setLieu_arrivee($lieu_arrivee)
 		{
 			$this->_lieu_arrivee = $lieu_arrivee;
 		}
 
-		public function setLieuD($lieu_depart)
+		public function setLieu_depart($lieu_depart)
 		{
 			$this->_lieu_depart = $lieu_depart;
 		}
