@@ -3,9 +3,9 @@
 	/**
 	* Classe adhérant
 	*/
-	class adherant
+	class adherent
 	{
-		private $Id_Adherent;
+		private $id_adherent;
 		private $_nom;
 		private $_prenom;
 		private $_sexe;
@@ -14,9 +14,9 @@
 		private $_mail;
 		private $_password;
 
-		public function Id_Adherent()
+		public function id_adherent()
 		{
-			return $this->Id_Adherent;
+			return $this->id_adherent;
 		}
 
 		public function nom()
@@ -55,9 +55,9 @@
 			return $this->_password;
 		}
 
-		public function setId_Adherent($i)
+		public function setid_adherent($i)
 		{
-			$this->Id_Adherent = $i;
+			$this->id_adherent = $i;
 		}
 
 		public function setNom($nom)

@@ -38,12 +38,12 @@
 			extract($data);
 			if(isset($id_Adherant))
 			{
-				$query = $this->_db->prepare('DELETE FROM adherant WHERE id_Adherant=:id_Adherant');
-				$query -> bindParam(':id_Adherant', $id_Adherant,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM adherent WHERE id_adherant=:id_adherant');
+				$query -> bindParam(':id_adherant', $id_Adherant,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
-				$query = $this->_db->prepare('DELETE FROM adherant WHERE nom=:nom');
+				$query = $this->_db->prepare('DELETE FROM adherent WHERE nom=:nom');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -56,7 +56,7 @@
 			extract($data);
 			if(isset($id_adherent))
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_Adherent=:id_Adherent');
+				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':id_Adherent', $id_adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 
@@ -64,8 +64,8 @@
 			}
 			else if(isset($mail))
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherent WHERE Mail=:Mail && Password=:pwd');
-				$query -> bindParam(':Mail', $mail,PDO::PARAM_STR);
+				$query = $this->_db->prepare('SELECT * FROM adherent WHERE mail=:mail && password=:pwd');
+				$query -> bindParam(':mail', $mail,PDO::PARAM_STR);
 				$query -> bindParam(':pwd', $pwd,PDO::PARAM_STR);
 				$query->execute() or die(print_r($query->errorInfo()));
 
@@ -79,7 +79,7 @@
 			//On vérifie si la requête a bien retourné un utilisateur
 			if(!empty($result))
 			{
-				$adherant = new Adherant();
+				$adherant = new adherent();
 				$adherant->hydrate($result);
 			}
 			else
@@ -96,11 +96,11 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherant');
+				$query = $this->_db->prepare('SELECT * FROM adherent');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM adherant WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM adherent WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -116,8 +116,8 @@
 
 			// On ajoute au tableau de retour les objets adherant créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
-				$adherant = new Adherant();
-				$value['adherant'] = $this->AdManager->get(array("id_Adherant"=>$value['adherant']));
+				$adherant = new adherent();
+				$value['adherent'] = $this->AdManager->get(array("id_adherent"=>$value['adherent']));
 				$adherant->hydrate($value);
 				array_push($list, $adherant);
 			}
@@ -129,7 +129,7 @@
 		**/
 		function update($adherant){
 			extract($adherant);
-			$query = $this->_db->prepare('UPDATE adherant SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,dateNaiss=:dateNaiss,mail=:mail,password=:password WHERE id_Adherant=:id_Adherant');
+			$query = $this->_db->prepare('UPDATE adherent SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,date_naissance=:dateNaiss,mail=:mail,password=:password WHERE id_adherant=:id_adherant');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
 			$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);
