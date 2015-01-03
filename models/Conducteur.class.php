@@ -1,9 +1,8 @@
 <?php
-
 	/**
 	* Classe conducteur
 	*/
-	class conducteur extends adherant
+	class conducteur extends adherent
 	{
 		private $_numPermis;
 

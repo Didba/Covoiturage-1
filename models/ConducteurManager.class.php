@@ -1,7 +1,7 @@
 <?php
 
 	include_once 'models/conducteur.class.php';
-	include_once 'models/Adherant.class.php';
+	include_once 'models/Adherent.class.php';
 
 	/**
 	* Classe de gestion des conducteur
@@ -31,10 +31,10 @@
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id_Adherant))
+			if(isset($id_Adherent))
 			{
 				$query = $this->_db->prepare('DELETE FROM conducteur WHERE id_adherent=:id_adherent');
-				$query -> bindParam(':id_adherent', $id_Adherant,PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 			}
 			else if(isset($numPermis))
 			{
@@ -45,7 +45,7 @@
 		}
 
 		/**
-		* Fonction permettant de récupérer un conducteur. Paramètre: array contenant soit id_Adherant=>$id_Adherant soit numPermis=>$numPermis (pour que la recherche fonctionne avec l'un et l'autre)
+		* Fonction permettant de récupérer un conducteur. Paramètre: array contenant soit id_Adherent=>$id_Adherent soit numPermis=>$numPermis (pour que la recherche fonctionne avec l'un et l'autre)
 		**/
 		function get(array $data){
 			extract($data);
@@ -120,7 +120,7 @@
 		function update($conducteur){
 			extract($conducteur);
 			$query = $this->_db->prepare('UPDATE conducteur SET num_permis=:num_permis WHERE id_adherent=:id_adherent');
-			$query -> bindParam(':id_adherent', $id_Adherant,PDO::PARAM_INT);
+			$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 			$query -> bindParam(':num_permis', $numPermis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}

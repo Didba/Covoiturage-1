@@ -5,27 +5,27 @@
 	*/
 	class note
 	{
-		private $_id_Adherant_From;
-		private $_id_Adherant_To;
+		private $_id_Adherent_From;
+		private $_id_Adherent_To;
 		private $_date;
 		private $_note;
 		private $_commentaire;
-		
-		
-		
+
+
+
 		public function Note()
 		{
 			return $this->_id_note;
 		}
-		
-		public function idAdherant_From()
+
+		public function idAdherent_From()
 		{
-			return $this->_id_Adherant_From;
+			return $this->_id_Adherent_From;
 		}
-		
-		public function idAdherant_To()
+
+		public function idAdherent_To()
 		{
-			return $this->_id_Adherant_To;
+			return $this->_id_Adherent_To;
 		}
 
 		public function date()
@@ -38,20 +38,20 @@
 			return $this->_commentaire;
 		}
 
-		
+
 		public function setIdNote($i)
 		{
 			$this->_id_Note = $i;
 		}
-		
-		public function setIdAdherant_From($i)
+
+		public function setIdAdherent_From($i)
 		{
-			$this->_id_Adherant_From = $i;
+			$this->_id_Adherent_From = $i;
 		}
-		
-		public function setIdAdherant_To($i)
+
+		public function setIdAdherent_To($i)
 		{
-			$this->_id_Adherant_To = $i;
+			$this->_id_Adherent_To = $i;
 		}
 
 		public function setDate($d)
@@ -63,7 +63,7 @@
 		{
 			$this->_commentaire = $c;
 		}
-		
+
 
 		public function hydrate(array $data)
 		{

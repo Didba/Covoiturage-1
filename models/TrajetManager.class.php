@@ -2,7 +2,7 @@
 
 	include_once 'models/Trajet.class.php';
 	include_once 'models/Participe.class.php';
-	include_once'models/AdherantManager.class.php';
+	include_once'models/AdherentManager.class.php';
 
 	/**
 	* Classe de gestion des trajets
@@ -79,7 +79,7 @@
 		function getList($champs=NULL){
 			// On vérifie le paramètre.
 
-			$mb_manager = new AdherantManager($this->_db);
+			$mb_manager = new AdherentManager($this->_db);
 			$champs['date_traj'] = $champs['date'];
 			unset($champs['date']);
 
@@ -138,7 +138,7 @@
 			$query = $this->_db->prepare('UPDATE trajets SET commentaire=:commentaire,date_traj=:Date,lieu_depart=:lieu_depart,lieu_arrivee=:lieu_arrivee,nb_passagers_max=:nb_passagers_max WHERE id_trajet=:id_trajet');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':date', $Date,PDO::PARAM_STR);
-			$query -> bindParam(':id_adherant', $id_Adherant,PDO::PARAM_STR);
+			$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_STR);
 			$query -> bindParam(':lieu_depart', $Lieu_Depart,PDO::PARAM_STR);
 			$query -> bindParam(':nb_passagers_max', $Nb_Passagers_Max,PDO::PARAM_STR);
 			$query -> bindParam(':num_permis', $Num_Permis,PDO::PARAM_STR);

@@ -429,8 +429,8 @@ session_start();
 				/*----------------- CONNEXION------------------- */
 				/*-------------------------------------------------------*/
 				case 'connexion':
-					include 'models/AdherantManager.php';
-					$mb_manager = new AdherantManager($db);
+					include 'models/AdherentManager.php';
+					$mb_manager = new AdherentManager($db);
 
 					if($adherent = $mb_manager->get($_POST))
 					{

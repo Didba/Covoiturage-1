@@ -1,7 +1,7 @@
 <?php
 
 	include_once 'models/Vehicule.class.php';
-	
+
 	/**
 	* Classe de gestion des vehicules
 	*/
@@ -32,7 +32,7 @@
 		}
 
 		/**
-		* Fonction permettant de retirer un Adherant
+		* Fonction permettant de retirer un Adherent
 		**/
 		function remove(array $data){
 			extract($data);
@@ -41,7 +41,7 @@
 				$query = $this->_db->prepare('DELETE FROM vehicule WHERE id_vehicule=:id_vehicule');
 				$query -> bindParam(':id_vehicule', $id_Vehicule,PDO::PARAM_INT);
 			}
-			
+
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -55,7 +55,7 @@
 				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE id_vehicule=:id_vehicule');
 				$query -> bindParam(':id_vehicule', $id_Vehicule,PDO::PARAM_INT);
 			}
-			
+
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
@@ -93,7 +93,7 @@
 
 			// On ajoute au tableau de retour les objets vehicule créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
-				$vehicule = new Adherant();
+				$vehicule = new Adherent();
 				$value['vehicule'] = $this->AdManager->get(array("id_vehicule"=>$value['vehicule']));
 				$vehicule->hydrate($value);
 				array_push($list, $vehicule);

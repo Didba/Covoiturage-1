@@ -61,9 +61,9 @@ session_start();
 				/*----------------- CONNEXION------------------- */
 				/*-------------------------------------------------------*/
 				case 'connexion':
-					include 'models/AdherantManager.class.php';
+					include 'models/AdherentManager.class.php';
 					include 'models/ConducteurManager.class.php';
-					$mb_manager = new AdherantManager($db);
+					$mb_manager = new AdherentManager($db);
 					$cd_manager = new ConducteurManager($db);
 
 					if($adherent = $mb_manager->get($_POST))
@@ -107,8 +107,8 @@ session_start();
 					break;
 
 				case 'nouvelle_inscription':
-					include_once('models/AdherantManager.class.php');
-					$mb_manager = new AdherantManager($db);
+					include_once('models/AdherentManager.class.php');
+					$mb_manager = new AdherentManager($db);
 					$mb_manager->add($_POST);
 					$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
 					header('Location: super_controller.php');
@@ -143,7 +143,7 @@ session_start();
 					break;
 
 				case 'nouvelle_ajoutVehicule':
-					include_once('models/AdherantManager.class.php');
+					include_once('models/AdherentManager.class.php');
 					$mb_manager = new VehiculeManager($db);
 					$mb_manager->add($_POST);
 					$_SESSION['msg'] = "Votre ajout a bien été prise en compte";
@@ -177,8 +177,8 @@ session_start();
 					{
 						include_once 'views/v_profil.class.php';
 
-						include 'models/AdherantManager.class.php';
-						$mb_manager = new AdherantManager($db);
+						include 'models/AdherentManager.class.php';
+						$mb_manager = new AdherentManager($db);
 
 						include_once('models/conducteurManager.class.php');
 						$cd_manager = new conducteurManager($db);

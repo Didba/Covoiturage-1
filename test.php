@@ -1,6 +1,6 @@
 <?php
 	include 'config/connexion.php';
-	include 'models/AdherantManager.class.php';
+	include 'models/AdherentManager.class.php';
  ?>
 
 <html>
@@ -53,7 +53,7 @@
 	if(isset($_POST)&&isset($_POST['name']))
 	{
 		extract($_POST);
-		$manager = new AdherantManager($db);
+		$manager = new AdherentManager($db);
 
 		if ($name=="add")
 		{

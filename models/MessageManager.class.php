@@ -1,8 +1,8 @@
 <?php
 
 	include_once 'models/Message.class.php';
-	include_once 'models/Adherant.class.php';
-	
+	include_once 'models/Adherent.class.php';
+
 	/**
 	* Class de gestion Message
 	*/
@@ -14,7 +14,7 @@
 		//Constructeur du manager, on y instancie PDO
 		function __construct($db)
 		{
-			$this->_db = $db;	
+			$this->_db = $db;
 		}
 
 		/**
@@ -23,8 +23,8 @@
 		function add(array $data){
 			extract($data);
 			$query = $this->_db->prepare('INSERT INTO message(id_adherent_from,id_adherent_to,date,sujet,message) VALUES (:id_adherent_from,:id_adherent_to,:date,:sujet,:message)');
-			$query -> bindParam(':id_adherent_from', $id_AdherantE,PDO::PARAM_STR);
-			$query -> bindParam(':id_adherent_to', $id_AdherantR,PDO::PARAM_STR);
+			$query -> bindParam(':id_adherent_from', $id_AdherentE,PDO::PARAM_STR);
+			$query -> bindParam(':id_adherent_to', $id_AdherentR,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
 			$query -> bindParam(':sujet', $sujet,PDO::PARAM_STR);
 			$query -> bindParam(':message', $message,PDO::PARAM_STR);
@@ -41,12 +41,12 @@
 				$query = $this->_db->prepare('DELETE FROM message WHERE id_adherent_from=:id_adherent_from');
 				$query -> bindParam(':id_adherent_from', $id_msg,PDO::PARAM_INT);
 			}
-		
+
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
-		* Fonction permettant de récupérer un Message. 
+		* Fonction permettant de récupérer un Message.
 		**/
 		function get(array $data){
 			extract($data);
@@ -55,7 +55,7 @@
 				$query = $this->_db->prepare('SELECT * FROM message WHERE id_adherent_from=:id_adherent_from');
 				$query -> bindParam(':id_adherent_from', $id_msg,PDO::PARAM_INT);
 			}
-			
+
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
@@ -101,7 +101,7 @@
 			return $list;
 		}
 
-		
+
 	}
 
 ?>

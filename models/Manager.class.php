@@ -1,7 +1,7 @@
 <?php
 
 	// include_once 'models/TrajetsManager.class.php';
-	include_once 'models/AdherantManager.class.php';
+	include_once 'models/AdherentManager.class.php';
 	// include_once 'models/MessagesManager.class.php';
 
 

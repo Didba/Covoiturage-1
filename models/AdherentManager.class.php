@@ -1,11 +1,11 @@
 <?php
 
-	include_once 'models/Adherant.class.php';
+	include_once 'models/Adherent.class.php';
 
 	/**
-	* Classe de gestion des adherant
+	* Classe de gestion des adherent
 	*/
-	class AdherantManager
+	class AdherentManager
 	{
 		private $_db;
 
@@ -16,7 +16,7 @@
 		}
 
 		/**
-		* Fonction permettant d'ajouter un Adherant
+		* Fonction permettant d'ajouter un Adherent
 		**/
 		function add(array $data){
 			extract($data);
@@ -32,14 +32,14 @@
 		}
 
 		/**
-		* Fonction permettant de retirer un Adherant
+		* Fonction permettant de retirer un Adherent
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id_Adherant))
+			if(isset($id_Adherent))
 			{
-				$query = $this->_db->prepare('DELETE FROM adherent WHERE id_adherant=:id_adherant');
-				$query -> bindParam(':id_adherant', $id_Adherant,PDO::PARAM_INT);
+				$query = $this->_db->prepare('DELETE FROM adherent WHERE id_adherent=:id_adherent');
+				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
@@ -50,14 +50,14 @@
 		}
 
 		/**
-		* Fonction permettant de récupérer un Adherant. Paramètre: array contenant soit id_Adherant=>$id_Adherant soit nom=>$nom (pour que la recherche fonctionne avec l'un et l'autre)
+		* Fonction permettant de récupérer un Adherent. Paramètre: array contenant soit id_Adherent=>$id_Adherent soit nom=>$nom (pour que la recherche fonctionne avec l'un et l'autre)
 		**/
 		function get(array $data){
 			extract($data);
 			if(isset($id_adherent))
 			{
 				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_adherent=:id_adherent');
-				$query -> bindParam(':id_Adherent', $id_adherent,PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 
 				$result = $query->fetch();
@@ -79,18 +79,18 @@
 			//On vérifie si la requête a bien retourné un utilisateur
 			if(!empty($result))
 			{
-				$adherant = new adherent();
-				$adherant->hydrate($result);
+				$adherent = new adherent();
+				$adherent->hydrate($result);
 			}
 			else
 			{
-				$adherant = false;
+				$adherent = false;
 			}
-			return $adherant;
+			return $adherent;
 		}
 
 		/**
-		* Fonction permettant d'obtenir une liste des adherant
+		* Fonction permettant d'obtenir une liste des adherent
 		**/
 		function getList($champs=NULL){
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
@@ -114,22 +114,22 @@
 			$result = $query->fetchAll();
 			$list = array();
 
-			// On ajoute au tableau de retour les objets adherant créés avec chaque ligne de la BDD retournée
+			// On ajoute au tableau de retour les objets adherent créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
-				$adherant = new adherent();
+				$adherent = new adherent();
 				$value['adherent'] = $this->AdManager->get(array("id_adherent"=>$value['adherent']));
-				$adherant->hydrate($value);
-				array_push($list, $adherant);
+				$adherent->hydrate($value);
+				array_push($list, $adherent);
 			}
 			return $list;
 		}
 
 		/**
-		* Fonction permettant de mettre à jour un adherant
+		* Fonction permettant de mettre à jour un adherent
 		**/
-		function update($adherant){
-			extract($adherant);
-			$query = $this->_db->prepare('UPDATE adherent SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,date_naissance=:dateNaiss,mail=:mail,password=:password WHERE id_adherant=:id_adherant');
+		function update($adherent){
+			extract($adherent);
+			$query = $this->_db->prepare('UPDATE adherent SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,date_naissance=:dateNaiss,mail=:mail,password=:password WHERE id_adherent=:id_adherent');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
 			$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);

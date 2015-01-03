@@ -1,7 +1,7 @@
 <?php
 
-	include_once 'models/Adherant.class.php';
-	
+	include_once 'models/Adherent.class.php';
+
 	/**
 	* Classe de gestion des administrateur
 	*/
@@ -22,26 +22,26 @@
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id_Adherant))
+			if(isset($id_Adherent))
 			{
 				$query = $this->_db->prepare('DELETE FROM administrateur WHERE id_adherent=:id_adherent');
-				$query -> bindParam(':id_adherent', $id_Adherant,PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 			}
-		
+
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
-		* Fonction permettant de récupérer un Adherant. 
+		* Fonction permettant de récupérer un Adherent.
 		**/
 		function get(array $data){
 			extract($data);
 			if(isset($id))
 			{
 				$query = $this->_db->prepare('SELECT * FROM administrateur WHERE id_adherent=:id_adherent');
-				$query -> bindParam(':id_adherent', $id_Adherant,PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 			}
-			
+
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
@@ -79,7 +79,7 @@
 
 			// On ajoute au tableau de retour les objets administrateur créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
-				$administrateur = new Adherant();
+				$administrateur = new Adherent();
 				$value['administrateur'] = $this->AdminManager->get(array("id_adherent"=>$value['administrateur']));
 				$administrateur->hydrate($value);
 				array_push($list, $administrateur);
@@ -87,7 +87,7 @@
 			return $list;
 		}
 
-		
+
 	}
 
 ?>

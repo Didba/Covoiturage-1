@@ -1,8 +1,8 @@
 <?php
 
 	include_once 'models/Note.class.php';
-	include_once 'models/Adherant.class.php';
-	
+	include_once 'models/Adherent.class.php';
+
 	/**
 	* Class de gestion Note
 	*/
@@ -22,9 +22,9 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO note(id_adherent_from,id_adherant_to,date,note,commentaire) VALUES (:id_adherent_from,:id_adherant_to,:date,:note,:commentaire)');
-			$query -> bindParam(':id_adherent_from', $id_AdherantE,PDO::PARAM_STR);
-			$query -> bindParam(':id_adherant_to', $id_AdherantR,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO note(id_adherent_from,id_adherent_to,date,note,commentaire) VALUES (:id_adherent_from,:id_adherent_to,:date,:note,:commentaire)');
+			$query -> bindParam(':id_adherent_from', $id_AdherentE,PDO::PARAM_STR);
+			$query -> bindParam(':id_adherent_to', $id_AdherentR,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
 			$query -> bindParam(':note', $id_note,PDO::PARAM_STR);
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
@@ -41,12 +41,12 @@
 				$query = $this->_db->prepare('DELETE FROM note WHERE id_adherent_from=:id_adherent_from');
 				$query -> bindParam(':id_adherent_from', $id_note,PDO::PARAM_INT);
 			}
-		
+
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
-		* Fonction permettant de récupérer un Note. 
+		* Fonction permettant de récupérer un Note.
 		**/
 		function get(array $data){
 			extract($data);
@@ -55,7 +55,7 @@
 				$query = $this->_db->prepare('SELECT * FROM note WHERE id_adherent_from=:id_adherent_from');
 				$query -> bindParam(':id_adherent_from', $id_note,PDO::PARAM_INT);
 			}
-			
+
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
@@ -100,7 +100,7 @@
 			}
 			return $list;
 		}
-		
+
 		/**
 		* Fonction permettant de mettre à jour une note
 		**/
@@ -112,7 +112,7 @@
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
-		
+
 	}
 
 ?>

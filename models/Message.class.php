@@ -6,26 +6,26 @@
 	class Message
 	{
 		private $_id_msg;
-		private $_id_Adherant_From;
-		private $_id_Adherant_To;
+		private $_id_Adherent_From;
+		private $_id_Adherent_To;
 		private $_date;
 		private $_message;
 		private $_sujet;
-		
-		
+
+
 		public function idMsg()
 		{
 			return $this->_id_msg;
 		}
-		
-		public function idAdherant_From()
+
+		public function idAdherent_From()
 		{
-			return $this->_id_Adherant_From;
+			return $this->_id_Adherent_From;
 		}
-		
-		public function idAdherant_To()
+
+		public function idAdherent_To()
 		{
-			return $this->_id_Adherant_To;
+			return $this->_id_Adherent_To;
 		}
 
 		public function date()
@@ -42,20 +42,20 @@
 		{
 			return $this->_sujet;
 		}
-		
+
 		public function setIdMsg($i)
 		{
 			$this->_id_AdMsg = $i;
 		}
-		
-		public function setIdAdherant_From($i)
+
+		public function setIdAdherent_From($i)
 		{
-			$this->_id_Adherant_From= $i;
+			$this->_id_Adherent_From= $i;
 		}
-		
-		public function setIdAdherant_To($i)
+
+		public function setIdAdherent_To($i)
 		{
-			$this->_id_Adherant_To = $i;
+			$this->_id_Adherent_To = $i;
 		}
 
 		public function setDate($d)
@@ -72,7 +72,7 @@
 		{
 			$this->_sujet = $s;
 		}
-		
+
 		public function hydrate(array $data)
 		{
 			foreach ($data as $key => $value)

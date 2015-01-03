@@ -1,7 +1,7 @@
 <?php
 
 	include_once 'models/Participe.class.php';
-	include_once 'models/AdherantManager.class.php';
+	include_once 'models/AdherentManager.class.php';
 
 	/**
 	* Classe de gestion des participants
@@ -69,7 +69,7 @@
 		**/
 		function getList($champs=NULL){
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
-			$mb_manager = new AdherantManager($this->_db);
+			$mb_manager = new AdherentManager($this->_db);
 			if($champs==NULL)
 			{
 				$query = $this->_db->prepare('SELECT * FROM participe');

@@ -79,7 +79,7 @@
 			$this->_date_traj = $date_traj;
 		}
 
-		public function setIdAdherant($id_adherent)
+		public function setIdAdherent($id_adherent)
 		{
 			$this->_id_adherent = $id_adherent;
 		}
