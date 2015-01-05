@@ -1,11 +1,11 @@
-<?php
+﻿<?php
 
 	include_once 'Page.class.php';
 
 	/**
-	* Classe de la vue pour afficher les animaux
+	* Classe de la vue pour afficher les messages
 	*/
-	class v_mes_trajets extends Page
+	class v_mes_messages extends Page
 	{
 		/**
 		* Défini l'HTML de la page
@@ -26,28 +26,29 @@
 				<div id="menu">
 				<ul id="onglets">
 				<li><a href="super_controller.php?application=profil&id=' . $_SESSION['id'].'"> <h4>Mon profil</h4> </a></li>
-				<li  class="active"><a href="super_controller.php?application=mes_trajets"><h4>Mes trajets</h4></a></li>
+				<li><a href="super_controller.php?application=mes_trajets"><h4>Mes trajets</h4></a></li>
 				<li><a href="super_controller.php?application=modif_profil"><h4>Modifier mon profil</h4></a></li>
-				<li><a href="super_controller.php?application=mes_messages"><h4>Mes messages</h4></a></li>
+				<li  class="active"><a href="super_controller.php?application=mes_messages"><h4>Mes messages</h4></a></li>
+				<li><a href="super_controller.php?application=new_message"><h4>Nouveau message</h4></a></li>
+				
 			</ul>
 			</div>'	;
 			
 			$html .= '</aside>';
 			
 			foreach ($elts as $key => $elt) {
+			
 				$html .= '<li>';
-				$html .= $elt->date_traj();
-				$html .= '</br><b>';
-				$html .= $elt->lieu_depart() . ' > ' . $elt->lieu_arrivee();
-				$html .= '</br></b>';
-				$html .= $elt->conducteur()->nom() . ' ' . $elt->conducteur()->prenom();
+				$html .= '<b>'.$elt->date().'</br>';
+				$html .= '</br> Sujet : </b>'.$elt->sujet().'</br>';
+				$html .= '</br><pre>	'.$elt->message().'</pre></br>';
+				
 				$html .='<hr>';
 				$html .= '</li>';
-				$html .= '</br>';
+				
 			}
 
 			$html .= '</ul>';
-			
 
 			//On retourne tout ce qu'on vient de créer en HTML dans l'attribut correspondant de la page
 			$this->html = $html;

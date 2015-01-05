@@ -114,23 +114,6 @@ session_start();
 					header('Location: super_controller.php');
 					break;
 
-				/*-------------------------------------------------------------------------------*/
-				/*------------------------------ MESSAGERIE ----------------------------*/
-				/*-------------------------------------------------------------------------------*/
-
-				case 'message':
-					include_once('views/v_message.class.php');
-					$page = new v_message("message");
-					$page->set_html();
-					break;
-
-				case 'nouvelle_message':
-					include_once('models/MessageManager.class.php');
-					$mb_manager = new MessageManager($db);
-					$mb_manager->add($_POST);
-					$_SESSION['msg'] = "Votre message a bien été envoyé";
-					header('Location: super_controller.php');
-					break;
 
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------------ AJOUT VEHICULE ----------------------------*/
@@ -146,7 +129,7 @@ session_start();
 					include_once('models/AdherentManager.class.php');
 					$mb_manager = new VehiculeManager($db);
 					$mb_manager->add($_POST);
-					$_SESSION['msg'] = "Votre ajout a bien été prise en compte";
+					$_SESSION['msg'] = "Votre ajout de véhicule a bien été prise en compte";
 					header('Location: super_controller.php');
 					break;
 
@@ -167,6 +150,41 @@ session_start();
 					$_SESSION['msg'] = "Votre proposition a bien été prise en compte";
 					header('Location: super_controller.php');
 					break;
+					
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------------MODIFIER PROFIL ----------------------------*/
+				/*-------------------------------------------------------------------------------*/
+
+				case 'modif_profil':
+					include_once('views/v_modif_profil.class.php');
+					include_once('models/AdherentManager.class.php');
+					
+					$ad_manager = new AdherentManager($db);
+					$page = new v_modif_profil("Modifier profil");
+					//$page->set_html();
+					$page->set_html(array("adherent" => $ad_manager->get(array("id_adherent" => $_SESSION['id']))));
+					
+					break;
+
+				case 'nouvelle_modif':
+					include_once('models/AdherentManager.class.php');
+					$ad_manager = new AdherentManager($db);
+					$ad_manager->add($_POST);
+					$_SESSION['msg'] = "Votre modification a bien été prise en compte";
+					header('Location: super_controller.php');
+					break;
+				
+				case 'supprimer':
+					session_destroy();
+					include_once('models/AdherentManager.class.php');
+					//$ad_manager = new AdherentManager($db);
+					//$ad_manager->remove($_POST);
+					//$query = $this->_db->prepare('DELETE FROM adherent WHERE id_adherant=:' . $_SESSION['id'].'');
+					$_SESSION['msg'] = "Votre compte a bien été supprimé";
+					header('Location: super_controller.php');
+					break;	
+				
+				
 
 				/*-------------------------------------------------------------------------------*/
 				/*---------------------------- Affichage du profil --------------------------*/
@@ -221,7 +239,38 @@ session_start();
 					$page->set_html($pa_manager->getList(array("id_adherent"=>$_SESSION['id'])));
 
 					break;
+					
+					
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------------ MESSAGERIE ----------------------------*/
+				/*-------------------------------------------------------------------------------*/
+				
+				case 'new_message':
+					include_once('views/v_message.class.php');
+					$page = new v_message("Envoyer message");
+					$page->set_html();
+					break;
 
+				case 'nouvelle_message':
+					include_once('models/MessageManager.class.php');
+					$mb_manager = new MessageManager($db);
+					$mb_manager->add($_POST);
+					$_SESSION['msg'] = "Votre message a bien été envoyer";
+					header('Location: super_controller.php');
+					break;
+
+					case 'mes_messages':
+					include_once('models/MessageManager.class.php');
+					$me_manager = new MessageManager($db);
+
+					include_once 'views/v_mes_messages.class.php';
+
+					$page = new v_mes_messages("Mes messages");
+					//$page->set_html();
+					$page->set_html($me_manager->getList());
+
+					break;	
+					
 				default:
 					include_once 'views/v_index.class.php';
 					//On instancie alors la page correspondante

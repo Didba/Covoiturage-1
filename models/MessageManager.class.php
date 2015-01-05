@@ -94,7 +94,7 @@
 			// On ajoute au tableau de retour les objets Message créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$Message = new Message();
-				$value['message'] = $this->MeManager->get(array("id_adherent_from"=>$value['message']));
+				//$value['message'] = $this->MeManager->get(array("id_adherent_from"=>$value['message']));
 				$Message->hydrate($value);
 				array_push($list, $Message);
 			}
