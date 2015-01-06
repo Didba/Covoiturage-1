@@ -1,5 +1,6 @@
 ﻿<?php
 	include_once 'views/Page.class.php';
+	include_once('models/AdherentManager.class.php');
 	/**
 	* Classe de la vue pour afficher les animaux
 	*/
@@ -33,21 +34,20 @@
 			
 			$html .= '</aside>';
 		
-		
-		
-			
 
 			$html .= '<form method="post" action="super_controller.php">';
 			$html .= '<input type="hidden" name="application" value="nouvelle_modif" required><br>';
-			$html .= '<input type="text" name="prenom" value=" Prenom " required><br>';
-			$html .= '<br /><input type="text" name="nom" placeholder="Nom" required><br>';
-			$html .= '<br />&male;<input type="radio" name="sexe" value="1" checked> &female;<input type="radio" name="sexe" value="0" required><br>';
-			$html .= '<br /><input type="date" name="dateNaiss" value="date" required><br>';
-			$html .= '<br /><input type="text" name="telephone" placeholder="N° téléphone" required><br>';
-			$html .= '<br /><input type="text" name="mail" placeholder="Email" required><br>';
-			$html .= '<br /><input type="password" name="password" placeholder="Mot de passe" required><br>';
+			$html .= '<b>Prénom : </b><input type="text" name="prenom" value=" Prenom " required><br>';
+			$html .= '<br /><b>Nom : </b><input type="text" name="nom" placeholder="Nom" required><br>';
+			$html .= '<br /><b>Sexe : </b>&male;<input type="radio" name="sexe" value="1" checked> &female;<input type="radio" name="sexe" value="0" required><br>';
+			$html .= '<br /><b>Date naiss : </b><input type="date" name="dateNaiss" value="date" required><br>';
+			$html .= '<br /><b>Tel : </b><input type="text" name="telephone" placeholder="N° téléphone" required><br>';
+			$html .= '<br /><b>Mail : </b><input type="text" name="mail" placeholder="Email" required><br>';
+			$html .= '<br /><b>Mdp : </b><input type="password" name="password" placeholder="Mot de passe" required><br>';
 			$html .= '<input type="submit" name="submit" class="button" value="GO !">';
 			$html .= '</form>';
+
+					
 		
 		$html .= '<a href="super_controller.php?application=supprimer"><h5>Supprimer compte</h5></a>';
 		

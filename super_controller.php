@@ -169,7 +169,17 @@ session_start();
 				case 'nouvelle_modif':
 					include_once('models/AdherentManager.class.php');
 					$ad_manager = new AdherentManager($db);
-					$ad_manager->add($_POST);
+					$adherent = new adherent(array());
+					
+					$adherent->setNom($_POST['nom']);
+					$adherent->setPrenom($_POST['prenom']);
+					$adherent->setSexe($_POST['sexe']);
+					//$adherent->setDate_Naissance($_POST['DateNaiss']);
+					$adherent->setMail($_POST['mail']);
+					$adherent->setPassword($_POST['password']);
+					
+					$ad_manager->update($adherent);
+					
 					$_SESSION['msg'] = "Votre modification a bien été prise en compte";
 					header('Location: super_controller.php');
 					break;
@@ -177,9 +187,10 @@ session_start();
 				case 'supprimer':
 					session_destroy();
 					include_once('models/AdherentManager.class.php');
-					//$ad_manager = new AdherentManager($db);
+					$ad_manager = new AdherentManager($db);
 					//$ad_manager->remove($_POST);
 					//$query = $this->_db->prepare('DELETE FROM adherent WHERE id_adherant=:' . $_SESSION['id'].'');
+					//$ad_manager->remove($_POST);
 					$_SESSION['msg'] = "Votre compte a bien été supprimé";
 					header('Location: super_controller.php');
 					break;	
