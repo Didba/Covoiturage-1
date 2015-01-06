@@ -38,8 +38,8 @@
 						<input type="hidden" value="reserver" name="application">
 						<input type="hidden" value="' . $trajet->id_trajet() . '" name="id_trajet">
 						<input type="hidden" value="' . $_SESSION['id'] . '" name="id_adherent">
-						<input type="number" name="nb_invites" value="0">
-						<input type="hidden" name="frais" value="10">
+						</br>Places : <input type="number" name="nb_invites" value="0">
+						</br>Frais : <input type="hidden" name="frais" value="10">
 						<input type="submit" name="submit" class="button" value="Réserver">
 					</form>';
 				}

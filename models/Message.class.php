@@ -6,8 +6,8 @@
 	class Message
 	{
 		private $_id_msg;
-		private $_id_Adherent_From;
-		private $_id_Adherent_To;
+		private $_id_adherent_from;
+		private $_id_adherent_to;
 		private $_date;
 		private $_message;
 		private $_sujet;
@@ -18,14 +18,14 @@
 			return $this->_id_msg;
 		}
 
-		public function idAdherent_From()
+		public function id_adherent_from()
 		{
-			return $this->_id_Adherent_From;
+			return $this->_id_adherent_from;
 		}
 
-		public function idAdherent_To()
+		public function id_adherent_to()
 		{
-			return $this->_id_Adherent_To;
+			return $this->_id_adherent_to;
 		}
 
 		public function date()
