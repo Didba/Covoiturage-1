@@ -27,6 +27,12 @@
 				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
 				$html .= ucfirst($trajet->date_traj());
+				$html .= '</br>';
+				$html .= $trajet->distance() . 'kms';
+				$html .= '</br>';
+				$html .= gmdate('H\hi',$trajet->time()) . '';
+				$html .= '</br>';
+				$html .= $trajet->frais() . '€';
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '.';
@@ -39,7 +45,7 @@
 						<input type="hidden" value="' . $trajet->id_trajet() . '" name="id_trajet">
 						<input type="hidden" value="' . $_SESSION['id'] . '" name="id_adherent">
 						</br>Places : <input type="number" name="nb_invites" value="0">
-						</br>Frais : <input type="hidden" name="frais" value="10">
+						<input type="hidden" name="frais" value="' . $trajet->frais() . '">
 						</br><input type="submit" name="submit" class="button" value="Réserver">
 					</form>';
 				}

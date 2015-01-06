@@ -13,6 +13,9 @@
 		private $_lieu_arrivee;
 		private $_nb_passager_max;
 		private $_conducteur;
+		private $_time;
+		private $_distance;
+		private $_frais;
 
 		public function id_trajet()
 		{
@@ -59,6 +62,21 @@
 			return $this->_nb_passager_max;
 		}
 
+		public function time()
+		{
+			return $this->_time;
+		}
+
+		public function distance()
+		{
+			return $this->_distance;
+		}
+
+		public function frais()
+		{
+			return $this->_frais;
+		}
+
 		public function setId_trajet($i)
 		{
 			$this->_id_trajet = $i;
@@ -97,6 +115,21 @@
 		public function setNb_Passagers_Max($nb_passager_max)
 		{
 			$this->_nb_passager_max = $nb_passager_max;
+		}
+
+		public function setTime($time)
+		{
+			$this->_time = $time;
+		}
+
+		public function setDistance($distance)
+		{
+			$this->_distance = $distance;
+		}
+
+		public function setFrais($frais)
+		{
+			$this->_frais = $frais;
 		}
 
 		public function setConducteur($adh)

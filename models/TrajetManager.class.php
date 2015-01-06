@@ -61,6 +61,12 @@
 
 			$result = $query->fetch();
 			//On vérifie si la requête a bien retourné un trajet
+
+			$geo = $this->get_geoData($result['lieu_depart'], $result['lieu_arrivee']);
+
+			$result['time'] = $geo['time'];
+			$result['distance'] = $geo['distance'];
+
 			if(!empty($result))
 			{
 				$trajet = new Trajet();
@@ -123,6 +129,13 @@
 					$query->execute() or die(print_r($query->errorInfo()));
 					$result2 = $query->fetch();
 
+
+					$geo = $this->get_geoData($value['lieu_depart'], $value['lieu_arrivee']);
+
+					foreach ($geo as $cle => $va) {
+						$value[$cle] = $va;
+					}
+
 					$value['conducteur'] = $mb_manager->get(array('id_adherent'=>$value['id_adherent']));
 					$trajet->hydrate($value);
 					array_push($list, $trajet);
@@ -143,6 +156,24 @@
 			$query -> bindParam(':nb_passagers_max', $Nb_Passagers_Max,PDO::PARAM_STR);
 			$query -> bindParam(':num_permis', $Num_Permis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
+		}
+
+		/**
+		* Retourne la distance et la durée d'un trajet
+		**/
+		function get_geoData($from,$to){
+
+			$from = urlencode($from);
+			$to = urlencode($to);
+			$data = file_get_contents("http://maps.googleapis.com/maps/api/distancematrix/json?origins=$from&destinations=$to&language=fr-FR&sensor=false");
+			$data = json_decode($data);
+			$time = 0;
+			$distance = 0;
+			foreach($data->rows[0]->elements as $road) {
+				$time += $road->duration->value;
+				$distance += $road->distance->text;
+			}
+			return array("distance"=>$distance, "time" => $time, "frais" => round($distance*0.06));
 		}
 
 	}
