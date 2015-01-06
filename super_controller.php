@@ -295,4 +295,10 @@ session_start();
 	//On ajoute les feuilles de styles nécessaires à la page
 	$page->head->add_css("css/style.css");
 	$page->head->add_css("http://fonts.googleapis.com/css?family=Raleway");
+	$page->head->add_css('//cdn.jsdelivr.net/select2/3.5.2/select2.css');
+
+	$page->add_script('//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js');
+    	$page->add_script('https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&region=FR');
+	$page->add_script("js/jquery.placecomplete.js");
+	$page->add_script("js/app.js");
 ?>

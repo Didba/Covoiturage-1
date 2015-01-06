@@ -1,0 +1,2 @@
+initialize('depart');
+initialize('arrivee');

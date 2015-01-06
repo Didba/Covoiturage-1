@@ -16,9 +16,9 @@
 			$html .= '<div class="index_wrapper">';
 			$html .= '<h2>Où voulez vous aller?</h2>';
 			$html .= '<form method="post" action="super_controller.php?apptype=Display&application=recherche" class="index_form">';
-			$html .= '<input type="text" name="start" placeholder="Départ" required>';
-			$html .= '<input type="text" name="finish" placeholder="Destination" required>';
-			$html .= '<input type="date" name="date" value="2014-12-16" required>';
+			$html .= '<input  id="depart" type="text" name="start" placeholder="Départ" required>';
+			$html .= '<input id="arrivee" type="text" name="finish" placeholder="Destination" required>';
+			$html .= '<input type="date" name="date" value="' . date('Y-m-d') . '" required>';
 			$html .= '<input type="submit" name="submit" class="button" value="GO !">';
 			$html .= '</form>';
 			$html .= '</div>';
