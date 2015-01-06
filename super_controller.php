@@ -156,6 +156,7 @@ session_start();
 				/*-------------------------------------------------------------------------------*/
 
 				case 'modif_profil':
+				
 					include_once('views/v_modif_profil.class.php');
 					include_once('models/AdherentManager.class.php');
 					

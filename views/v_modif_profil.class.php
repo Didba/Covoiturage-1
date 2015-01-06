@@ -9,8 +9,9 @@
 		/**
 		* Défini l'HTML de la page
 		**/
-		function set_html(){
+		function set_html($list){
 		
+			extract($list);// On extrait les données contenues dans la liste (qui est un tableau)
 			$html =''; //Initialisation de la variable de retour
 			
 			$html .= '<aside>';
@@ -37,13 +38,13 @@
 
 			$html .= '<form method="post" action="super_controller.php">';
 			$html .= '<input type="hidden" name="application" value="nouvelle_modif" required><br>';
-			$html .= '<b>Prénom : </b><input type="text" name="prenom" value=" Prenom " required><br>';
-			$html .= '<br /><b>Nom : </b><input type="text" name="nom" placeholder="Nom" required><br>';
+			$html .= '<b>Prénom : </b><input type="text" name="prenom" value=" ' . $adherent->prenom() . '" required><br>';
+			$html .= '<br /><b>Nom : </b><input type="text" name="nom" value=" ' . $adherent->nom() . '" required><br>';
 			$html .= '<br /><b>Sexe : </b>&male;<input type="radio" name="sexe" value="1" checked> &female;<input type="radio" name="sexe" value="0" required><br>';
 			$html .= '<br /><b>Date naiss : </b><input type="date" name="dateNaiss" value="date" required><br>';
-			$html .= '<br /><b>Tel : </b><input type="text" name="telephone" placeholder="N° téléphone" required><br>';
-			$html .= '<br /><b>Mail : </b><input type="text" name="mail" placeholder="Email" required><br>';
-			$html .= '<br /><b>Mdp : </b><input type="password" name="password" placeholder="Mot de passe" required><br>';
+			$html .= '<br /><b>Tel : </b><input type="text" name="telephone" value=" ' . $adherent->telephone() . '" required><br>';
+			$html .= '<br /><b>Mail : </b><input type="text" name="mail" value=" ' . $adherent->mail() . '" required><br>';
+			$html .= '<br /><b>Mdp : </b><input type="password" name="password" value=" ' . $adherent->password() . '" required><br>';
 			$html .= '<input type="submit" name="submit" class="button" value="GO !">';
 			$html .= '</form>';
 
