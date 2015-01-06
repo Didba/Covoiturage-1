@@ -317,25 +317,36 @@ label.color-radio-label
 
 #onglets
 {
-    font : bold 20px,sans-serif;
-    list-style-type : none;
-    padding-bottom : 34px; /* à modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
-    border-bottom : 1px solid #9EA0A1;
-    margin-left : 0;
+	font : bold 20px,sans-serif;
+	list-style-type : none;
+	padding-bottom : 34px; /* à modifier suivant la taille de la police ET de la hauteur de l'onglet dans #onglets li */
+	margin-left : 0;
 }
 
 #onglets li
 {
-    float : left;
-    height : 30px; /* à modifier suivant la taille de la police pour centrer le texte dans l'onglet */
-    background-color: #F4F9FD;
-    margin : 2px 2px 0 2px !important;  /* Pour les navigateurs autre que IE */
-    margin : 1px 2px 0 2px;  /* Pour IE  */
-    border : 1px solid #9EA0A1;
+	font-size: 1.5rem;
+	display: inline-block;
+	height : 30px; /* à modifier suivant la taille de la police pour centrer le texte dans l'onglet */
+	margin : 2px 2px 0 2px !important;  /* Pour les navigateurs autre que IE */
+	margin : 1px 2px 0 2px;  /* Pour IE  */
+	-webkit-transition: font-size 0.1s;
+	-o-transition: font-size 0.1s;
+	transition: font-size 0.1s;
+}
+
+#onglets li:hover
+{
+	font-size: 1.8rem;
 }
 
 #onglets li.active
 {
-    border-bottom: 1px solid #fff;
-    background-color: #fff;
+	font-size: 3rem;
+	color: #333;
+}
+
+#onglets li a
+{
+	text-decoration: none;
 }
