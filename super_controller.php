@@ -150,41 +150,32 @@ session_start();
 					$_SESSION['msg'] = "Votre proposition a bien été prise en compte";
 					header('Location: super_controller.php');
 					break;
-					
+
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------------MODIFIER PROFIL ----------------------------*/
 				/*-------------------------------------------------------------------------------*/
 
 				case 'modif_profil':
-				
+
 					include_once('views/v_modif_profil.class.php');
 					include_once('models/AdherentManager.class.php');
-					
+
 					$ad_manager = new AdherentManager($db);
 					$page = new v_modif_profil("Modifier profil");
 					//$page->set_html();
 					$page->set_html(array("adherent" => $ad_manager->get(array("id_adherent" => $_SESSION['id']))));
-					
+
 					break;
 
 				case 'nouvelle_modif':
 					include_once('models/AdherentManager.class.php');
 					$ad_manager = new AdherentManager($db);
-					$adherent = new adherent(array());
-					
-					$adherent->setNom($_POST['nom']);
-					$adherent->setPrenom($_POST['prenom']);
-					$adherent->setSexe($_POST['sexe']);
-					//$adherent->setDate_Naissance($_POST['DateNaiss']);
-					$adherent->setMail($_POST['mail']);
-					$adherent->setPassword($_POST['password']);
-					
-					$ad_manager->update($adherent);
-					
+					$ad_manager->update($_POST);
+
 					$_SESSION['msg'] = "Votre modification a bien été prise en compte";
-					header('Location: super_controller.php');
+					header('Location: super_controller.php?application=modif_profil');
 					break;
-				
+
 				case 'supprimer':
 					session_destroy();
 					include_once('models/AdherentManager.class.php');
@@ -194,9 +185,9 @@ session_start();
 					//$ad_manager->remove($_POST);
 					$_SESSION['msg'] = "Votre compte a bien été supprimé";
 					header('Location: super_controller.php');
-					break;	
-				
-				
+					break;
+
+
 
 				/*-------------------------------------------------------------------------------*/
 				/*---------------------------- Affichage du profil --------------------------*/
@@ -251,12 +242,12 @@ session_start();
 					$page->set_html($pa_manager->getList(array("id_adherent"=>$_SESSION['id'])));
 
 					break;
-					
-					
+
+
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------------ MESSAGERIE ----------------------------*/
 				/*-------------------------------------------------------------------------------*/
-				
+
 				case 'new_message':
 					include_once('views/v_message.class.php');
 					$page = new v_message("Envoyer message");
@@ -281,8 +272,8 @@ session_start();
 					//$page->set_html();
 					$page->set_html($me_manager->getList());
 
-					break;	
-					
+					break;
+
 				default:
 					include_once 'views/v_index.class.php';
 					//On instancie alors la page correspondante

@@ -27,12 +27,11 @@
 				<div id="menu">
 				<ul id="onglets">
 				';
-
 			foreach ($tab as $nom => $value) {
 				$display = true;
 				if ($value['cond'])
 				{
-					if(!eval($value['cond'] . ";"))
+					if(!eval("return " . $value['cond'] . ";"))
 					{
 						$display = false;
 					}

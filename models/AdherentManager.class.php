@@ -128,7 +128,7 @@
 		* Fonction permettant de mettre à jour un adherent
 		**/
 		function update($adherent){
-			//extract($adherent);
+			extract($adherent);
 			$query = $this->_db->prepare('UPDATE adherent SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,date_naissance=:dateNaiss,mail=:mail,password=:password WHERE id_adherent=:id_adherent');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
@@ -137,6 +137,7 @@
 			$query -> bindParam(':dateNaiss', $dateNaiss,PDO::PARAM_STR);
 			$query -> bindParam(':mail', $mail,PDO::PARAM_STR);
 			$query -> bindParam(':password', $password,PDO::PARAM_STR);
+			$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 	}

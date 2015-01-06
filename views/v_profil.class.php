@@ -17,7 +17,7 @@
 			$html .= '<ul class="results">';
 			$html .= '<img src="images/user.png" width="100" height="100" /><br />';
 			$html .= $adherent->prenom() ;
-			$html .= '' . $adherent->nom(). '<br />';
+			$html .= ' ' . $adherent->nom(). '<br />';
 			$html .= $adherent->sexe() . '<br />';
 			$html .= $adherent->telephone() . '<br />';
 			$html .=   date('d/m/Y',strtotime($adherent->date_Naissance())) . '<br />';

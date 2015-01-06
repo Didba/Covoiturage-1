@@ -40,7 +40,7 @@
 						<input type="hidden" value="' . $_SESSION['id'] . '" name="id_adherent">
 						</br>Places : <input type="number" name="nb_invites" value="0">
 						</br>Frais : <input type="hidden" name="frais" value="10">
-						<input type="submit" name="submit" class="button" value="Réserver">
+						</br><input type="submit" name="submit" class="button" value="Réserver">
 					</form>';
 				}
 				else

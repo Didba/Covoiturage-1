@@ -40,7 +40,7 @@
 			return $this->_telephone;
 		}
 
-		public function Date_Naissance()
+		public function date_naissance()
 		{
 			return $this->_dateNaiss;
 		}
