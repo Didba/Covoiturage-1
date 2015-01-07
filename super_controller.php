@@ -252,12 +252,18 @@ session_start();
 				case 'mes_trajets':
 					include_once('models/ParticipeManager.class.php');
 					$pa_manager = new ParticipeManager($db);
-
+					var_dump($_SESSION);
+					$traj_cond = array();
+					if(isset($_SESSION['permis']))
+					{
+						include_once('models/TrajetManager.class.php');
+						$tr_manager = new TrajetManager($db);
+						$traj_cond = $tr_manager->getList(array('id_adherent' => $_SESSION['id']));
+					}
 					include_once 'views/v_mes_trajets.class.php';
-
 					$page = new v_mes_trajets("Mes trajets");
 
-					$page->set_html($pa_manager->getList(array("id_adherent"=>$_SESSION['id'])));
+					$page->set_html(array("passager"=>$pa_manager->getList(array("id_adherent"=>$_SESSION['id'])), "conducteur" => $traj_cond));
 
 					break;
 
@@ -280,15 +286,14 @@ session_start();
 					header('Location: super_controller.php');
 					break;
 
-					case 'mes_messages':
+				case 'mes_messages':
 					include_once('models/MessageManager.class.php');
 					$me_manager = new MessageManager($db);
 
 					include_once 'views/v_mes_messages.class.php';
 
 					$page = new v_mes_messages("Mes messages");
-					//$page->set_html();
-					$page->set_html($me_manager->getList());
+					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
 
 					break;
 

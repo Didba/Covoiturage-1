@@ -11,9 +11,11 @@
 		private $_date;
 		private $_message;
 		private $_sujet;
+		private $_adherent_from;
+		private $_adherent_to;
 
 
-		public function idMsg()
+		public function id_msg()
 		{
 			return $this->_id_msg;
 		}
@@ -26,6 +28,16 @@
 		public function id_adherent_to()
 		{
 			return $this->_id_adherent_to;
+		}
+
+		public function adherent_from()
+		{
+			return $this->_adherent_from;
+		}
+
+		public function adherent_to()
+		{
+			return $this->_adherent_to;
 		}
 
 		public function date()
@@ -43,19 +55,29 @@
 			return $this->_sujet;
 		}
 
-		public function setIdMsg($i)
+		public function setId_msg($i)
 		{
-			$this->_id_AdMsg = $i;
+			$this->_id_msg = $i;
 		}
 
-		public function setIdAdherent_From($i)
+		public function setId_adherent_from($i)
 		{
-			$this->_id_Adherent_From= $i;
+			$this->_id_adherent_from = $i;
 		}
 
-		public function setIdAdherent_To($i)
+		public function setId_adherent_to($i)
 		{
-			$this->_id_Adherent_To = $i;
+			$this->_id_adherent_to = $i;
+		}
+
+		public function setAdherent_from($i)
+		{
+			$this->_adherent_from = $i;
+		}
+
+		public function setAdherent_to($i)
+		{
+			$this->_adherent_to = $i;
 		}
 
 		public function setDate($d)

@@ -2,6 +2,7 @@
 
 	include_once 'models/Message.class.php';
 	include_once 'models/Adherent.class.php';
+	include_once 'models/AdherentManager.class.php';
 
 	/**
 	* Class de gestion Message
@@ -70,33 +71,44 @@
 		* Fonction permettant d'obtenir une liste des Message
 		**/
 		function getList($champs=NULL){
+			$mb_manager = new AdherentManager($this->_db);
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
 				$query = $this->_db->prepare('SELECT * FROM message');
 			}
-			else
+			else if(isset($champs['id_adherent_from']) && isset($champs['id_adherent_to']))
 			{
-				$query_str = "SELECT * FROM message WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
-				foreach ($champs as $champ => $val) {
-					if($val!="") //On vérifie que la valeur ne soit pas nulle
-					{
-						$query_str .= ' AND ' . $champ . ' LIKE "%' . $val . '%"'; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
-					}
-				}
+				$query_str = "SELECT * FROM message WHERE id_adherent_to=:id_adherent_to OR id_adherent_from=:id_adherent_from ORDER BY date DESC";
 				$query = $this->_db->prepare($query_str);
+				$query -> bindParam(':id_adherent_to', $champs['id_adherent_to'],PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent_from', $champs['id_adherent_from'],PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+				$result = $query->fetchAll();
 			}
-			$query->execute() or die(print_r($query->errorInfo()));
-
-			$result = $query->fetchAll();
 			$list = array();
 
 			// On ajoute au tableau de retour les objets Message créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
-				$Message = new Message();
-				//$value['message'] = $this->MeManager->get(array("id_adherent_from"=>$value['message']));
-				$Message->hydrate($value);
-				array_push($list, $Message);
+				$adhF = new Adherent();
+				$adhT = new Adherent();
+				$mess = new Message();
+				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_adherent=:id_adherent_from');
+				$query -> bindParam(':id_adherent_from', $value['id_adherent_from'],PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+				$result1 = $query->fetch();
+				$adhF->hydrate($result1);
+				$value['adherent_from'] = $adhF;
+
+				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_adherent=:id_adherent_to');
+				$query -> bindParam(':id_adherent_to', $value['id_adherent_to'],PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+				$result1 = $query->fetch();
+				$adhT->hydrate($result1);
+				$value['adherent_to'] = $adhT;
+
+				$mess->hydrate($value);
+				array_push($list, $mess);
 			}
 			return $list;
 		}

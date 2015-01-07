@@ -16,7 +16,31 @@
 
 			$html .= $this->get_nav("Mes trajets");
 
-			foreach ($elts as $key => $elt) {
+			foreach ($elts['passager'] as $key => $elt) {
+				$html .= '<li>';
+				$html .= '<div class="result_data">';
+				$html .= $elt->trajet()->lieu_depart() . ' > ';
+				$html .= $elt->trajet()->lieu_arrivee();
+				$html .= '</br>';
+				$html .= ucfirst($elt->date_traj());
+				$html .= '</br>';
+				$html .= $elt->trajet()->distance() . 'kms';
+				$html .= '</br>';
+				$html .= gmdate('H\hi',$elt->trajet()->time()) . '';
+				$html .= '</br>';
+				$html .= $elt->frais() . '€';
+				$html .= '</br>Places réservées : ' . $elt->nb_invites();
+				$html .= '</div>';
+				$html .= '<div class="result_driver">';
+				$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
+				$html .= '</div>';
+				$html .= '<a href="super_controller.php?application=annuler&id_trajet=' . $elt->id_trajet() . '">Annuler</a>';
+				$html .= '</li>';
+				$html .= '</br>';
+			}
+
+
+			foreach ($elts['conducteur'] as $key => $elt) {
 				$html .= '<li>';
 				$html .= '<div class="result_data">';
 				$html .= $elt->trajet()->lieu_depart() . ' > ';
