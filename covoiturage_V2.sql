@@ -1,21 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.2.7.1
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 02 Janvier 2015 à 14:55
--- Version du serveur :  5.6.20
--- Version de PHP :  5.5.15
+-- Généré le :  Mer 07 Janvier 2015 à 12:46
+-- Version du serveur :  5.6.17
+-- Version de PHP :  5.5.12
 
 SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données :  `covoiturage`
@@ -29,15 +23,16 @@ SET time_zone = "+00:00";
 
 DROP TABLE IF EXISTS `adherent`;
 CREATE TABLE IF NOT EXISTS `adherent` (
-`id_adherent` int(11) NOT NULL,
+  `id_adherent` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
   `prenom` varchar(50) NOT NULL,
   `sexe` varchar(1) NOT NULL,
   `telephone` varchar(10) NOT NULL,
   `date_naissance` date NOT NULL,
   `mail` varchar(50) NOT NULL,
-  `password` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `password` varchar(20) NOT NULL,
+  PRIMARY KEY (`id_adherent`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `adherent`
@@ -45,7 +40,6 @@ CREATE TABLE IF NOT EXISTS `adherent` (
 
 INSERT INTO `adherent` (`id_adherent`, `nom`, `prenom`, `sexe`, `telephone`, `date_naissance`, `mail`, `password`) VALUES
 (1, 'Boulongne', 'Thomas', '1', '0160103788', '2014-12-03', 'thomasboulongne@hotmail.com', '1234'),
-(2, 'Chapka', 'Thomas', '1', '0102030405', '2014-12-16', 'thomas@mail.fr', '1234'),
 (3, 'Chakrina', 'Mouhouni', '1', '0102030405', '2013-06-21', 'mou@mail.com', '1234');
 
 -- --------------------------------------------------------
@@ -56,7 +50,8 @@ INSERT INTO `adherent` (`id_adherent`, `nom`, `prenom`, `sexe`, `telephone`, `da
 
 DROP TABLE IF EXISTS `administrateur`;
 CREATE TABLE IF NOT EXISTS `administrateur` (
-  `id_adherent` int(11) NOT NULL
+  `id_adherent` int(11) NOT NULL,
+  PRIMARY KEY (`id_adherent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -67,9 +62,10 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
 
 DROP TABLE IF EXISTS `caracteristique`;
 CREATE TABLE IF NOT EXISTS `caracteristique` (
-`id_caracteristique` int(11) NOT NULL,
-  `nom` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_caracteristique` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_caracteristique`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -80,7 +76,9 @@ CREATE TABLE IF NOT EXISTS `caracteristique` (
 DROP TABLE IF EXISTS `conducteur`;
 CREATE TABLE IF NOT EXISTS `conducteur` (
   `num_permis` int(11) NOT NULL,
-  `id_adherent` int(11) NOT NULL
+  `id_adherent` int(11) NOT NULL,
+  PRIMARY KEY (`num_permis`,`id_adherent`),
+  UNIQUE KEY `Id_Adherent_Conducteur` (`id_adherent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -98,9 +96,10 @@ INSERT INTO `conducteur` (`num_permis`, `id_adherent`) VALUES
 
 DROP TABLE IF EXISTS `equipements`;
 CREATE TABLE IF NOT EXISTS `equipements` (
-`id_equipements` int(11) NOT NULL,
-  `nom` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id_equipements` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_equipements`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -113,7 +112,9 @@ CREATE TABLE IF NOT EXISTS `etapes` (
   `id_etapes` int(11) NOT NULL,
   `id_trajet` int(11) NOT NULL,
   `lieu` varchar(30) NOT NULL,
-  `ordre` int(11) NOT NULL
+  `ordre` int(11) NOT NULL,
+  PRIMARY KEY (`id_etapes`),
+  KEY `FK_etapes_trajet` (`id_trajet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -124,12 +125,25 @@ CREATE TABLE IF NOT EXISTS `etapes` (
 
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
+  `id_msg` int(11) NOT NULL,
   `id_adherent_from` int(11) NOT NULL,
   `id_adherent_to` int(11) NOT NULL,
-  `date` date NOT NULL,
+  `date` datetime NOT NULL,
   `sujet` varchar(50) NOT NULL,
-  `message` text NOT NULL
+  `message` varchar(2000) NOT NULL,
+  PRIMARY KEY (`id_msg`),
+  KEY `id_adherent_from` (`id_adherent_from`),
+  KEY `id_adherent_to` (`id_adherent_to`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `message`
+--
+
+INSERT INTO `message` (`id_msg`, `id_adherent_from`, `id_adherent_to`, `date`, `sujet`, `message`) VALUES
+(1, 1, 1, '2015-01-07 00:00:00', 'Sujet', 'Message'),
+(2, 1, 3, '2015-01-07 00:00:00', 'Sujet2', 'Msg'),
+(3, 3, 3, '2015-01-07 00:00:00', 'suj3', 'msg2');
 
 -- --------------------------------------------------------
 
@@ -143,7 +157,8 @@ CREATE TABLE IF NOT EXISTS `note` (
   `id_adherent_to` int(11) NOT NULL,
   `date` date NOT NULL,
   `note` int(11) NOT NULL,
-  `commentaire` text NOT NULL
+  `commentaire` text NOT NULL,
+  PRIMARY KEY (`id_adherent_from`,`id_adherent_to`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -157,8 +172,16 @@ CREATE TABLE IF NOT EXISTS `participe` (
   `id_adherent` int(11) NOT NULL,
   `id_trajet` int(11) NOT NULL,
   `nb_invites` int(11) NOT NULL,
-  `frais` int(11) NOT NULL
+  `frais` int(11) NOT NULL,
+  PRIMARY KEY (`id_adherent`,`id_trajet`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `participe`
+--
+
+INSERT INTO `participe` (`id_adherent`, `id_trajet`, `nb_invites`, `frais`) VALUES
+(1, 3, 3, 36);
 
 -- --------------------------------------------------------
 
@@ -168,15 +191,17 @@ CREATE TABLE IF NOT EXISTS `participe` (
 
 DROP TABLE IF EXISTS `trajet`;
 CREATE TABLE IF NOT EXISTS `trajet` (
-`id_trajet` int(11) NOT NULL,
+  `id_trajet` int(11) NOT NULL AUTO_INCREMENT,
   `id_adherent` int(11) NOT NULL,
   `num_permis` int(11) NOT NULL,
   `date_traj` datetime NOT NULL,
   `nb_passagers_max` int(11) NOT NULL,
   `lieu_depart` varchar(30) NOT NULL,
   `lieu_arrivee` varchar(30) NOT NULL,
-  `commentaire` varchar(1000) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+  `commentaire` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`id_trajet`),
+  KEY `id_adherent` (`id_adherent`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Contenu de la table `trajet`
@@ -185,8 +210,9 @@ CREATE TABLE IF NOT EXISTS `trajet` (
 INSERT INTO `trajet` (`id_trajet`, `id_adherent`, `num_permis`, `date_traj`, `nb_passagers_max`, `lieu_depart`, `lieu_arrivee`, `commentaire`) VALUES
 (1, 1, 25156, '2014-12-16 00:00:00', 3, 'Dijon', 'Paris', ''),
 (2, 1, 7, '2014-12-16 00:00:00', 3, 'Dijon', 'Paris', ''),
-(3, 1, 0, '2015-01-02 00:00:00', 3, 'Bora Bora', 'Dijon', NULL),
-(8, 1, 0, '2015-01-02 00:00:00', 3, 'Bora Bora', 'Dijon', NULL);
+(3, 1, 0, '2015-01-02 00:00:00', 3, 'Auxerre', 'Dijon', NULL),
+(8, 1, 0, '2015-01-02 00:00:00', 3, 'Strasbourg', 'Dijon', NULL),
+(9, 1, 0, '2015-01-06 00:00:00', 1, 'Dijon', 'Mirebeau-sur-Bèze', NULL);
 
 -- --------------------------------------------------------
 
@@ -197,7 +223,8 @@ INSERT INTO `trajet` (`id_trajet`, `id_adherent`, `num_permis`, `date_traj`, `nb
 DROP TABLE IF EXISTS `trajet_caracteristique`;
 CREATE TABLE IF NOT EXISTS `trajet_caracteristique` (
   `id_trajet` int(11) NOT NULL,
-  `id_caracteristique` int(11) NOT NULL
+  `id_caracteristique` int(11) NOT NULL,
+  PRIMARY KEY (`id_trajet`,`id_caracteristique`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -217,7 +244,11 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
   `couleur` varchar(50) NOT NULL,
   `photo` varchar(50) NOT NULL,
   `carburant` varchar(50) NOT NULL,
-  `immatriculation` varchar(50) NOT NULL
+  `immatriculation` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_vehicule`),
+  KEY `index` (`id_adherent`),
+  KEY `id_adherent` (`id_adherent`),
+  KEY `Num_Permis` (`num_permis`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -230,115 +261,10 @@ DROP TABLE IF EXISTS `vehicule_equipements`;
 CREATE TABLE IF NOT EXISTS `vehicule_equipements` (
   `id_vehicule` int(11) NOT NULL,
   `id_equipements` int(11) NOT NULL,
-  `commentaire` text NOT NULL
+  `commentaire` text NOT NULL,
+  PRIMARY KEY (`id_vehicule`,`id_equipements`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Index pour les tables exportées
---
-
---
--- Index pour la table `adherent`
---
-ALTER TABLE `adherent`
- ADD PRIMARY KEY (`id_adherent`);
-
---
--- Index pour la table `administrateur`
---
-ALTER TABLE `administrateur`
- ADD PRIMARY KEY (`id_adherent`);
-
---
--- Index pour la table `caracteristique`
---
-ALTER TABLE `caracteristique`
- ADD PRIMARY KEY (`id_caracteristique`);
-
---
--- Index pour la table `conducteur`
---
-ALTER TABLE `conducteur`
- ADD PRIMARY KEY (`num_permis`,`id_adherent`), ADD UNIQUE KEY `Id_Adherent_Conducteur` (`id_adherent`);
-
---
--- Index pour la table `equipements`
---
-ALTER TABLE `equipements`
- ADD PRIMARY KEY (`id_equipements`);
-
---
--- Index pour la table `etapes`
---
-ALTER TABLE `etapes`
- ADD PRIMARY KEY (`id_etapes`), ADD KEY `FK_etapes_trajet` (`id_trajet`);
-
---
--- Index pour la table `message`
---
-ALTER TABLE `message`
- ADD PRIMARY KEY (`id_adherent_from`,`id_adherent_to`);
-
---
--- Index pour la table `note`
---
-ALTER TABLE `note`
- ADD PRIMARY KEY (`id_adherent_from`,`id_adherent_to`);
-
---
--- Index pour la table `participe`
---
-ALTER TABLE `participe`
- ADD PRIMARY KEY (`id_adherent`,`id_trajet`);
-
---
--- Index pour la table `trajet`
---
-ALTER TABLE `trajet`
- ADD PRIMARY KEY (`id_trajet`), ADD KEY `id_adherent` (`id_adherent`);
-
---
--- Index pour la table `trajet_caracteristique`
---
-ALTER TABLE `trajet_caracteristique`
- ADD PRIMARY KEY (`id_trajet`,`id_caracteristique`);
-
---
--- Index pour la table `vehicule`
---
-ALTER TABLE `vehicule`
- ADD PRIMARY KEY (`id_vehicule`), ADD KEY `index` (`id_adherent`), ADD KEY `id_adherent` (`id_adherent`), ADD KEY `Num_Permis` (`num_permis`);
-
---
--- Index pour la table `vehicule_equipements`
---
-ALTER TABLE `vehicule_equipements`
- ADD PRIMARY KEY (`id_vehicule`,`id_equipements`);
-
---
--- AUTO_INCREMENT pour les tables exportées
---
-
---
--- AUTO_INCREMENT pour la table `adherent`
---
-ALTER TABLE `adherent`
-MODIFY `id_adherent` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `caracteristique`
---
-ALTER TABLE `caracteristique`
-MODIFY `id_caracteristique` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `equipements`
---
-ALTER TABLE `equipements`
-MODIFY `id_equipements` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT pour la table `trajet`
---
-ALTER TABLE `trajet`
-MODIFY `id_trajet` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Contraintes pour les tables exportées
 --
@@ -347,27 +273,31 @@ MODIFY `id_trajet` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- Contraintes pour la table `administrateur`
 --
 ALTER TABLE `administrateur`
-ADD CONSTRAINT `FK_ADHERENT_ADMIN` FOREIGN KEY (`id_adherent`) REFERENCES `adherent` (`id_adherent`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_ADHERENT_ADMIN` FOREIGN KEY (`id_adherent`) REFERENCES `adherent` (`id_adherent`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `conducteur`
 --
 ALTER TABLE `conducteur`
-ADD CONSTRAINT `FK_ADHERENT_CONDUCTEUR` FOREIGN KEY (`id_adherent`) REFERENCES `adherent` (`id_adherent`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_ADHERENT_CONDUCTEUR` FOREIGN KEY (`id_adherent`) REFERENCES `adherent` (`id_adherent`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `etapes`
 --
 ALTER TABLE `etapes`
-ADD CONSTRAINT `FK_TRAJET_ETAPES` FOREIGN KEY (`id_trajet`) REFERENCES `trajet` (`id_trajet`);
+  ADD CONSTRAINT `FK_TRAJET_ETAPES` FOREIGN KEY (`id_trajet`) REFERENCES `trajet` (`id_trajet`);
+
+--
+-- Contraintes pour la table `message`
+--
+ALTER TABLE `message`
+  ADD CONSTRAINT `message_ibfk_1` FOREIGN KEY (`id_adherent_from`) REFERENCES `adherent` (`id_adherent`),
+  ADD CONSTRAINT `message_ibfk_2` FOREIGN KEY (`id_adherent_to`) REFERENCES `adherent` (`id_adherent`);
 
 --
 -- Contraintes pour la table `trajet`
 --
 ALTER TABLE `trajet`
-ADD CONSTRAINT `cle_conducteur` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-ADD CONSTRAINT `trajet_ibfk_1` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+  ADD CONSTRAINT `cle_conducteur` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `trajet_ibfk_1` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+SET FOREIGN_KEY_CHECKS=1;
