@@ -36,17 +36,22 @@
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id_Adherent))
+			if(isset($id_adherent))
 			{
 				$query = $this->_db->prepare('DELETE FROM adherent WHERE id_adherent=:id_adherent');
-				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
+				return $query->execute();
 			}
 			else if(isset($nom))
 			{
 				$query = $this->_db->prepare('DELETE FROM adherent WHERE nom=:nom');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
+				return $query->execute();
 			}
-			$query->execute() or die(print_r($query->errorInfo()));
+			else
+			{
+				return false;
+			}
 		}
 
 		/**

@@ -2,6 +2,7 @@
 
 	include_once 'models/Participe.class.php';
 	include_once 'models/AdherentManager.class.php';
+	include_once 'models/TrajetManager.class.php';
 
 	/**
 	* Classe de gestion des participants
@@ -22,12 +23,13 @@
 		function add(array $data){
 			extract($data);
 			var_dump($data);
+			$frais = $frais * ($nb_invites+1);
 			$query = $this->_db->prepare('INSERT INTO participe(id_adherent, id_trajet,nb_invites,frais) VALUES (:id_adherent, :id_trajet,:nb_invites, :frais)');
 			$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 			$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_INT);
 			$query -> bindParam(':nb_invites', $nb_invites,PDO::PARAM_INT);
 			$query -> bindParam(':frais', $frais,PDO::PARAM_INT);
-			$query->execute() or die(print_r($query->errorInfo()));
+			return $query->execute();
 		}
 
 		/**
@@ -35,13 +37,13 @@
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id))
+			if(isset($id_trajet))
 			{
 				$query = $this->_db->prepare('DELETE FROM participe WHERE id_trajet=:id_trajet');
 				$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_INT);
 			}
 
-			$query->execute() or die(print_r($query->errorInfo()));
+			return $query->execute();
 		}
 
 		/**
@@ -70,6 +72,7 @@
 		function getList($champs=NULL){
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			$mb_manager = new AdherentManager($this->_db);
+			$tr_manager = new TrajetManager($this->_db);
 			if($champs==NULL)
 			{
 				$query = $this->_db->prepare('SELECT * FROM participe');
@@ -96,6 +99,10 @@
 			// On ajoute au tableau de retour les objets participe créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
 				$participe = new Participe();
+
+				$participe->setTrajet(new Trajet());
+				$value['trajet'] = $tr_manager->get(array("id_trajet"=>$value['id_trajet']));
+
 				$query = $this->_db->prepare('SELECT Prenom, Nom FROM adherent WHERE Id_Adherent=:id');
 				$query -> bindParam(':id', $value['id_adherent'],PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));

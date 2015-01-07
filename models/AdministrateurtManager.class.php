@@ -22,13 +22,13 @@
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id_Adherent))
+			if(isset($id_adherent))
 			{
 				$query = $this->_db->prepare('DELETE FROM administrateur WHERE id_adherent=:id_adherent');
-				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
+				return $query->execute();
 			}
 
-			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
@@ -40,13 +40,13 @@
 			{
 				$query = $this->_db->prepare('SELECT * FROM administrateur WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+
+				$result = $query->fetch();
+				$result['administrateur'] = $this->AdminManager->get(array("id_adherent"=>$result['administrateur']));
 			}
 
 
-			$query->execute() or die(print_r($query->errorInfo()));
-
-			$result = $query->fetch();
-			$result['administrateur'] = $this->AdminManager->get(array("id_adherent"=>$result['administrateur']));
 			$administrateur = new Administrateur();
 			$administrateur->hydrate($result);
 			return $administrateur;

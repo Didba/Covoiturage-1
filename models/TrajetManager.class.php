@@ -51,15 +51,15 @@
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id_Trajet))
+			if(isset($id_trajet))
 			{
 				$query = $this->_db->prepare('SELECT * FROM trajet WHERE id_trajet=:id_trajet');
-				$query -> bindParam(':id_trajet', $id_Trajet,PDO::PARAM_INT);
+				$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+
+				$result = $query->fetch();
 			}
 
-			$query->execute() or die(print_r($query->errorInfo()));
-
-			$result = $query->fetch();
 			//On vérifie si la requête a bien retourné un trajet
 
 			$geo = $this->get_geoData($result['lieu_depart'], $result['lieu_arrivee']);

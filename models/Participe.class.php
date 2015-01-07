@@ -9,6 +9,7 @@
 		private $_id_trajet;
 		private $_nb_invites;
 		private $_frais;
+		private $_trajet;
 
 
 		public function id_adherent()
@@ -31,6 +32,11 @@
 			return $this->_frais;
 		}
 
+		public function trajet()
+		{
+			return $this->_trajet;
+		}
+
 		public function setId_adherent($i)
 		{
 			$this->_id_adherent = $i;
@@ -49,6 +55,11 @@
 		public function setFrais($nb)
 		{
 			$this->_frais =  $nb;
+		}
+
+		public function setTrajet($nb)
+		{
+			$this->_trajet =  $nb;
 		}
 
 		public function hydrate(array $data)

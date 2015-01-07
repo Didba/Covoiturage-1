@@ -177,13 +177,16 @@ session_start();
 					break;
 
 				case 'supprimer':
-					session_destroy();
 					include_once('models/AdherentManager.class.php');
 					$ad_manager = new AdherentManager($db);
-					//$ad_manager->remove($_POST);
-					//$query = $this->_db->prepare('DELETE FROM adherent WHERE id_adherant=:' . $_SESSION['id'].'');
-					//$ad_manager->remove($_POST);
-					$_SESSION['msg'] = "Votre compte a bien été supprimé";
+					if($ad_manager->remove(array("id_adherent" => $_SESSION['id']))):
+						$_SESSION['msg'] = "Votre compte a bien été supprimé";
+						unset($_SESSION['id']);
+						unset($_SESSION['permis']);
+						unset($_SESSION['co']);
+					else:
+						$_SESSION['msg'] = "Une erreur est survenue dans la suppression de votre compte";
+					endif;
 					header('Location: super_controller.php');
 					break;
 
@@ -226,8 +229,23 @@ session_start();
 					include_once('models/ParticipeManager.class.php');
 					$pa_manager = new ParticipeManager($db);
 
-					$pa_manager->add($_POST);
-					$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
+					if($pa_manager->add($_POST)):
+						$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
+					else:
+						$_SESSION['msg'] = "Une erreur a empêché votre réservation";
+					endif;
+					header('Location: super_controller.php');
+					break;
+
+				case 'annuler':
+					include_once('models/ParticipeManager.class.php');
+					$pa_manager = new ParticipeManager($db);
+
+					if($pa_manager->remove($_GET)):
+						$_SESSION['msg'] = "Votre réservation a bien été annulée";
+					else:
+						$_SESSION['msg'] = "Une erreur a empêché votre annulation";
+					endif;
 					header('Location: super_controller.php');
 					break;
 
