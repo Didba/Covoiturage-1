@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 	include_once 'v_compte.class.php';
 
@@ -15,6 +15,13 @@
 			$html =''; //Initialisation de la variable de retour
 
 			$html .= $this->get_nav("Mes trajets");
+			
+			$html .= '
+			<div id="menu">
+			<ul id="onglets">
+				<li><a href="super_controller.php?application=proposer"><h4>Proposer un trajet</h4></a></li>
+			</ul>
+			</div>'	;
 
 			foreach ($elts['passager'] as $key => $elt) {
 				$html .= '<li>';
