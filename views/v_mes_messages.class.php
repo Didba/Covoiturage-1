@@ -19,12 +19,13 @@
 			foreach ($elts as $key => $elt) {
 				$html .= '<li>';
 				$html .= '<b>De : '.$elt->adherent_from()->nom().'</br>';
+				$html .= '<b>À : '.$elt->adherent_to()->nom().'</br>';
 				$html .= '<b>'.$elt->date().'</br>';
 				$html .= '</br> Sujet : </b>'.$elt->sujet().'</br>';
-				$html .= '</br><pre>	'.$elt->message().'</pre></br>';
+				$html .= '</br><p>	'.$elt->message().'</p></br>';
 
-				$html .='<hr>';
 				$html .= '</li>';
+				$html .='<hr>';
 
 			}
 

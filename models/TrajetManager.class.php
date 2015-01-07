@@ -84,7 +84,6 @@
 		**/
 		function getList($champs=NULL){
 			// On vérifie le paramètre.
-			var_dump($champs);
 			$mb_manager = new AdherentManager($this->_db);
 			$champs['date_traj'] = $champs['date'];
 			unset($champs['date']);

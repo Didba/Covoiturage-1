@@ -252,7 +252,6 @@ session_start();
 				case 'mes_trajets':
 					include_once('models/ParticipeManager.class.php');
 					$pa_manager = new ParticipeManager($db);
-					var_dump($_SESSION);
 					$traj_cond = array();
 					if(isset($_SESSION['permis']))
 					{
