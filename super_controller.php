@@ -272,9 +272,11 @@ session_start();
 				/*-------------------------------------------------------------------------------*/
 
 				case 'new_message':
-					include_once('views/v_message.class.php');
-					$page = new v_message("Envoyer message");
-					$page->set_html();
+					include_once('models/MessageManager.class.php');
+					include_once('views/v_msg_new.class.php');
+					$me_manager = new MessageManager($db);
+					$page = new v_msg_new("Envoyer message");
+					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
 					break;
 
 				case 'nouvelle_message':
@@ -292,8 +294,30 @@ session_start();
 					include_once 'views/v_mes_messages.class.php';
 
 					$page = new v_mes_messages("Mes messages");
-					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
+					$page->set_html();
+					
+					break;
+					
+				case 'recu':
+					include_once('models/MessageManager.class.php');
+					$me_manager = new MessageManager($db);
 
+					include_once 'views/v_msg_recu.class.php';
+
+					$page = new v_msg_recu("Mes messages reçu");
+					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
+					
+					break;	
+					
+				case 'envoyer':
+					include_once('models/MessageManager.class.php');
+					$me_manager = new MessageManager($db);
+
+					include_once 'views/v_msg_envoyer.class.php';
+
+					$page = new v_msg_envoyer("Mes messages envoyés");
+					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
+					
 					break;
 
 				default:
