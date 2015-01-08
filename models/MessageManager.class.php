@@ -23,6 +23,7 @@
 		**/
 		function add(array $data){
 			extract($data);
+			$date = date('Y-m-d H-i');
 			$query = $this->_db->prepare('INSERT INTO message(id_adherent_from,id_adherent_to,date,sujet,message) VALUES (:id_adherent_from,:id_adherent_to,:date,:sujet,:message)');
 			$query -> bindParam(':id_adherent_from', $id_adherent_from,PDO::PARAM_STR);
 			$query -> bindParam(':id_adherent_to', $id_adherent_to,PDO::PARAM_STR);
