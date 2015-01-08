@@ -311,11 +311,6 @@ session_start();
 
 					$page = new v_msg_recu("Mes messages reçu");
 					$page->set_html($me_manager->getList(array("id_adherent_to"=>$_SESSION['id'])));
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 841df76a3e576b988f84ab7fa1b24435c7f667ed
 					break;
 
 				case 'envoyer':
