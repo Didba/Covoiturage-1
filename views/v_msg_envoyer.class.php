@@ -17,10 +17,6 @@
 			$html .= '<aside>';
 			$html .= '<ul>';
 
-			if(isset($_SESSION['permis']))
-			{
-				$html .= '	<li><a href="super_controller.php?application=proposer">Proposer un trajet</a></li>';
-			}
 			
 			$html .= $this->get_nav('Mes messages');
 
