@@ -77,12 +77,20 @@
 			{
 				$query = $this->_db->prepare('SELECT * FROM message');
 			}
-			else if(isset($champs['id_adherent_from']) && isset($champs['id_adherent_to']))
+			else if(isset($champs['id_adherent_from']))
 			{
-				$query_str = "SELECT * FROM message WHERE id_adherent_to=:id_adherent_to OR id_adherent_from=:id_adherent_from ORDER BY date DESC";
+				$query_str = "SELECT * FROM message WHERE id_adherent_from=:id_adherent_from ORDER BY date DESC";
 				$query = $this->_db->prepare($query_str);
 				$query -> bindParam(':id_adherent_to', $champs['id_adherent_to'],PDO::PARAM_INT);
 				$query -> bindParam(':id_adherent_from', $champs['id_adherent_from'],PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+				$result = $query->fetchAll();
+			}
+			else if(isset($champs['id_adherent_to']))
+			{
+				$query_str = "SELECT * FROM message WHERE id_adherent_to=:id_adherent_to ORDER BY date DESC";
+				$query = $this->_db->prepare($query_str);
+				$query -> bindParam(':id_adherent_to', $champs['id_adherent_to'],PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetchAll();
 			}

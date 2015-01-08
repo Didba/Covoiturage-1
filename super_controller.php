@@ -310,7 +310,7 @@ session_start();
 					include_once 'views/v_msg_recu.class.php';
 
 					$page = new v_msg_recu("Mes messages reçu");
-					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
+					$page->set_html($me_manager->getList(array("id_adherent_to"=>$_SESSION['id'])));
 
 					break;
 
@@ -321,7 +321,7 @@ session_start();
 					include_once 'views/v_msg_envoyer.class.php';
 
 					$page = new v_msg_envoyer("Mes messages envoyés");
-					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
+					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'])));
 
 					break;
 
