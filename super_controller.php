@@ -68,16 +68,16 @@ session_start();
 
 					if($adherent = $mb_manager->get($_POST))
 					{
-						if($conducteur = $cd_manager->get(array("id_Adherent"=>$adherent->Id_Adherent())))
+						if($conducteur = $cd_manager->get(array("id_adherent"=>$adherent->id_adherent())))
 						{
-							$_SESSION['id'] = $conducteur->Id_Adherent();
+							$_SESSION['id'] = $conducteur->id_adherent();
 							$_SESSION['co'] = true;
 							$_SESSION['permis'] = $conducteur->numPermis();
 							header('Location: super_controller.php');
 						}
 						else
 						{
-							$_SESSION['id'] = $adherent->Id_Adherent();
+							$_SESSION['id'] = $adherent->id_adherent();
 							$_SESSION['co'] = true;
 							header('Location: super_controller.php');
 						}
@@ -138,9 +138,14 @@ session_start();
 				/*-------------------------------------------------------------------------------*/
 
 				case 'proposer':
-					include_once('views/v_proposer.class.php');
-					$page = new v_proposer("Proposer un nouveau trajet");
-					$page->set_html();
+					if(isset($_SESSION['permis'])):
+						include_once('views/v_proposer.class.php');
+						$page = new v_proposer("Proposer un nouveau trajet");
+						$page->set_html();
+					else:
+						$_SESSION['msg'] = "Vous n'êtes pas autorisés à accèder à cette page";
+						header('Location: super_controller.php');
+					endif;
 					break;
 
 				case 'nouvelle_proposition':
@@ -250,6 +255,7 @@ session_start();
 					break;
 
 				case 'mes_trajets':
+					include_once 'views/v_mes_trajets.class.php';
 					include_once('models/ParticipeManager.class.php');
 					$pa_manager = new ParticipeManager($db);
 					$traj_cond = array();
@@ -259,7 +265,6 @@ session_start();
 						$tr_manager = new TrajetManager($db);
 						$traj_cond = $tr_manager->getList(array('id_adherent' => $_SESSION['id']));
 					}
-					include_once 'views/v_mes_trajets.class.php';
 					$page = new v_mes_trajets("Mes trajets");
 
 					$page->set_html(array("passager"=>$pa_manager->getList(array("id_adherent"=>$_SESSION['id'])), "conducteur" => $traj_cond));
@@ -276,7 +281,7 @@ session_start();
 					include_once('views/v_msg_new.class.php');
 					$me_manager = new MessageManager($db);
 					$page = new v_msg_new("Envoyer message");
-					$page->set_html();
+					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
 					break;
 
 				case 'nouvelle_message':
@@ -295,9 +300,9 @@ session_start();
 
 					$page = new v_mes_messages("Mes messages");
 					$page->set_html();
-					
+
 					break;
-					
+
 				case 'recu':
 					include_once('models/MessageManager.class.php');
 					$me_manager = new MessageManager($db);
@@ -305,10 +310,11 @@ session_start();
 					include_once 'views/v_msg_recu.class.php';
 
 					$page = new v_msg_recu("Mes messages reçu");
-					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
-					
-					break;	
-					
+					$page->set_html($me_manager->getList(array("id_adherent_to"=>$_SESSION['id'])));
+
+
+					break;
+
 				case 'envoyer':
 					include_once('models/MessageManager.class.php');
 					$me_manager = new MessageManager($db);
@@ -316,8 +322,8 @@ session_start();
 					include_once 'views/v_msg_envoyer.class.php';
 
 					$page = new v_msg_envoyer("Mes messages envoyés");
-					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
-					
+					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'])));
+
 					break;
 
 				default:
@@ -341,7 +347,6 @@ session_start();
 	//On ajoute les feuilles de styles nécessaires à la page
 	$page->head->add_css("css/style.css");
 	$page->head->add_css("http://fonts.googleapis.com/css?family=Raleway");
-	$page->head->add_css('//cdn.jsdelivr.net/select2/3.5.2/select2.css');
 
 	$page->add_script('//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js');
     	$page->add_script('https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&region=FR');
