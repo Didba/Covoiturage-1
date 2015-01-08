@@ -48,40 +48,77 @@
 		* Rendu HTML de l'head: on ajoute l'ensemble de l'HTML dans une variable string
 		**/
 		function to_html(){
-			$html = $this->html . '<title>' . $this->title . '</title>';
+			$html = $this->html . '
+				<title>' . $this->title . '</title>';
 			if(!empty($this->css))
 			{
 				foreach ($this->css as $link) {
-					$html .= '<link href="' . $link . '" rel="stylesheet" type="text/css">';
+					$html .= '
+				<link href="' . $link . '" rel="stylesheet" type="text/css">';
 				}
 			}
-			$html .= '</head>
+			$html .= '
+			</head>
 			<body';
 			$html .= $this->title=="Accueil"? ' class="index">':'>';
 
-			$html .= '<header>';
-			$html .= '<a href="super_controller.php"><img src="images/logoCovoit.png" alt="Covoiturage en côte d\'Or" class="main_logo"></a>';
+			$html .= '
+			<header>';
+			$html .= '
+				<a href="super_controller.php">
+					<img src="images/logoCovoit.png" alt="Covoiturage en côte d\'Or" class="main_logo">
+				</a>';
 			//On n'affiche pas liens d'interraction avec la BDD dans le menu si la base n'existe pas
 			if (isset($_SESSION['id'])) {
-				$html .= '<nav>';
-				$html .= '<ul class="nav">';
-				$html .= '<li><a href="super_controller.php?application=profil&id=' . $_SESSION['id'] . '"><img src="images/user.png" alt=""><span class="username">Mon profil</span></a></li>';
-				$html .= '<li class="deconnexion_link"><a href="super_controller.php?application=deconnexion">Deconnexion</a></li>';
-				$html .= '</ul>';
-				$html .= '</nav>';
+				$html .= '
+				<nav>';
+				$html .= '
+					<ul class="nav">';
+				$html .= '
+						<li>
+							<a href="super_controller.php?application=profil&id=' . $_SESSION['id'] . '">
+								<img src="images/user.png" alt="">
+								<span class="username">Mon profil</span>
+							</a>
+						</li>';
+				$html .= '
+						<li class="deconnexion_link">
+							<a href="super_controller.php?application=deconnexion">Deconnexion</a>
+						</li>';
+				$html .= '
+					</ul>';
+				$html .= '
+				</nav>';
 			}
 			else
 			{
-				$html .= '<nav>';
-				$html .= '<ul class="nav">';
-				$html .= '<li><form action="super_controller.php" method="post"><input type="hidden" name="apptype" value="Action"><input type="hidden" name="application" value="connexion">Connexion: <input type="text" name="mail" placeholder="Email..." required><input type="password" name="pwd" required placeholder="Mot de passe..."><input type="image" name="submit" src="images/ok.png"></form></li>';
-				$html .= '<li><a href="super_controller.php?application=inscription">Inscription</a></li>';
-				$html .= '</ul>';
-				$html .= '</nav>';
+				$html .= '
+				<nav>';
+				$html .= '
+				<ul class="nav">';
+				$html .= '
+				<li>
+				<form action="super_controller.php" method="post">
+				<input type="hidden" name="apptype" value="Action">
+				<input type="hidden" name="application" value="connexion">Connexion: <input type="text" name="mail" placeholder="Email..." required>
+				<input type="password" name="pwd" required placeholder="Mot de passe...">
+				<input type="image" name="submit" src="images/ok.png">
+				</form>
+				</li>';
+				$html .= '
+				<li>
+				<a href="super_controller.php?application=inscription">Inscription</a>
+				</li>';
+				$html .= '
+				</ul>';
+				$html .= '
+				</nav>';
 			}
 
-			$html .= '</header>';
-			$html .= '<div class="content large">';
+			$html .= '
+			</header>';
+			$html .= '
+			<div class="content large">';
 
 			//Si un message est à afficher, on l'ajoute au contenu de l'en-tête
 			if($this->message)

@@ -1,9 +1,4 @@
 <?php
-
-	include_once 'models/Participe.class.php';
-	include_once 'models/AdherentManager.class.php';
-	include_once 'models/TrajetManager.class.php';
-
 	/**
 	* Classe de gestion des participants
 	*/
@@ -50,6 +45,7 @@
 		* Fonction permettant de récupérer un Participe. Paramètre: array contenant soit id=>$id soit nom=>$nom (pour que la recherche fonctionne avec l'un et l'autre)
 		**/
 		function get(array $data){
+			include_once 'models/Participe.class.php';
 			extract($data);
 			if(isset($id_trajet))
 			{
@@ -71,6 +67,9 @@
 		**/
 		function getList($champs=NULL){
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
+			include_once 'models/TrajetManager.class.php';
+			include_once 'models/Participe.class.php';
+			include_once 'models/AdherentManager.class.php';
 			$mb_manager = new AdherentManager($this->_db);
 			$tr_manager = new TrajetManager($this->_db);
 			if($champs==NULL)

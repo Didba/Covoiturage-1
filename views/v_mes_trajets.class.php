@@ -1,10 +1,7 @@
 ﻿<?php
 
-	include_once 'v_compte.class.php';
+	include_once 'views/v_compte.class.php';
 
-	/**
-	* Classe de la vue pour afficher les animaux
-	*/
 	class v_mes_trajets extends v_compte
 	{
 		/**

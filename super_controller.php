@@ -138,9 +138,14 @@ session_start();
 				/*-------------------------------------------------------------------------------*/
 
 				case 'proposer':
-					include_once('views/v_proposer.class.php');
-					$page = new v_proposer("Proposer un nouveau trajet");
-					$page->set_html();
+					if(isset($_SESSION['permis'])):
+						include_once('views/v_proposer.class.php');
+						$page = new v_proposer("Proposer un nouveau trajet");
+						$page->set_html();
+					else:
+						$_SESSION['msg'] = "Vous n'êtes pas autorisés à accèder à cette page";
+						header('Location: super_controller.php');
+					endif;
 					break;
 
 				case 'nouvelle_proposition':
@@ -250,6 +255,7 @@ session_start();
 					break;
 
 				case 'mes_trajets':
+					include_once 'views/v_mes_trajets.class.php';
 					include_once('models/ParticipeManager.class.php');
 					$pa_manager = new ParticipeManager($db);
 					$traj_cond = array();
@@ -259,7 +265,6 @@ session_start();
 						$tr_manager = new TrajetManager($db);
 						$traj_cond = $tr_manager->getList(array('id_adherent' => $_SESSION['id']));
 					}
-					include_once 'views/v_mes_trajets.class.php';
 					$page = new v_mes_trajets("Mes trajets");
 
 					$page->set_html(array("passager"=>$pa_manager->getList(array("id_adherent"=>$_SESSION['id'])), "conducteur" => $traj_cond));

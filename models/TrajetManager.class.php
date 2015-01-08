@@ -1,8 +1,7 @@
 <?php
 
 	include_once 'models/Trajet.class.php';
-	include_once 'models/Participe.class.php';
-	include_once'models/AdherentManager.class.php';
+	include_once 'models/AdherentManager.class.php';
 
 	/**
 	* Classe de gestion des trajets

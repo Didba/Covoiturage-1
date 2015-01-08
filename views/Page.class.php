@@ -30,12 +30,15 @@
 			if (!empty($this->scripts)) {
 				foreach($this->scripts as $script)
 				{
-					$scripts .= '<script type="text/javascript" src="' . $script . '"></script>
+					$scripts .= '
+				<script type="text/javascript" src="' . $script . '"></script>
 					';
 				}
 			}
-			echo  $this->head->to_html() . $this->html . '</div>' .$scripts . '</body>
-						</html>';
+			echo  $this->head->to_html() . $this->html . '
+			</div>' .$scripts . '
+		</body>
+	</html>';
 			unset($_SESSION['msg']);
 		}
 
