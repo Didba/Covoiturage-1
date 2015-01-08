@@ -50,10 +50,10 @@
 		function get(array $data){
 			extract($data);
 
-			if(isset($id_Adherent))
+			if(isset($id_adherent))
 			{
 				$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_adherent=:id_adherent');
-				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetch();
 			}
@@ -70,7 +70,7 @@
 			if(!empty($result))
 			{
 				// $result['conducteur'] = $this->get(array("id_Adherent_Conducteur"=>$result['conducteur']));
-				$conducteur->hydrate(array("id_adherent"=>$result['id_adherent'], "num_permis"=>$result['num_permis']));
+				$conducteur->hydrate(array("id_adherent"=>$result['id_adherent'], "numPermis"=>$result['num_permis']));
 			}
 			else
 			{

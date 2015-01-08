@@ -1,8 +1,7 @@
 <?php
+
 	include_once 'views/Page.class.php';
-	/**
-	* Classe de la vue pour afficher les animaux
-	*/
+
 	class v_compte extends Page
 	{
 		//Constructeur du manager, on y instancie PDO
@@ -18,11 +17,6 @@
 			);
 
 			$nav = '';
-
-			$nav .= '<div class="profil_nav">';
-
-
-			$nav .= '</div>';
 			$nav .= '
 				<div id="menu">
 				<ul id="onglets">

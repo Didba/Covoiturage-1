@@ -1,11 +1,8 @@
 ﻿<?php
 
-	include_once 'Page.class.php';
+	include_once 'views/v_compte.class.php';
 
-	/**
-	* Classe de la vue pour afficher les animaux
-	*/
-	class v_proposer extends Page
+	class v_proposer extends v_compte
 	{
 		/**
 		* Défini l'HTML de la page
@@ -13,8 +10,8 @@
 		function set_html(){
 
 			$html =''; //Initialisation de la variable de retour
+			$html .= $this->get_nav("Proposer un trajet");
 
-			$html .= '<h3>Itinéraire</h3>';
 			$html .= '<form method="post" action="super_controller.php">';
 			$html .= '<input type="hidden" name="application" value="nouvelle_proposition" required>';
 			$html .= '<input type="hidden" name="Id_Adherent" value="' . $_SESSION['id'] . ' " required>';

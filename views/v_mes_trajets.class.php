@@ -15,14 +15,7 @@
 			$html =''; //Initialisation de la variable de retour
 
 			$html .= $this->get_nav("Mes trajets");
-			
-			$html .= '
-			<div id="menu">
-			<ul id="onglets">
-				<li><a href="super_controller.php?application=proposer"><h4>Proposer un trajet</h4></a></li>
-			</ul>
-			</div>'	;
-
+			$html .= '<ul>';
 			foreach ($elts['passager'] as $key => $elt) {
 				$html .= '<li>';
 				$html .= '<div class="result_data">';
@@ -46,21 +39,22 @@
 				$html .= '</br>';
 			}
 
-
+			$html .= '</ul>
+			<ul>';
 			foreach ($elts['conducteur'] as $key => $elt) {
 				$html .= '<li>';
 				$html .= '<div class="result_data">';
-				$html .= $elt->trajet()->lieu_depart() . ' > ';
-				$html .= $elt->trajet()->lieu_arrivee();
+				$html .= $elt->lieu_depart() . ' > ';
+				$html .= $elt->lieu_arrivee();
 				$html .= '</br>';
 				$html .= ucfirst($elt->date_traj());
 				$html .= '</br>';
-				$html .= $elt->trajet()->distance() . 'kms';
+				$html .= $elt->distance() . 'kms';
 				$html .= '</br>';
-				$html .= gmdate('H\hi',$elt->trajet()->time()) . '';
+				$html .= gmdate('H\hi',$elt->time()) . '';
 				$html .= '</br>';
 				$html .= $elt->frais() . '€';
-				$html .= '</br>Places réservées : ' . $elt->nb_invites();
+				//$html .= '</br>Places réservées : ' . $elt->nb_invites();
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
