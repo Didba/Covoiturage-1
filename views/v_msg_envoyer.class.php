@@ -36,8 +36,8 @@
 				$html .= '<li>';
 				//$html .= '<b>De : '.$elt->adherent_from()->nom().'</br>';
 				$html .= '<b>À : '.$elt->adherent_to()->nom().'</br>';
-				$html .= '<b>'.$elt->date().'</br>';
-				$html .= '</br> Sujet : </b>'.$elt->sujet().'</br>';
+				$html .= ''.$elt->date().'</br>';
+				$html .= '</br> Objet : '.$elt->sujet().'</b></br>';
 				$html .= '</br><p>	'.$elt->message().'</p></br>';
 
 				$html .= '</li>';

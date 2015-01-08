@@ -1,7 +1,10 @@
 ﻿<?php
 
-	include_once 'views/v_compte.class.php';
+	include_once 'v_compte.class.php';
 
+	/**
+	* Classe de la vue pour afficher les animaux
+	*/
 	class v_mes_trajets extends v_compte
 	{
 		/**
@@ -30,11 +33,19 @@
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
+				
+				$html .= '<form action="super_controller.php" method="post">
+						<input type="hidden" value="new_message" name="application">
+						<input type="hidden" value="' . $elt->trajet()->lieu_depart() . '_' . $elt->trajet()->lieu_arrivee() . '_' . $elt->trajet()->date_traj() . '" name="sujet">
+						<input type="hidden" name="id_adherent_to" value="'.$elt->conducteur()->id_adherent().'" name="id_adherent_to">
+						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
+						<input type="submit" name="submit"  value="Contacter">
+					</form>';
+				
 				$html .= '</div>';
-				$html .= '<a href="super_controller.php?application=new_message&id_adherent_to=' . $elt->conducteur()->id_adherent() .  '">Contacter</a>';
 				$html .= '<a href="super_controller.php?application=annuler&id_trajet=' . $elt->id_trajet() . '">Annuler</a>';
 				$html .= '</li>';
-				$html .= '</br>';
+				//$html .= '</br>';	
 			}
 
 			$html .= '</ul>

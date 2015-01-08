@@ -38,11 +38,20 @@
 				$html .= $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '.';
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
-				$html .= '<a href="super_controller.php?application=new_message&id_adherent_to='.$trajet->conducteur()->id_adherent().'">Contacter</a>';
 				if(isset($_SESSION['id']))
 				{
+				
 					$html .= '<form action="super_controller.php" method="post">
-						<input type="hidden" value="reserver" name="application">
+						<input type="hidden" value="new_message" name="application">
+						<input type="hidden" value="' . $trajet->lieu_depart() . '_' . $trajet->lieu_arrivee() . '_' . $trajet->date_traj() . '" name="sujet">
+						<input type="hidden" name="id_adherent_to" value="'.$trajet->conducteur()->id_adherent().'" name="id_adherent_to">
+						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
+						<input type="submit" name="submit" class="button" value="Contacter">
+					</form>';
+				
+				
+					$html .= '<form action="super_controller.php" method="post">
+						<input type="hidden" value="reserver" >
 						<input type="hidden" value="' . $trajet->id_trajet() . '" name="id_trajet">
 						<input type="hidden" value="' . $_SESSION['id'] . '" name="id_adherent">
 						</br>Places : <input type="number" name="nb_invites" value="0">
