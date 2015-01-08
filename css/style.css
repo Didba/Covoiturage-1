@@ -25,7 +25,6 @@ body
 	background-color: #555;
 	height: 100%;
 	min-height: 800px;
-	background-image: url('../images/main_bg.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
 }
@@ -34,7 +33,6 @@ body
 {
 	background-color: rgba(255,255,255,0.9);
 	margin: auto;
-	height: 80%;
 	margin-top: 6.25rem;
 }
 
@@ -163,6 +161,16 @@ nav li a img
 /*-------------------------------------------------*/
 /*-------------------- Index --------------------*/
 /*-------------------------------------------------*/
+
+body.index
+{
+	background-image: url('../images/main_bg.jpg');
+}
+
+body.index .content
+{
+	height: 80%;
+}
 
 .index_wrapper
 {

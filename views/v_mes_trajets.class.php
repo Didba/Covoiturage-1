@@ -17,7 +17,7 @@
 			$html .= $this->get_nav("Mes trajets");
 			$html .= '<ul>';
 			foreach ($elts['passager'] as $key => $elt) {
-				$html .= '<li>';
+				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
 				$html .= $elt->trajet()->lieu_depart() . ' > ';
 				$html .= $elt->trajet()->lieu_arrivee();
@@ -42,7 +42,7 @@
 			$html .= '</ul>
 			<ul>';
 			foreach ($elts['conducteur'] as $key => $elt) {
-				$html .= '<li>';
+				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
 				$html .= $elt->lieu_depart() . ' > ';
 				$html .= $elt->lieu_arrivee();

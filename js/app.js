@@ -1,2 +1,2 @@
-initialize('depart');
-initialize('arrivee');
+// initialize('depart');
+// initialize('arrivee');

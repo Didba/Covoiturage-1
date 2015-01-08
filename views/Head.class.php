@@ -56,7 +56,8 @@
 				}
 			}
 			$html .= '</head>
-			<body>';
+			<body';
+			$html .= $this->title=="Accueil"? ' class="index">':'>';
 
 			$html .= '<header>';
 			$html .= '<a href="super_controller.php"><img src="images/logoCovoit.png" alt="Covoiturage en côte d\'Or" class="main_logo"></a>';
