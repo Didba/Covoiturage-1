@@ -36,7 +36,6 @@
 			$html .= '<input type="hidden" name="application" value="nouvelle_message" required>';
 			$html .= '<input type="hidden" name="id_adherent_from" value="'.$_SESSION['id'].'" required>';
 			$html .= '<input type="hidden" name="id_adherent_to" value="' . $_GET['id_adherent_to']. '" required>';
-			$html .= '<input type="hidden" name="date" value="' . date('Y-m-d') . '" required>';
 			$html .= '<input type="text" name="sujet" placeholder="sujet" required><br>';
 			$html .= '<br /><textarea name="message" rows="10" cols="50">Saisir votre message ici.</textarea><br>';
 			$html .= '<input type="submit" name="submit" class="button" value="GO !">';
