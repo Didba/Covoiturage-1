@@ -38,6 +38,7 @@
 				$html .= $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '.';
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
+				$html .= '<a href="super_controller.php?application=new_message&id_adherent_to='.$trajet->conducteur()->id_adherent().'">Contacter</a>';
 				if(isset($_SESSION['id']))
 				{
 					$html .= '<form action="super_controller.php" method="post">

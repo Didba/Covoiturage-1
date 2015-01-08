@@ -31,6 +31,7 @@
 				$html .= '<div class="result_driver">';
 				$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
 				$html .= '</div>';
+				$html .= '<a href="super_controller.php?application=new_message&id_adherent_to=' . $elt->conducteur()->id_adherent() .  '">Contacter</a>';
 				$html .= '<a href="super_controller.php?application=annuler&id_trajet=' . $elt->id_trajet() . '">Annuler</a>';
 				$html .= '</li>';
 				$html .= '</br>';
