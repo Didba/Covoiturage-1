@@ -29,7 +29,6 @@
 				<ul id="onglets">
 				<li><a href="super_controller.php?application=recu"><h4>Réception</h4></a></li>
 				<li class="active"><a href="super_controller.php?application=envoyer"><h4>Envoyé</h4></a></li>
-				<li><a href="super_controller.php?application=new_message"><h4>Nouveau message</h4></a></li>
 				
 			</ul>
 			</div>'	;
