@@ -15,7 +15,7 @@
 
 			$html .= '<div class="query_data">';
 			$html .= '<h3>Recherche</h3>';
-			$html .= $_SESSION['recherche']['Lieu_Depart'] . ' > ' . $_SESSION['recherche']['Lieu_arrivee'] . ' - Le ' . date('d/m/Y', strtotime($_SESSION['recherche']['date'])); // On récupère les données de la requete de l'utilisateur dans la variable de session qu'on a définie dans le controller
+			$html .= $_SESSION['recherche']['lieu_depart'] . ' > ' . $_SESSION['recherche']['lieu_arrivee'] . ' - Le ' . date('d/m/Y', strtotime($_SESSION['recherche']['date'])); // On récupère les données de la requete de l'utilisateur dans la variable de session qu'on a définie dans le controller
 
 			$html .= '</div>';
 			$html .= '<ul class="results">';

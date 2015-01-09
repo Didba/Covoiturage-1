@@ -22,7 +22,7 @@
 		function add(array $data){
 			extract($data);
 			$query = $this->_db->prepare('INSERT INTO conducteur(num_permis) VALUES (:num_permis )');
-			$query -> bindParam(':num_permis', $numPermis,PDO::PARAM_STR);
+			$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -36,16 +36,16 @@
 				$query = $this->_db->prepare('DELETE FROM conducteur WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 			}
-			else if(isset($numPermis))
+			else if(isset($num_permis))
 			{
 				$query = $this->_db->prepare('DELETE FROM conducteur WHERE num_permis=:num_permis');
-				$query -> bindParam(':num_permis', $numPermis,PDO::PARAM_STR);
+				$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
-		* Fonction permettant de récupérer un conducteur. Paramètre: array contenant soit id_Adherent=>$id_Adherent soit numPermis=>$numPermis (pour que la recherche fonctionne avec l'un et l'autre)
+		* Fonction permettant de récupérer un conducteur. Paramètre: array contenant soit id_Adherent=>$id_Adherent soit num_permis=>$num_permis (pour que la recherche fonctionne avec l'un et l'autre)
 		**/
 		function get(array $data){
 			extract($data);
@@ -57,10 +57,10 @@
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetch();
 			}
-			else if(isset($numPermis))
+			else if(isset($num_permis))
 			{
 				$query = $this->_db->prepare('SELECT * FROM conducteur INNER JOIN adherent ON conducteur.id_adherent = adherent.id_adherent WHERE num_permis=:num_permis');
-				$query -> bindParam(':num_permis', $numPermis,PDO::PARAM_STR);
+				$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_STR);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetch();
 			}
@@ -69,7 +69,6 @@
 
 			if(!empty($result))
 			{
-				// $result['conducteur'] = $this->get(array("id_Adherent_Conducteur"=>$result['conducteur']));
 				$conducteur->hydrate($result);
 			}
 			else
@@ -121,7 +120,7 @@
 			extract($conducteur);
 			$query = $this->_db->prepare('UPDATE conducteur SET num_permis=:num_permis WHERE id_adherent=:id_adherent');
 			$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
-			$query -> bindParam(':num_permis', $numPermis,PDO::PARAM_STR);
+			$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 	}

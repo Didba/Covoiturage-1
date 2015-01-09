@@ -10,7 +10,7 @@
 		private $_prenom;
 		private $_sexe;
 		private $_telephone;
-		private $_dateNaiss;
+		private $_date_naissance;
 		private $_mail;
 		private $_password;
 
@@ -42,7 +42,7 @@
 
 		public function date_naissance()
 		{
-			return $this->_dateNaiss;
+			return $this->_date_naissance;
 		}
 
 		public function mail()
@@ -80,9 +80,9 @@
 			$this->_telephone = $telephone;
 		}
 
-		public function setDate_Naissance($DateNaiss)
+		public function setDate_Naissance($Date_naissance)
 		{
-			$this->_dateNaiss = $DateNaiss;
+			$this->_date_naissance = $Date_naissance;
 		}
 
 		public function setMail($mail)

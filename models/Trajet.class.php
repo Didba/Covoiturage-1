@@ -108,12 +108,12 @@
 			$this->_id_adherent = $id_adherent;
 		}
 
-		public function setLieu_arrivee($lieu_arrivee)
+		public function setlieu_arrivee($lieu_arrivee)
 		{
 			$this->_lieu_arrivee = $lieu_arrivee;
 		}
 
-		public function setLieu_depart($lieu_depart)
+		public function setlieu_depart($lieu_depart)
 		{
 			$this->_lieu_depart = $lieu_depart;
 		}
@@ -123,7 +123,7 @@
 			$this->_nb_passagers_rest = $nb_passagers_rest;
 		}
 
-		public function setNb_passagers_max($nb_passagers_max)
+		public function setnb_passagers_max($nb_passagers_max)
 		{
 			$this->_nb_passagers_max = $nb_passagers_max;
 		}

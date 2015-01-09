@@ -20,15 +20,31 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO adherent(nom,prenom,sexe,telephone,date_naissance,mail,password) VALUES (:nom, :prenom, :sexe, :telephone, :dateNaiss, :mail, :password)');
+			$resp = true;
+			$password = md5($password);
+			$query = $this->_db->prepare('INSERT INTO adherent(nom,prenom,sexe,telephone,date_naissance,mail,password) VALUES (:nom, :prenom, :sexe, :telephone, :date_naissance, :mail, :password)');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
 			$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);
 			$query -> bindParam(':telephone', $telephone,PDO::PARAM_STR);
-			$query -> bindParam(':dateNaiss', $dateNaiss,PDO::PARAM_STR);
+			$query -> bindParam(':date_naissance', $date_naissance,PDO::PARAM_STR);
 			$query -> bindParam(':mail', $mail,PDO::PARAM_STR);
 			$query -> bindParam(':password', $password,PDO::PARAM_STR);
+			if(!$query->execute()):$resp = false;endif;
+
+			$query = $this->_db->prepare('SELECT id_adherent FROM adherent WHERE mail=:mail ORDER BY id_adherent DESC');
+			$query -> bindParam(':mail', $mail,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
+			$result = $query->fetch();
+
+			if($conducteur)
+			{
+				$query = $this->_db->prepare('INSERT INTO conducteur VALUES (:num_permis, :id_adherent)');
+				$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent', $result['id_adherent'],PDO::PARAM_INT);
+				if(!$query->execute()):$resp = false;endif;
+			}
+			return $resp;
 		}
 
 		/**
@@ -59,6 +75,7 @@
 		**/
 		function get(array $data){
 			extract($data);
+			if(isset($pwd)):$pwd = md5($pwd);endif;
 			if(isset($id_adherent))
 			{
 				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_adherent=:id_adherent');
@@ -134,16 +151,78 @@
 		**/
 		function update($adherent){
 			extract($adherent);
-			$query = $this->_db->prepare('UPDATE adherent SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,date_naissance=:dateNaiss,mail=:mail,password=:password WHERE id_adherent=:id_adherent');
-			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
-			$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
-			$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);
-			$query -> bindParam(':telephone', $telephone,PDO::PARAM_STR);
-			$query -> bindParam(':dateNaiss', $dateNaiss,PDO::PARAM_STR);
-			$query -> bindParam(':mail', $mail,PDO::PARAM_STR);
-			$query -> bindParam(':password', $password,PDO::PARAM_STR);
-			$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_STR);
-			$query->execute() or die(print_r($query->errorInfo()));
+			$resp = true;
+
+			$query = $this->_db->prepare('SELECT password FROM adherent WHERE id_adherent=:id_adherent');
+			$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
+			$query->execute();
+			$result = $query->fetch();
+			var_dump(md5($password));
+			var_dump($result['password']);
+			if($result['password']==md5($password))
+			{
+				//Mise à jour des infos de base
+				$query = $this->_db->prepare('UPDATE adherent SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,date_naissance=:date_naissance,mail=:mail WHERE id_adherent=:id_adherent');
+				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
+				$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
+				$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);
+				$query -> bindParam(':telephone', $telephone,PDO::PARAM_STR);
+				$query -> bindParam(':date_naissance', $date_naissance,PDO::PARAM_STR);
+				$query -> bindParam(':mail', $mail,PDO::PARAM_STR);
+				$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
+				if(!$query->execute()):$resp = false;endif;
+
+
+				//Si le champs du nouveau mot de passe est rempli
+				if(isset($new_password) && isset($conf_password) && $new_password == $conf_password && $new_password!="" && $new_password!=null)
+				{
+					$password = md5($new_password);
+					$query = $this->_db->prepare('UPDATE adherent SET password=:password WHERE id_adherent=:id_adherent');
+					$query -> bindParam(':password', $password,PDO::PARAM_STR);
+					$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
+					if(!$query->execute()):$resp = false;endif;
+				}
+
+				if($conducteur)
+				{
+					$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_adherent=:id_adherent');
+					$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
+					$query->execute();
+					if($query->rowCount() > 0)
+					{
+						$query = $this->_db->prepare('UPDATE conducteur SET num_permis = :num_permis WHERE id_adherent = :id_adherent');
+						$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
+						$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
+						if(!$query->execute()):$resp = false;endif;
+					}
+					else
+					{
+						$query = $this->_db->prepare('INSERT INTO conducteur VALUES (:num_permis, :id_adherent)');
+						$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
+						$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
+						if(!$query->execute()):$resp = false;endif;
+					}
+					$_SESSION['permis'] = $num_permis;
+				}
+				else
+				{
+					$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_adherent=:id_adherent');
+					$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
+					$query->execute();
+					if($query->rowCount() > 0)
+					{
+						$query = $this->_db->prepare('DELETE FROM conducteur WHERE id_adherent = :id_adherent');
+						$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
+						if(!$query->execute()):$resp = false;endif;
+					}
+					unset($_SESSION['permis']);
+				}
+			}
+			else
+			{
+				$resp = false;
+			}
+			return $resp;
 		}
 	}
 

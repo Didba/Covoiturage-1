@@ -25,9 +25,9 @@
 			$query = $this->_db->prepare('INSERT INTO trajet(commentaire,date_traj,lieu_arrivee,lieu_depart,nb_passagers_max,id_adherent) VALUES (:commentaire, :date, :lieu_arrivee, :lieu_depart, :nb_passagers_max, :id_adherent)');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
-			$query -> bindParam(':lieu_depart', $Lieu_Depart,PDO::PARAM_STR);
-			$query -> bindParam(':lieu_arrivee', $Lieu_arrivee,PDO::PARAM_STR);
-			$query -> bindParam(':nb_passagers_max', $Nb_Passagers_Max,PDO::PARAM_STR);
+			$query -> bindParam(':lieu_depart', $lieu_depart,PDO::PARAM_STR);
+			$query -> bindParam(':lieu_arrivee', $lieu_arrivee,PDO::PARAM_STR);
+			$query -> bindParam(':nb_passagers_max', $nb_passagers_max,PDO::PARAM_STR);
 			$query -> bindParam(':id_adherent', $Id_Adherent,PDO::PARAM_STR);
 			return $query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -149,8 +149,8 @@
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':date', $Date,PDO::PARAM_STR);
 			$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_STR);
-			$query -> bindParam(':lieu_depart', $Lieu_Depart,PDO::PARAM_STR);
-			$query -> bindParam(':nb_passagers_max', $Nb_Passagers_Max,PDO::PARAM_STR);
+			$query -> bindParam(':lieu_depart', $lieu_depart,PDO::PARAM_STR);
+			$query -> bindParam(':nb_passagers_max', $nb_passagers_max,PDO::PARAM_STR);
 			$query -> bindParam(':num_permis', $Num_Permis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}

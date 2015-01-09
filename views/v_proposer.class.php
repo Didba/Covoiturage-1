@@ -16,12 +16,13 @@
 			$html .= '<input type="hidden" name="application" value="nouvelle_proposition" required>';
 			$html .= '<input type="hidden" name="Id_Adherent" value="' . $_SESSION['id'] . ' " required>';
 			$html .= '<br /><input type="hidden" name="Num_Permis" value="' . $_SESSION['permis'] . ' " required>';
-			$html .= '<br /><input type="text" id="depart" name="Lieu_Depart" placeholder="Lieu de départ" required><br>';
-			$html .= '<br /><input type="text" id="arrivee" name="Lieu_arrivee" placeholder="Lieu d\'arrivée" required><br>';
-			$html .= '<br /><input type="date" name="date" value="' . date('Y-m-d') . '" required><br>';
-			$html .= '<br /><input type="time" name="heure" value="12:00" required><br>';
-			$html .= '<br /><input type="number" name="Nb_Passagers_Max" placeholder="Nb passagers" required><br>';
-			$html .= '<br /><textarea name="commentaire" rows="10" cols="50" placeholder="Saisir les informations du trajet ici"></textarea><br>';
+			$html .= '<br />';
+			$html .= '<label for="lieu_depart">Lieu de départ : </label><input type="text" id="depart" name="lieu_depart" placeholder="Lieu de départ" required><br>';
+			$html .= '<br /><label for="lieu_arrivee">Lieu d\'arrivée : </label><input type="text" id="arrivee" name="lieu_arrivee" placeholder="Lieu d\'arrivée" required><br>';
+			$html .= '<br /><label for="date">Date : </label><input type="date" name="date" value="' . date('Y-m-d') . '" required><br>';
+			$html .= '<br /><label for="heure">Heure : </label><input type="time" name="heure" value="12:00" required><br>';
+			$html .= '<br /><label for="nb_passagers_max">Nombre de passagers : </label><input type="number" name="nb_passagers_max" required><br>';
+			$html .= '<br /><label for="commentaire">Commentaire : </label><textarea name="commentaire" rows="10" cols="50" placeholder="Saisir les informations du trajet ici"></textarea><br>';
 			$html .= '<div class="button_wrapper"><input type="submit" name="submit" class="button" value="GO !"></div>';
 			$html .= '</form>';
 

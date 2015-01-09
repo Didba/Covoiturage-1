@@ -18,21 +18,29 @@
 
 			$html .= '<form method="post" action="super_controller.php">';
 			$html .= '<input type="hidden" name="application" value="nouvelle_modif" required><br>';
-			$html .= '<b>Prénom : </b><input type="text" name="prenom" value="' . $adherent->prenom() . '" required><br>';
-			$html .= '<br /><b>Nom : </b><input type="text" name="nom" value="' . $adherent->nom() . '" required><br>';
+			$html .= '<label for="prenom">Prénom : </label><input type="text" name="prenom" value="' . $adherent->prenom() . '" required><br>';
+			$html .= '<br /><label for="nom">Nom : </label><input type="text" name="nom" value="' . $adherent->nom() . '" required><br>';
 			if($adherent->sexe()=="Homme"):
-				$html .= '<br /><b>Sexe : </b>&male;<input type="radio" name="sexe" value="1" checked> &female;<input type="radio" name="sexe" value="0"><br>';
+				$html .= '<br /><label for="sexe">Genre : </label>&male;<input type="radio" name="sexe" value="1" checked> &female;<input type="radio" name="sexe" value="0"><br>';
 			else:
-				$html .= '<br /><b>Sexe : </b>&male;<input type="radio" name="sexe" value="1"> &female;<input type="radio" name="sexe" value="0" checked><br>';
+				$html .= '<br /><label for="sexe">Genre : </label>&male;<input type="radio" name="sexe" value="1"> &female;<input type="radio" name="sexe" value="0" checked><br>';
 			endif;
-			$html .= '<br /><b>Date de naissance : </b><input type="date" name="dateNaiss" value="' . $adherent->date_naissance() . '" required><br>';
-			$html .= '<br /><b>Téléphone : </b><input type="text" name="telephone" value="' . $adherent->telephone() . '" required><br>';
-			$html .= '<br /><b>Mail : </b><input type="text" name="mail" value="' . $adherent->mail() . '" required><br>';
-			$html .= '<br /><b>Mot de passe : </b><input type="password" name="password" required><br>';
-			$html .= '<br /><b>Conducteur ? : </b><input type="checkbox" name="conducteur" value="1" required';
-			if(method_exists($adherent,'numPermis'))
+			$html .= '<br /><label for="date_naissance">Date de naissance : </label><input type="date" name="date_naissance" value="' . $adherent->date_naissance() . '" required><br>';
+			$html .= '<br /><label for="telephone">Téléphone : </label><input type="text" name="telephone" value="' . $adherent->telephone() . '" required><br>';
+			$html .= '<br /><label for="mail">Adresse email : </label><input type="text" name="mail" value="' . $adherent->mail() . '" required><br>';
+			$html .= '<br /><label for="password">Mot de passe : </label><input type="password" name="password" required><br>';
+			$html .= '<br /><label for="new_password">Nouveau mot de passe : </label><input type="password" name="new_password"><br>';
+			$html .= '<br /><label for="conf_password">Confirmer le nouveau mot de passe : </label><input type="password" name="conf_password"><br>';
+			$html .= '<br /><label for="conducteur">Conducteur ? : </label><input type="checkbox" name="conducteur" value="1"';
+			if(method_exists($adherent,'num_permis'))
 			{
 				$html .= ' checked';
+			}
+			$html .= '><br>';
+			$html .= '<br /><label for="num_permis">Numéro de permis <i>(Si conducteur)</i> : </label><input type="text" name="num_permis"';
+			if(method_exists($adherent,'num_permis'))
+			{
+				$html .= ' value="' . $adherent->num_permis() . '"';
 			}
 			$html .= '><br>';
 			$html .= '<input type="submit" name="submit" class="button" value="GO !">';

@@ -4,16 +4,16 @@
 	*/
 	class conducteur extends adherent
 	{
-		private $_numPermis;
+		private $_num_permis;
 
-		public function numPermis()
+		public function num_permis()
 		{
-			return $this->_numPermis;
+			return $this->_num_permis;
 		}
 
-		public function setNumPermis($n)
+		public function setNum_permis($n)
 		{
-			$this->_numPermis =  $n;
+			$this->_num_permis =  $n;
 		}
 	}
 

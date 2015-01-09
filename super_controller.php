@@ -26,7 +26,7 @@ session_start();
 					$traj_manager = new TrajetManager($db);
 					if (isset($_POST)) {
 						extract($_POST);
-						$datas = array("Lieu_Depart" => $start,"Lieu_arrivee" => $finish, "date" => $date); //On écrit les données de la requete dans un tableau
+						$datas = array("lieu_depart" => $start,"lieu_arrivee" => $finish, "date" => $date); //On écrit les données de la requete dans un tableau
 						$_SESSION['recherche'] = $datas; //Afin de conserver la requete en mémoire pour l'affichage ultérieur, on le stock dans une var de session
 						$page = new v_trajets("Résultat de la recherche");
 						$page->set_html($traj_manager->getList($datas));
@@ -72,7 +72,7 @@ session_start();
 						{
 							$_SESSION['id'] = $conducteur->id_adherent();
 							$_SESSION['co'] = true;
-							$_SESSION['permis'] = $conducteur->numPermis();
+							$_SESSION['permis'] = $conducteur->num_permis();
 							header('Location: super_controller.php');
 						}
 						else
@@ -109,8 +109,11 @@ session_start();
 				case 'nouvelle_inscription':
 					include_once('models/AdherentManager.class.php');
 					$mb_manager = new AdherentManager($db);
-					$mb_manager->add($_POST);
-					$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
+					if($mb_manager->add($_POST)):
+						$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
+					else:
+						$_SESSION['msg'] = "Votre inscription a échoué";
+					endif;
 					header('Location: super_controller.php');
 					break;
 
@@ -184,9 +187,12 @@ session_start();
 				case 'nouvelle_modif':
 					include_once('models/AdherentManager.class.php');
 					$ad_manager = new AdherentManager($db);
-					$ad_manager->update($_POST);
-
-					$_SESSION['msg'] = "Votre modification a bien été prise en compte";
+					if($ad_manager->update($_POST)):
+						$_SESSION['msg'] = "Votre modification a bien été prise en compte";
+					else:
+						$_SESSION['msg'] = "Une erreur est survenue pendant la modification";
+					endif;
+					var_dump($_SESSION['msg']);
 					header('Location: super_controller.php?application=modif_profil');
 					break;
 
@@ -211,7 +217,7 @@ session_start();
 				/*-------------------------------------------------------------------------------*/
 				case 'profil':
 					//On vérifie si un ID a bien été fourni
-					if(isset($id))
+					if(isset($id)&&$id==$_SESSION['id'])
 					{
 						include_once 'views/v_profil.class.php';
 
@@ -234,7 +240,7 @@ session_start();
 					}
 					else
 					{
-						$_SESSION['msg'] = 'Non disponible';
+						$_SESSION['msg'] = 'Vous n\'avez pas accès à cette page';
 						header('Location: super_controller.php');
 					}
 					break;
