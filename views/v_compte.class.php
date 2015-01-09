@@ -13,7 +13,7 @@
 				"Proposer un trajet" => array("addr" => "super_controller.php?application=proposer", "cond" => 'isset($_SESSION["permis"])'),
 				"Mes trajets"   => array("addr" => "super_controller.php?application=mes_trajets", "cond" => false),
 				"Modifier mon profil"   => array("addr" => "super_controller.php?application=modif_profil", "cond" => false),
-				"Mes messages"   => array("addr" => "super_controller.php?application=mes_messages", "cond" => false)
+				"Mes messages"   => array("addr" => "super_controller.php?application=recu", "cond" => false)
 			);
 
 			$nav = '';

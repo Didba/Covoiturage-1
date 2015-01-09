@@ -10,23 +10,23 @@
 		**/
 		function set_html($elts){
 			$html =''; //Initialisation de la variable de retour
-			
+
 			$html .= '<aside>';
 			$html .= '<ul>';
-			
+
 			$html .= $this->get_nav('Mes messages');
 			$html .= '
 				<div id="menu">
 				<ul id="onglets">
 				<li class="active"><a href="super_controller.php?application=recu"><h4>Réception</h4></a></li>
-				<li><a href="super_controller.php?application=envoyer"><h4>Envoyé</h4></a></li>
-				
-				
+				<li><a href="super_controller.php?application=envoye"><h4>Envoyé</h4></a></li>
+
+
 			</ul>
 			</div>'	;
-			
+
 			$html .= '</aside>';
-			
+
 			foreach ($elts as $key => $elt) {
 				$html .= '<li>';
 				$html .= '<b>De : '.$elt->adherent_from()->nom().'</br>';
@@ -39,7 +39,7 @@
 						<input type="hidden" value="' . $elt->sujet() . '" name="sujet">
 						<input type="hidden" name="id_adherent_to" value="'.$elt->adherent_to()->id_adherent().'" name="id_adherent_to">
 						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
-						<input type="submit" name="submit"  value="Répondre">
+						<div class="button_wrapper"><input type="submit" name="submit"  value="Répondre"></div>
 					</form>';
 				$html .= '</li></br>';
 				$html .='<hr>';

@@ -24,6 +24,7 @@
 			else:
 
 			foreach ($list as $key => $trajet) {
+				$max = $trajet->nb_passagers_rest()-1;
 				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
 				$html .= ucfirst($trajet->date_traj());
@@ -38,23 +39,24 @@
 				$html .= $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '.';
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
+				$html .= 'Places restantes : ' . $trajet->nb_passagers_rest();
 				if(isset($_SESSION['id']))
 				{
-				
+
 					$html .= '<form action="super_controller.php" method="post">
 						<input type="hidden" value="new_message" name="application">
 						<input type="hidden" value="' . $trajet->lieu_depart() . '_' . $trajet->lieu_arrivee() . '_' . $trajet->date_traj() . '" name="sujet">
 						<input type="hidden" name="id_adherent_to" value="'.$trajet->conducteur()->id_adherent().'" name="id_adherent_to">
 						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
-						<input type="submit" name="submit" class="button" value="Contacter">
+						<input type="submit" name="submit" value="Contacter">
 					</form>';
-				
-				
+
+
 					$html .= '<form action="super_controller.php" method="post">
-						<input type="hidden" value="reserver" >
+						<input type="hidden" value="reserver" name="application">
 						<input type="hidden" value="' . $trajet->id_trajet() . '" name="id_trajet">
 						<input type="hidden" value="' . $_SESSION['id'] . '" name="id_adherent">
-						</br>Places : <input type="number" name="nb_invites" value="0">
+						</br>Places supplémentaires : <input type="number" name="nb_invites" value="0" max="' . $max . '">
 						<input type="hidden" name="frais" value="' . $trajet->frais() . '">
 						</br><input type="submit" name="submit" class="button" value="Réserver">
 					</form>';

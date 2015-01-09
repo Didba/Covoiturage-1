@@ -78,7 +78,7 @@
 			}
 			else
 			{
-				$_SESSION['msg'] = 'Adherent get échoué';
+				$_SESSION['msg'] = 'Impossible de retourner l\'adhérent';
 			}
 
 			//On vérifie si la requête a bien retourné un utilisateur

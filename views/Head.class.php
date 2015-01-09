@@ -20,11 +20,11 @@
 		{
 			$this->title = $t;
 			$this->html = '
-			<head>
-				<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-				<!--[if lt IE 9]>
-				<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-				<![endif]-->';
+		<head>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+			<!--[if lt IE 9]>
+			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+			<![endif]-->';
 
 			//On vérifie maintenant si le système a enregistré un message à communiquer à l'utilisateur (confirmation d'ajout, suppression etc.). Si oui, on initialise l'attribut correspondant. Sinon, on init. à False
 			if(isset($_SESSION['msg']))
@@ -49,17 +49,17 @@
 		**/
 		function to_html(){
 			$html = $this->html . '
-				<title>' . $this->title . '</title>';
+			<title>' . $this->title . '</title>';
 			if(!empty($this->css))
 			{
 				foreach ($this->css as $link) {
 					$html .= '
-				<link href="' . $link . '" rel="stylesheet" type="text/css">';
+			<link href="' . $link . '" rel="stylesheet" type="text/css">';
 				}
 			}
 			$html .= '
-			</head>
-			<body';
+		</head>
+		<body';
 			$html .= $this->title=="Accueil"? ' class="index">':'>';
 
 			$html .= '

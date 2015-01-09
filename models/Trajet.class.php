@@ -11,7 +11,8 @@
 		private $_id_adherent;
 		private $_lieu_depart;
 		private $_lieu_arrivee;
-		private $_nb_passager_max;
+		private $_nb_passagers_max;
+		private $_nb_passagers_rest;
 		private $_conducteur;
 		private $_time;
 		private $_distance;
@@ -57,9 +58,14 @@
 			return $this->_lieu_arrivee;
 		}
 
-		public function nb_passager_max()
+		public function nb_passagers_max()
 		{
-			return $this->_nb_passager_max;
+			return $this->_nb_passagers_max;
+		}
+
+		public function nb_passagers_rest()
+		{
+			return $this->_nb_passagers_rest;
 		}
 
 		public function time()
@@ -112,9 +118,14 @@
 			$this->_lieu_depart = $lieu_depart;
 		}
 
-		public function setNb_Passagers_Max($nb_passager_max)
+		public function setNb_passagers_rest($nb_passagers_rest)
 		{
-			$this->_nb_passager_max = $nb_passager_max;
+			$this->_nb_passagers_rest = $nb_passagers_rest;
+		}
+
+		public function setNb_passagers_max($nb_passagers_max)
+		{
+			$this->_nb_passagers_max = $nb_passagers_max;
 		}
 
 		public function setTime($time)

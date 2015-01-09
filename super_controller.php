@@ -68,16 +68,16 @@ session_start();
 
 					if($adherent = $mb_manager->get($_POST))
 					{
-						if($conducteur = $cd_manager->get(array("id_Adherent"=>$adherent->Id_Adherent())))
+						if($conducteur = $cd_manager->get(array("id_adherent"=>$adherent->id_adherent())))
 						{
-							$_SESSION['id'] = $conducteur->Id_Adherent();
+							$_SESSION['id'] = $conducteur->id_adherent();
 							$_SESSION['co'] = true;
 							$_SESSION['permis'] = $conducteur->numPermis();
 							header('Location: super_controller.php');
 						}
 						else
 						{
-							$_SESSION['id'] = $adherent->Id_Adherent();
+							$_SESSION['id'] = $adherent->id_adherent();
 							$_SESSION['co'] = true;
 							header('Location: super_controller.php');
 						}
@@ -146,9 +146,12 @@ session_start();
 				case 'nouvelle_proposition':
 					include_once('models/TrajetManager.class.php');
 					$mb_manager = new TrajetManager($db);
-					$mb_manager->add($_POST);
-					$_SESSION['msg'] = "Votre proposition a bien été prise en compte";
-					header('Location: super_controller.php');
+					if($mb_manager->add($_POST)):
+						$_SESSION['msg'] = "Votre proposition a bien été prise en compte";
+					else:
+						$_SESSION['msg'] = "Une erreur est survenue dans l'enregistrement de votre trajet";
+					endif;
+					header('Location: super_controller.php?application=mes_trajets');
 					break;
 
 				/*-------------------------------------------------------------------------------*/
@@ -159,11 +162,22 @@ session_start();
 
 					include_once('views/v_modif_profil.class.php');
 					include_once('models/AdherentManager.class.php');
+					include_once('models/ConducteurManager.class.php');
 
-					$ad_manager = new AdherentManager($db);
+
+					$cd_manager = new ConducteurManager($db);
+					if($conducteur = $cd_manager->get(array("id_adherent"=>$_SESSION['id'])))
+					{
+						$adh = $conducteur;
+					}
+					else
+					{
+						$ad_manager = new AdherentManager($db);
+						$adh = $ad_manager->get(array("id_adherent" => $_SESSION['id']));
+					}
+
 					$page = new v_modif_profil("Modifier profil");
-					//$page->set_html();
-					$page->set_html(array("adherent" => $ad_manager->get(array("id_adherent" => $_SESSION['id']))));
+					$page->set_html(array("adherent" => $adh));
 
 					break;
 
@@ -234,7 +248,7 @@ session_start();
 					else:
 						$_SESSION['msg'] = "Une erreur a empêché votre réservation";
 					endif;
-					header('Location: super_controller.php');
+					header('Location: super_controller.php?application=mes_trajets');
 					break;
 
 				case 'annuler':
@@ -246,10 +260,23 @@ session_start();
 					else:
 						$_SESSION['msg'] = "Une erreur a empêché votre annulation";
 					endif;
-					header('Location: super_controller.php');
+					header('Location: super_controller.php?application=mes_trajets');
+					break;
+
+				case 'annuler_trajet':
+					include_once('models/TrajetManager.class.php');
+					$tr_manager = new TrajetManager($db);
+
+					if($tr_manager->remove($_GET)):
+						$_SESSION['msg'] = "Votre trajet a bien été annulé";
+					else:
+						$_SESSION['msg'] = "Une erreur a empêché votre annulation";
+					endif;
+					header('Location: super_controller.php?application=mes_trajets');
 					break;
 
 				case 'mes_trajets':
+					include_once 'views/v_mes_trajets.class.php';
 					include_once('models/ParticipeManager.class.php');
 					$pa_manager = new ParticipeManager($db);
 					$traj_cond = array();
@@ -259,7 +286,6 @@ session_start();
 						$tr_manager = new TrajetManager($db);
 						$traj_cond = $tr_manager->getList(array('id_adherent' => $_SESSION['id']));
 					}
-					include_once 'views/v_mes_trajets.class.php';
 					$page = new v_mes_trajets("Mes trajets");
 
 					$page->set_html(array("passager"=>$pa_manager->getList(array("id_adherent"=>$_SESSION['id'])), "conducteur" => $traj_cond));
@@ -283,8 +309,8 @@ session_start();
 					include_once('models/MessageManager.class.php');
 					$mb_manager = new MessageManager($db);
 					$mb_manager->add($_POST);
-					$_SESSION['msg'] = "Votre message a bien été envoyer";
-					header('Location: super_controller.php');
+					$_SESSION['msg'] = "Votre message a bien été envoyé";
+					header('Location: super_controller.php?application=envoye');
 					break;
 
 				case 'mes_messages':
@@ -295,9 +321,9 @@ session_start();
 
 					$page = new v_mes_messages("Mes messages");
 					$page->set_html();
-					
+
 					break;
-					
+
 				case 'recu':
 					include_once('models/MessageManager.class.php');
 					$me_manager = new MessageManager($db);
@@ -305,19 +331,19 @@ session_start();
 					include_once 'views/v_msg_recu.class.php';
 
 					$page = new v_msg_recu("Mes messages reçu");
-					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
-					
-					break;	
-					
-				case 'envoyer':
+					$page->set_html($me_manager->getList(array("id_adherent_to"=>$_SESSION['id'])));
+
+					break;
+
+				case 'envoye':
 					include_once('models/MessageManager.class.php');
 					$me_manager = new MessageManager($db);
 
 					include_once 'views/v_msg_envoyer.class.php';
 
 					$page = new v_msg_envoyer("Mes messages envoyés");
-					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'], "id_adherent_to"=>$_SESSION['id'])));
-					
+					$page->set_html($me_manager->getList(array("id_adherent_from"=>$_SESSION['id'])));
+
 					break;
 
 				default:
@@ -341,7 +367,6 @@ session_start();
 	//On ajoute les feuilles de styles nécessaires à la page
 	$page->head->add_css("css/style.css");
 	$page->head->add_css("http://fonts.googleapis.com/css?family=Raleway");
-	$page->head->add_css('//cdn.jsdelivr.net/select2/3.5.2/select2.css');
 
 	$page->add_script('//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js');
     	$page->add_script('https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&region=FR');

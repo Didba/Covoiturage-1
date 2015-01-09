@@ -15,6 +15,7 @@
 			$html =''; //Initialisation de la variable de retour
 
 			$html .= $this->get_nav("Mes trajets");
+			$html .= '<h4>En tant que passager</h4>';
 			$html .= '<ul>';
 			foreach ($elts['passager'] as $key => $elt) {
 				$html .= '<li class="result">';
@@ -29,11 +30,12 @@
 				$html .= gmdate('H\hi',$elt->trajet()->time()) . '';
 				$html .= '</br>';
 				$html .= $elt->frais() . '€';
-				$html .= '</br>Places réservées : ' . $elt->nb_invites();
+				$html .= '</br>Places supplémentaires réservées : ' . $elt->nb_invites();
+				$html .= '</br>Nombre de passagers : ' . ($elt->trajet()->nb_passagers_max()-$elt->trajet()->nb_passagers_rest());
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
-				
+
 				$html .= '<form action="super_controller.php" method="post">
 						<input type="hidden" value="new_message" name="application">
 						<input type="hidden" value="' . $elt->trajet()->lieu_depart() . '_' . $elt->trajet()->lieu_arrivee() . '_' . $elt->trajet()->date_traj() . '" name="sujet">
@@ -41,15 +43,16 @@
 						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
 						<input type="submit" name="submit"  value="Contacter">
 					</form>';
-				
+
 				$html .= '</div>';
 				$html .= '<a href="super_controller.php?application=annuler&id_trajet=' . $elt->id_trajet() . '">Annuler</a>';
 				$html .= '</li>';
-				//$html .= '</br>';	
+				//$html .= '</br>';
 			}
 
-			$html .= '</ul>
-			<ul>';
+			$html .= '</ul>';
+			$html .= '<h4>En tant que conducteur</h4>';
+			$html .= '<ul>';
 			foreach ($elts['conducteur'] as $key => $elt) {
 				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
@@ -62,13 +65,14 @@
 				$html .= '</br>';
 				$html .= gmdate('H\hi',$elt->time()) . '';
 				$html .= '</br>';
+				$html .= 'Prix par passager : ';
 				$html .= $elt->frais() . '€';
-				//$html .= '</br>Places réservées : ' . $elt->nb_invites();
+				$html .= '</br>Nombre de passagers : ' . ($elt->nb_passagers_max()-$elt->nb_passagers_rest());
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
 				$html .= '</div>';
-				$html .= '<a href="super_controller.php?application=annuler&id_trajet=' . $elt->id_trajet() . '">Annuler</a>';
+				$html .= '<a href="super_controller.php?application=annuler_trajet&id_trajet=' . $elt->id_trajet() . '">Annuler</a>';
 				$html .= '</li>';
 				$html .= '</br>';
 			}

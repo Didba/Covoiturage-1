@@ -20,19 +20,19 @@
 		function __construct($title)
 		{
 			echo '<!DOCTYPE html>
-			<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">';
+	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">';
 			$this->head = new Head($title);
 		}
 
 		//Destructeur, dans lequel le rendu est effectué et transmis au navigateur
 		function __destruct(){
-			$scripts = '';
+			$scripts = '
+			';
 			if (!empty($this->scripts)) {
 				foreach($this->scripts as $script)
 				{
 					$scripts .= '
-				<script type="text/javascript" src="' . $script . '"></script>
-					';
+			<script type="text/javascript" src="' . $script . '"></script>';
 				}
 			}
 			echo  $this->head->to_html() . $this->html . '

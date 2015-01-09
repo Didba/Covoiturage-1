@@ -11,26 +11,26 @@
 		* Défini l'HTML de la page
 		**/
 		function set_html($elts){
-		
+
 		$html =''; //Initialisation de la variable de retour
-			
+
 			$html .= '<aside>';
 			$html .= '<ul>';
 
-			
+
 			$html .= $this->get_nav('Mes messages');
 
 			$html .= '
 				<div id="menu">
 				<ul id="onglets">
 				<li><a href="super_controller.php?application=recu"><h4>Réception</h4></a></li>
-				<li class="active"><a href="super_controller.php?application=envoyer"><h4>Envoyé</h4></a></li>
-				
+				<li class="active"><a href="super_controller.php?application=envoye"><h4>Envoyé</h4></a></li>
+
 			</ul>
 			</div>'	;
-			
+
 			$html .= '</aside>';
-			
+
 
 			foreach ($elts as $key => $elt) {
 				$html .= '<li>';

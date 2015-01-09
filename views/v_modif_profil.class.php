@@ -29,10 +29,14 @@
 			$html .= '<br /><b>Téléphone : </b><input type="text" name="telephone" value="' . $adherent->telephone() . '" required><br>';
 			$html .= '<br /><b>Mail : </b><input type="text" name="mail" value="' . $adherent->mail() . '" required><br>';
 			$html .= '<br /><b>Mot de passe : </b><input type="password" name="password" required><br>';
+			$html .= '<br /><b>Conducteur ? : </b><input type="checkbox" name="conducteur" value="1" required';
+			if(method_exists($adherent,'numPermis'))
+			{
+				$html .= ' checked';
+			}
+			$html .= '><br>';
 			$html .= '<input type="submit" name="submit" class="button" value="GO !">';
 			$html .= '</form>';
-
-
 
 		$html .= '<a href="super_controller.php?application=supprimer"><h5>Supprimer compte</h5></a>';
 
