@@ -16,7 +16,7 @@
 
 			$html .= $this->get_nav("Modifier mon profil");
 
-			$html .= '<form method="post" action="super_controller.php">';
+			$html .= '<form method="post" action="super_controller.php" enctype="multipart/form-data" class="modif_profil">';
 			$html .= '<input type="hidden" name="application" value="nouvelle_modif" required><br>';
 			$html .= '<label for="prenom">Prénom : </label><input type="text" name="prenom" value="' . $adherent->prenom() . '" required><br>';
 			$html .= '<br /><label for="nom">Nom : </label><input type="text" name="nom" value="' . $adherent->nom() . '" required><br>';
@@ -44,6 +44,17 @@
 			}
 			$html .= '><br>';
 			$html .= '<input type="submit" name="submit" class="button" value="GO !">';
+			$html .= '<div class="form_photo">
+					<div class="photo_button">
+						<img class="adherent_photo" src="images/user.png">
+						<img src="images/icon_edit.png" class="edit_button" alt="">
+						<img src="images/icon_delete.png" class="edit_button" alt="">
+					</div>
+					<div class="fileUpload">
+						<span>Nouvelle image <i>(taille max. : 2mo)</i></span>
+						<input name="photo" type="file" class="upload"/>
+					</div>
+				</div>';
 			$html .= '</form>';
 
 		$html .= '<a href="super_controller.php?application=supprimer"><h5>Supprimer compte</h5></a>';

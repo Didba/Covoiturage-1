@@ -13,6 +13,7 @@
 		private $_date_naissance;
 		private $_mail;
 		private $_password;
+		private $_photo;
 
 		public function id_adherent()
 		{
@@ -55,6 +56,11 @@
 			return $this->_password;
 		}
 
+		public function photo()
+		{
+			return $this->_photo;
+		}
+
 		public function setid_adherent($i)
 		{
 			$this->id_adherent = $i;
@@ -93,6 +99,11 @@
 		public function setPassword($password)
 		{
 			$this->_password = md5($password);
+		}
+
+		public function setPhoto($photo)
+		{
+			$this->_photo = $photo;
 		}
 
 
