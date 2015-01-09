@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Mer 07 Janvier 2015 à 12:46
+-- Généré le :  Ven 09 Janvier 2015 à 16:46
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -30,17 +30,19 @@ CREATE TABLE IF NOT EXISTS `adherent` (
   `telephone` varchar(10) NOT NULL,
   `date_naissance` date NOT NULL,
   `mail` varchar(50) NOT NULL,
-  `password` varchar(20) NOT NULL,
-  PRIMARY KEY (`id_adherent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+  `password` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_adherent`),
+  UNIQUE KEY `mail` (`mail`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Contenu de la table `adherent`
 --
 
 INSERT INTO `adherent` (`id_adherent`, `nom`, `prenom`, `sexe`, `telephone`, `date_naissance`, `mail`, `password`) VALUES
-(1, 'Boulongne', 'Thomas', '1', '0160103788', '2014-12-03', 'thomasboulongne@hotmail.com', '1234'),
-(3, 'Chakrina', 'Mouhouni', '1', '0102030405', '2013-06-21', 'mou@mail.com', '1234');
+(1, 'Boulongne', 'Thomas', '1', '0160103788', '2014-12-03', 'thomasboulongne@hotmail.com', 'c4ca4238a0b923820dcc509a6f75849b'),
+(3, 'Chakrina', 'Mouhouni', '1', '0102030406', '2013-06-21', 'mou@mail.com', '81dc9bdb52d04dc20036dbd8313ed055'),
+(8, 'De Montargis', 'Quentin', '1', '0160103788', '1992-06-02', 'tom@mail.com', '81dc9bdb52d04dc20036dbd8313ed055');
 
 -- --------------------------------------------------------
 
@@ -86,7 +88,8 @@ CREATE TABLE IF NOT EXISTS `conducteur` (
 --
 
 INSERT INTO `conducteur` (`num_permis`, `id_adherent`) VALUES
-(12345, 1);
+(12345, 1),
+(485, 8);
 
 -- --------------------------------------------------------
 
@@ -125,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `etapes` (
 
 DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
-  `id_msg` int(11) NOT NULL,
+  `id_msg` int(11) NOT NULL AUTO_INCREMENT,
   `id_adherent_from` int(11) NOT NULL,
   `id_adherent_to` int(11) NOT NULL,
   `date` datetime NOT NULL,
@@ -134,16 +137,19 @@ CREATE TABLE IF NOT EXISTS `message` (
   PRIMARY KEY (`id_msg`),
   KEY `id_adherent_from` (`id_adherent_from`),
   KEY `id_adherent_to` (`id_adherent_to`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Contenu de la table `message`
 --
 
 INSERT INTO `message` (`id_msg`, `id_adherent_from`, `id_adherent_to`, `date`, `sujet`, `message`) VALUES
-(1, 1, 1, '2015-01-07 00:00:00', 'Sujet', 'Message'),
 (2, 1, 3, '2015-01-07 00:00:00', 'Sujet2', 'Msg'),
-(3, 3, 3, '2015-01-07 00:00:00', 'suj3', 'msg2');
+(4, 1, 3, '2015-01-08 00:00:00', 'Sujet du message', 'jet'),
+(5, 3, 1, '2015-01-08 00:00:00', 'suj', 'et'),
+(6, 1, 1, '2015-01-08 12:43:00', 'Sujet', 'J''ai envie de voyager'),
+(7, 1, 1, '2015-01-08 17:12:00', 'Auxerre_Dijon_2015-01-02 00:00:00', 'Comment est votre blanquette?'),
+(8, 1, 1, '2015-01-08 17:13:00', 'Auxerre_Dijon_2015-01-02 00:00:00', 'La blanquette est bonne');
 
 -- --------------------------------------------------------
 
@@ -181,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `participe` (
 --
 
 INSERT INTO `participe` (`id_adherent`, `id_trajet`, `nb_invites`, `frais`) VALUES
-(1, 3, 3, 36);
+(1, 19, 0, 18);
 
 -- --------------------------------------------------------
 
@@ -201,18 +207,17 @@ CREATE TABLE IF NOT EXISTS `trajet` (
   `commentaire` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`id_trajet`),
   KEY `id_adherent` (`id_adherent`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Contenu de la table `trajet`
 --
 
 INSERT INTO `trajet` (`id_trajet`, `id_adherent`, `num_permis`, `date_traj`, `nb_passagers_max`, `lieu_depart`, `lieu_arrivee`, `commentaire`) VALUES
-(1, 1, 25156, '2014-12-16 00:00:00', 3, 'Dijon', 'Paris', ''),
 (2, 1, 7, '2014-12-16 00:00:00', 3, 'Dijon', 'Paris', ''),
 (3, 1, 0, '2015-01-02 00:00:00', 3, 'Auxerre', 'Dijon', NULL),
 (8, 1, 0, '2015-01-02 00:00:00', 3, 'Strasbourg', 'Dijon', NULL),
-(9, 1, 0, '2015-01-06 00:00:00', 1, 'Dijon', 'Mirebeau-sur-Bèze', NULL);
+(19, 1, 0, '2015-01-09 12:00:00', 3, 'Dijon', 'Palaiseau', 'Jeeezus');
 
 -- --------------------------------------------------------
 
