@@ -76,7 +76,7 @@
 			}
 			else
 			{
-				$query = $db->prepare('SELECT id_vehicule FROM vehicule WHERE id_adherent = :id_adherent');
+				$query = $this->_db->prepare('SELECT id_vehicule FROM vehicule WHERE id_adherent = :id_adherent');
 				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetchAll();
