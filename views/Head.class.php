@@ -77,7 +77,7 @@
 				$html .= '
 						<li>
 							<a href="super_controller.php?application=profil&id=' . $_SESSION['id'] . '">
-								<img src="images/user.png" alt=""><span class="username">Mon profil</span>
+								<div class="img_container"><img src="' . $_SESSION['photo'] . '" alt=""></div><span class="username">Mon profil</span>
 							</a>
 						</li>';
 				$html .= '

@@ -73,11 +73,13 @@ session_start();
 							$_SESSION['id'] = $conducteur->id_adherent();
 							$_SESSION['co'] = true;
 							$_SESSION['permis'] = $conducteur->num_permis();
+							$_SESSION['photo'] = $conducteur->photo();
 							header('Location: super_controller.php');
 						}
 						else
 						{
 							$_SESSION['id'] = $adherent->id_adherent();
+							$_SESSION['photo'] = $adherent->photo();
 							$_SESSION['co'] = true;
 							header('Location: super_controller.php');
 						}
@@ -115,25 +117,6 @@ session_start();
 						$_SESSION['msg'] = "Votre inscription a échoué";
 					endif;
 					//header('Location: super_controller.php');
-					break;
-
-
-				/*-------------------------------------------------------------------------------*/
-				/*------------------------------ AJOUT VEHICULE ----------------------------*/
-				/*-------------------------------------------------------------------------------*/
-
-				case 'ajoutVehicule':
-					include_once('views/v_ajoutVehicule.class.php');
-					$page = new v_ajoutVehicule("ajoutVehicule");
-					$page->set_html();
-					break;
-
-				case 'nouvelle_ajoutVehicule':
-					include_once('models/AdherentManager.class.php');
-					$mb_manager = new VehiculeManager($db);
-					$mb_manager->add($_POST);
-					$_SESSION['msg'] = "Votre ajout de véhicule a bien été prise en compte";
-					header('Location: super_controller.php');
 					break;
 
 				/*-------------------------------------------------------------------------------*/
@@ -294,6 +277,31 @@ session_start();
 					$page = new v_mes_trajets("Mes trajets");
 
 					$page->set_html(array("passager"=>$pa_manager->getList(array("id_adherent"=>$_SESSION['id'])), "conducteur" => $traj_cond));
+
+					break;
+
+
+
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------------ AJOUT VEHICULE ----------------------------*/
+				/*-------------------------------------------------------------------------------*/
+
+				case 'nouvel_ajoutVehicule':
+					include_once('models/AdherentManager.class.php');
+					$mb_manager = new VehiculeManager($db);
+					$mb_manager->add($_POST);
+					$_SESSION['msg'] = "Votre ajout de véhicule a bien été prise en compte";
+					header('Location: super_controller.php');
+					break;
+
+				case 'mes_vehicules':
+					include_once 'views/v_ajoutVehicule.class.php';
+					include_once('models/VehiculeManager.class.php');
+					$ve_manager = new VehiculeManager($db);
+
+					$page = new v_ajoutVehicule("Mes vehicules");
+
+					$page->set_html(array("vehicule"=>$ve_manager->getList(array("id_adherent"=>$_SESSION['id']))));
 
 					break;
 
