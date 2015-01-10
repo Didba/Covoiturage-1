@@ -237,7 +237,7 @@ CREATE TABLE IF NOT EXISTS `trajet_caracteristique` (
 --
 
 CREATE TABLE IF NOT EXISTS `vehicule` (
-  `id_vehicule` int(11) NOT NULL,
+  `id_vehicule` int(11) NOT NULL AUTO_INCREMENT,
   `id_adherent` int(11) NOT NULL,
   `num_permis` int(11) NOT NULL,
   `marque` varchar(50) NOT NULL,
@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
   `couleur` varchar(50) NOT NULL,
   `photo` varchar(50) NOT NULL,
   `carburant` varchar(50) NOT NULL,
-  `immatriculation` varchar(50) NOT NULL,
+  `immarticulation` varchar(50) NOT NULL,
   PRIMARY KEY (`id_vehicule`),
   KEY `index` (`id_adherent`),
   KEY `id_adherent` (`id_adherent`),
