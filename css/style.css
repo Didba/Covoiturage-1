@@ -420,16 +420,14 @@ label.color-radio-label
 	margin-bottom: 1rem;
 }
 
-.result_driver, .result_data
+.result_driver, .result_data, .result_resa
 {
 	display: inline-block;
 	height: 92%;
+	margin: 0.3rem;
 	padding: 0.5rem;
-}
-
-.result_driver
-{
-	width: 55%;
+	vertical-align: middle;
+	background-color: #f6f6f6;
 }
 
 .result_data
@@ -438,10 +436,28 @@ label.color-radio-label
 	text-align: center;
 }
 
+.cities
+{
+	font-weight: 700;
+	font-size: 1rem;
+}
+
+.heure
+{
+	font-weight: 700;
+	font-size: 1.2rem;
+}
+
+.result_driver
+{
+	width: 50%;
+}
+
 .result_resa
 {
 	display: inline-block;
 	width: 20%;
+	text-align: center;
 }
 
 

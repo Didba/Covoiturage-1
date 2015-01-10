@@ -27,18 +27,22 @@
 				$max = $trajet->nb_passagers_rest()-1;
 				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
-				$html .= ucfirst($trajet->date_traj());
+				$html .= '<div class="cities">';
+				$html .= ucfirst($trajet->lieu_depart()) . ' > ';
+				$html .= ucfirst($trajet->lieu_arrivee());
+				$html .= '</div>';
+				$html .= date('d/m/y', strtotime($trajet->date_traj())) . '<br />' . date('h:m', strtotime($trajet->date_traj()));
 				$html .= '</br>';
 				$html .= $trajet->distance() . 'kms';
 				$html .= '</br>';
 				$html .= gmdate('H\hi',$trajet->time()) . '';
-				$html .= '</br>';
-				$html .= $trajet->frais() . '€';
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '.';
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
+				$html .= '</br>';
+				$html .= $trajet->frais() . '€ <i>par passager</i>';
 				$html .= 'Places restantes : ' . $trajet->nb_passagers_rest();
 				if(isset($_SESSION['id'])&& $_SESSION['id']==$trajet->id_adherent())
 				{
@@ -49,7 +53,7 @@
 
 					$html .= '<form action="super_controller.php" method="post">
 						<input type="hidden" value="new_message" name="application">
-						<input type="hidden" value="' . $elt->trajet()->lieu_depart() . ' > ' . $elt->trajet()->lieu_arrivee() . ', le ' . date('d-m-y', strtotime($elt->trajet()->date_traj()) . ' à ' . date('h:m', strtotime($elt->trajet()->date_traj()) . '" name="sujet">
+						<input type="hidden" value="' . $elt->trajet()->lieu_depart() . ' > ' . $elt->trajet()->lieu_arrivee() . ', le ' . date('d/m/y', strtotime($elt->trajet()->date_traj())) . ' à ' . date('h:m', strtotime($elt->trajet()->date_traj())) . '" name="sujet">
 						<input type="hidden" name="id_adherent_to" value="'.$trajet->conducteur()->id_adherent().'" name="id_adherent_to">
 						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
 						<input type="submit" name="submit" value="Contacter">

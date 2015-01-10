@@ -20,31 +20,36 @@
 			foreach ($elts['passager'] as $key => $elt) {
 				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
-				$html .= $elt->trajet()->lieu_depart() . ' > ';
-				$html .= $elt->trajet()->lieu_arrivee();
-				$html .= '</br>';
-				$html .= ucfirst($elt->date_traj());
-				$html .= '</br>';
+				$html .= '<div class="cities">';
+				$html .= ucfirst($elt->trajet()->lieu_depart()) . ' > ';
+				$html .= ucfirst($elt->trajet()->lieu_arrivee());
+				$html .= '</div>';
+				$html .= '<div class="heure">';
+				$html .= date('h:m', strtotime($elt->trajet()->date_traj()));
+				$html .= '</div>';
+				$html .= date('d/m/y', strtotime($elt->trajet()->date_traj()));
+				$html .= '<br />';
 				$html .= $elt->trajet()->distance() . 'kms';
 				$html .= '</br>';
 				$html .= gmdate('H\hi',$elt->trajet()->time()) . '';
-				$html .= '</br>';
-				$html .= $elt->frais() . '€';
-				$html .= '</br>Places supplémentaires réservées : ' . $elt->nb_invites();
-				$html .= '</br>Nombre de passagers : ' . ($elt->trajet()->nb_passagers_max()-$elt->trajet()->nb_passagers_rest());
+				$html .= '</br>Places invité(s) réservées : ' . $elt->nb_invites();
+				$html .= '</br>Nombre de passagers : ' . ($elt->trajet()->nb_passagers_max()-$elt->trajet()->nb_passagers_rest()) . '/' . $elt->trajet()->nb_passagers_max();
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $elt->conducteur()->prenom(). ' ' . substr($elt->conducteur()->nom(), 0,1) . '.';
 				$html .= '</div>';
+				$html .= '<div class="result_resa">';
+				$html .= $elt->trajet()->frais() . '€';
+				$html .= '</br>';
 				$html .= '<form action="super_controller.php" method="post">
 						<input type="hidden" value="new_message" name="application">
-						<input type="hidden" value="' . $elt->trajet()->lieu_depart() . ' > ' . $elt->trajet()->lieu_arrivee() . ', le ' . date('d-m-y', strtotime($elt->trajet()->date_traj())) . ' à ' . date('h:m', strtotime($elt->trajet()->date_traj())) . '" name="sujet">
+						<input type="hidden" value="' . $elt->trajet()->lieu_depart() . ' > ' . $elt->trajet()->lieu_arrivee() . ', le ' . date('d/m/y', strtotime($elt->trajet()->date_traj())) . ' à ' . date('h:m', strtotime($elt->trajet()->date_traj())) . '" name="sujet">
 						<input type="hidden" name="id_adherent_to" value="'.$elt->conducteur()->id_adherent().'" name="id_adherent_to">
 						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
 						<input type="submit" name="submit"  value="Contacter">
 					</form>';
-
-				$html .= '<a href="super_controller.php?application=annuler&id_trajet=' . $elt->id_trajet() . '">Annuler</a>';
+				$html .= '<a href="super_controller.php?application=annuler&id_trajet=' . $elt->id_trajet() . '">Annuler cette réservation</a>';
+				$html .= '</div>';
 				$html .= '</li>';
 				//$html .= '</br>';
 			}
@@ -57,23 +62,28 @@
 				foreach ($elts['conducteur'] as $key => $elt) {
 					$html .= '<li class="result">';
 					$html .= '<div class="result_data">';
-					$html .= $elt->lieu_depart() . ' > ';
-					$html .= $elt->lieu_arrivee();
-					$html .= '</br>';
-					$html .= ucfirst($elt->date_traj());
-					$html .= '</br>';
+					$html .= '<div class="cities">';
+					$html .= ucfirst($elt->lieu_depart()) . ' > ';
+					$html .= ucfirst($elt->lieu_arrivee());
+					$html .= '</div>';
+					$html .= '<div class="heure">';
+					$html .= date('h:m', strtotime($elt->date_traj()));
+					$html .= '</div>';
+					$html .= date('d/m/y', strtotime($elt->date_traj()));
+					$html .= '<br />';
 					$html .= $elt->distance() . 'kms';
 					$html .= '</br>';
 					$html .= gmdate('H\hi',$elt->time()) . '';
-					$html .= '</br>';
-					$html .= 'Prix par passager : ';
-					$html .= $elt->frais() . '€';
-					$html .= '</br>Nombre de passagers : ' . ($elt->nb_passagers_max()-$elt->nb_passagers_rest());
+					$html .= '</br>Nombre de passagers : ' . ($elt->nb_passagers_max()-$elt->nb_passagers_rest()) . '/' . $elt->nb_passagers_max();
 					$html .= '</div>';
 					$html .= '<div class="result_driver">';
 					$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
 					$html .= '</div>';
-					$html .= '<a href="super_controller.php?application=annuler_trajet&id_trajet=' . $elt->id_trajet() . '">Annuler</a>';
+					$html .= '<div class="result_resa">';
+					$html .= $elt->frais() . '€ <i>par passager</i>';
+					$html .= '</br>';
+					$html .= '<a href="super_controller.php?application=annuler_trajet&id_trajet=' . $elt->id_trajet() . '">Annuler ce trajet</a>';
+					$html .= '</div>';
 					$html .= '</li>';
 					$html .= '</br>';
 				}
