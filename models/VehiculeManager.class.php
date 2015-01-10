@@ -1,6 +1,7 @@
 <?php
 
 	include_once 'models/Vehicule.class.php';
+	include_once 'models/CarburantManager.class.php';
 
 	/**
 	* Classe de gestion des vehicules
@@ -56,11 +57,13 @@
 				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE id_vehicule=:id_vehicule');
 				$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_INT);
 			}
-
-
 			$query->execute() or die(print_r($query->errorInfo()));
-
 			$result = $query->fetch();
+
+			$cb_manager = new CarburantManager($this->_db);
+			$result['carburant'] = $cb_manager->get(array('id_carburant'=>$result['carburant']));
+			$result['carburant'] = $result['carburant']->libelle();
+
 			$vehicule = new Vehicule();
 			$vehicule->hydrate($result);
 			return $vehicule;

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 10 Janvier 2015 à 19:53
+-- Généré le :  Sam 10 Janvier 2015 à 20:21
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -70,6 +70,30 @@ CREATE TABLE IF NOT EXISTS `caracteristique` (
   `nom` varchar(50) NOT NULL,
   PRIMARY KEY (`id_caracteristique`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `carburant`
+--
+
+DROP TABLE IF EXISTS `carburant`;
+CREATE TABLE IF NOT EXISTS `carburant` (
+  `id_carburant` int(11) NOT NULL AUTO_INCREMENT,
+  `libelle` varchar(30) NOT NULL,
+  PRIMARY KEY (`id_carburant`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Contenu de la table `carburant`
+--
+
+INSERT INTO `carburant` (`id_carburant`, `libelle`) VALUES
+(1, 'Essence'),
+(2, 'Diesel'),
+(3, 'GPL'),
+(4, 'Électrique'),
+(5, 'Hybride');
 
 -- --------------------------------------------------------
 
@@ -258,12 +282,13 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
   `type` varchar(50) NOT NULL,
   `couleur` varchar(50) NOT NULL,
   `photo` varchar(50) NOT NULL,
-  `carburant` varchar(50) NOT NULL,
+  `carburant` int(10) NOT NULL,
   `immatriculation` varchar(50) NOT NULL,
   PRIMARY KEY (`id_vehicule`),
   KEY `index` (`id_adherent`),
   KEY `id_adherent` (`id_adherent`),
-  KEY `Num_Permis` (`num_permis`)
+  KEY `Num_Permis` (`num_permis`),
+  KEY `carburant` (`carburant`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
@@ -271,7 +296,7 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
 --
 
 INSERT INTO `vehicule` (`id_vehicule`, `id_adherent`, `num_permis`, `marque`, `modele`, `type`, `couleur`, `photo`, `carburant`, `immatriculation`) VALUES
-(1, 1, 12345, 'Renault', 'Megane', 'Berline', 'Noir', '', 'Essence', '66-55-22');
+(1, 1, 12345, 'Renault', 'Megane', 'Berline', 'Noir', '', 1, '66-55-22');
 
 -- --------------------------------------------------------
 
@@ -327,6 +352,7 @@ ALTER TABLE `trajet`
 -- Contraintes pour la table `vehicule`
 --
 ALTER TABLE `vehicule`
-  ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`num_permis`) REFERENCES `conducteur` (`num_permis`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `vehicule_ibfk_1` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `vehicule_ibfk_3` FOREIGN KEY (`carburant`) REFERENCES `carburant` (`id_carburant`),
+  ADD CONSTRAINT `vehicule_ibfk_1` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`num_permis`) REFERENCES `conducteur` (`num_permis`) ON DELETE CASCADE ON UPDATE CASCADE;
 SET FOREIGN_KEY_CHECKS=1;
