@@ -287,6 +287,7 @@ session_start();
 				/*-------------------------------------------------------------------------------*/
 
 				case 'nouvel_ajoutVehicule':
+					include_once('models/VehiculeManager.class.php');
 					include_once('models/AdherentManager.class.php');
 					$mb_manager = new VehiculeManager($db);
 					$mb_manager->add($_POST);
