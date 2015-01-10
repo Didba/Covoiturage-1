@@ -40,7 +40,11 @@
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
 				$html .= 'Places restantes : ' . $trajet->nb_passagers_rest();
-				if(isset($_SESSION['id']))
+				if(isset($_SESSION['id'])&& $_SESSION['id']==$trajet->id_adherent())
+				{
+					$html .= '<p>Vous êtes le conducteur</p>';
+				}
+				else if(isset($_SESSION['id']))
 				{
 
 					$html .= '<form action="super_controller.php" method="post">
