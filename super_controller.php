@@ -288,7 +288,7 @@ session_start();
 
 				case 'nouvel_ajoutVehicule':
 					include_once('models/VehiculeManager.class.php');
-					include_once('models/AdherentManager.class.php');
+					include_once('models/ConducteurManager.class.php');
 					$mb_manager = new VehiculeManager($db);
 					$mb_manager->add($_POST);
 					$_SESSION['msg'] = "Votre ajout de véhicule a bien été prise en compte";
