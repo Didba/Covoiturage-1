@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Ven 09 Janvier 2015 à 16:46
+-- Généré le :  Sam 10 Janvier 2015 à 18:09
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -21,7 +21,6 @@ SET time_zone = "+00:00";
 -- Structure de la table `adherent`
 --
 
-DROP TABLE IF EXISTS `adherent`;
 CREATE TABLE IF NOT EXISTS `adherent` (
   `id_adherent` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
@@ -31,18 +30,20 @@ CREATE TABLE IF NOT EXISTS `adherent` (
   `date_naissance` date NOT NULL,
   `mail` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
+  `photo` varchar(100) NOT NULL,
   PRIMARY KEY (`id_adherent`),
   UNIQUE KEY `mail` (`mail`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Contenu de la table `adherent`
 --
 
-INSERT INTO `adherent` (`id_adherent`, `nom`, `prenom`, `sexe`, `telephone`, `date_naissance`, `mail`, `password`) VALUES
-(1, 'Boulongne', 'Thomas', '1', '0160103788', '2014-12-03', 'thomasboulongne@hotmail.com', 'c4ca4238a0b923820dcc509a6f75849b'),
-(3, 'Chakrina', 'Mouhouni', '1', '0102030406', '2013-06-21', 'mou@mail.com', '81dc9bdb52d04dc20036dbd8313ed055'),
-(8, 'De Montargis', 'Quentin', '1', '0160103788', '1992-06-02', 'tom@mail.com', '81dc9bdb52d04dc20036dbd8313ed055');
+INSERT INTO `adherent` (`id_adherent`, `nom`, `prenom`, `sexe`, `telephone`, `date_naissance`, `mail`, `password`, `photo`) VALUES
+(1, 'Boulongne', 'Thomas', '1', '0160103788', '2014-12-03', 'thomasboulongne@hotmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 'adherent/default.png'),
+(3, 'Chakrina', 'Mouhouni', '1', '0102030406', '2013-06-21', 'mou@mail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'adherent/default.png'),
+(8, 'De Montargis', 'Quentin', '1', '0160103788', '1992-06-02', 'tom@mail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'adherent/quentin_demontargis_8.jpg'),
+(15, 'Pays-Bas', 'François', '0', '0504030201', '1992-06-06', 'fh@mail.com', '81dc9bdb52d04dc20036dbd8313ed055', 'adherent/francois_pays-bas_15.PNG');
 
 -- --------------------------------------------------------
 
@@ -50,7 +51,6 @@ INSERT INTO `adherent` (`id_adherent`, `nom`, `prenom`, `sexe`, `telephone`, `da
 -- Structure de la table `administrateur`
 --
 
-DROP TABLE IF EXISTS `administrateur`;
 CREATE TABLE IF NOT EXISTS `administrateur` (
   `id_adherent` int(11) NOT NULL,
   PRIMARY KEY (`id_adherent`)
@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
 -- Structure de la table `caracteristique`
 --
 
-DROP TABLE IF EXISTS `caracteristique`;
 CREATE TABLE IF NOT EXISTS `caracteristique` (
   `id_caracteristique` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
@@ -75,7 +74,6 @@ CREATE TABLE IF NOT EXISTS `caracteristique` (
 -- Structure de la table `conducteur`
 --
 
-DROP TABLE IF EXISTS `conducteur`;
 CREATE TABLE IF NOT EXISTS `conducteur` (
   `num_permis` int(11) NOT NULL,
   `id_adherent` int(11) NOT NULL,
@@ -89,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `conducteur` (
 
 INSERT INTO `conducteur` (`num_permis`, `id_adherent`) VALUES
 (12345, 1),
-(485, 8);
+(856, 15);
 
 -- --------------------------------------------------------
 
@@ -97,7 +95,6 @@ INSERT INTO `conducteur` (`num_permis`, `id_adherent`) VALUES
 -- Structure de la table `equipements`
 --
 
-DROP TABLE IF EXISTS `equipements`;
 CREATE TABLE IF NOT EXISTS `equipements` (
   `id_equipements` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
@@ -110,7 +107,6 @@ CREATE TABLE IF NOT EXISTS `equipements` (
 -- Structure de la table `etapes`
 --
 
-DROP TABLE IF EXISTS `etapes`;
 CREATE TABLE IF NOT EXISTS `etapes` (
   `id_etapes` int(11) NOT NULL,
   `id_trajet` int(11) NOT NULL,
@@ -126,7 +122,6 @@ CREATE TABLE IF NOT EXISTS `etapes` (
 -- Structure de la table `message`
 --
 
-DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
   `id_msg` int(11) NOT NULL AUTO_INCREMENT,
   `id_adherent_from` int(11) NOT NULL,
@@ -137,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `message` (
   PRIMARY KEY (`id_msg`),
   KEY `id_adherent_from` (`id_adherent_from`),
   KEY `id_adherent_to` (`id_adherent_to`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Contenu de la table `message`
@@ -149,7 +144,13 @@ INSERT INTO `message` (`id_msg`, `id_adherent_from`, `id_adherent_to`, `date`, `
 (5, 3, 1, '2015-01-08 00:00:00', 'suj', 'et'),
 (6, 1, 1, '2015-01-08 12:43:00', 'Sujet', 'J''ai envie de voyager'),
 (7, 1, 1, '2015-01-08 17:12:00', 'Auxerre_Dijon_2015-01-02 00:00:00', 'Comment est votre blanquette?'),
-(8, 1, 1, '2015-01-08 17:13:00', 'Auxerre_Dijon_2015-01-02 00:00:00', 'La blanquette est bonne');
+(8, 1, 1, '2015-01-08 17:13:00', 'Auxerre_Dijon_2015-01-02 00:00:00', 'La blanquette est bonne'),
+(9, 8, 1, '2015-01-10 17:38:00', 'Dijon_Palaiseau_2015-01-09 12:00:00', 'Est-ce que vous êtes gentils ?'),
+(10, 1, 8, '2015-01-10 17:40:00', 'Dijon_Palaiseau_2015-01-09 12:00:00', 'Ça dépend, salope'),
+(11, 8, 1, '2015-01-10 17:46:00', 'Dijon > Palaiseau, le 2015-01-09 12:00:00', 'Merci fdp'),
+(12, 1, 8, '2015-01-10 17:49:00', 'Dijon > Palaiseau, le 2015-01-09 12:00:00', 'Sois poli ducon'),
+(13, 1, 8, '2015-01-10 17:55:00', 'Dijon > Palaiseau, le 2015-01-09 12:00:00', 'Eh salut'),
+(14, 8, 1, '2015-01-10 17:59:00', 'Dijon > Palaiseau, le 09-01-15 à 12:01', 'Ça a l''air bien le covoiturage');
 
 -- --------------------------------------------------------
 
@@ -157,7 +158,6 @@ INSERT INTO `message` (`id_msg`, `id_adherent_from`, `id_adherent_to`, `date`, `
 -- Structure de la table `note`
 --
 
-DROP TABLE IF EXISTS `note`;
 CREATE TABLE IF NOT EXISTS `note` (
   `id_adherent_from` int(11) NOT NULL,
   `id_adherent_to` int(11) NOT NULL,
@@ -173,7 +173,6 @@ CREATE TABLE IF NOT EXISTS `note` (
 -- Structure de la table `participe`
 --
 
-DROP TABLE IF EXISTS `participe`;
 CREATE TABLE IF NOT EXISTS `participe` (
   `id_adherent` int(11) NOT NULL,
   `id_trajet` int(11) NOT NULL,
@@ -187,7 +186,8 @@ CREATE TABLE IF NOT EXISTS `participe` (
 --
 
 INSERT INTO `participe` (`id_adherent`, `id_trajet`, `nb_invites`, `frais`) VALUES
-(1, 19, 0, 18);
+(1, 19, 0, 18),
+(8, 19, 0, 18);
 
 -- --------------------------------------------------------
 
@@ -195,7 +195,6 @@ INSERT INTO `participe` (`id_adherent`, `id_trajet`, `nb_invites`, `frais`) VALU
 -- Structure de la table `trajet`
 --
 
-DROP TABLE IF EXISTS `trajet`;
 CREATE TABLE IF NOT EXISTS `trajet` (
   `id_trajet` int(11) NOT NULL AUTO_INCREMENT,
   `id_adherent` int(11) NOT NULL,
@@ -225,7 +224,6 @@ INSERT INTO `trajet` (`id_trajet`, `id_adherent`, `num_permis`, `date_traj`, `nb
 -- Structure de la table `trajet_caracteristique`
 --
 
-DROP TABLE IF EXISTS `trajet_caracteristique`;
 CREATE TABLE IF NOT EXISTS `trajet_caracteristique` (
   `id_trajet` int(11) NOT NULL,
   `id_caracteristique` int(11) NOT NULL,
@@ -238,7 +236,6 @@ CREATE TABLE IF NOT EXISTS `trajet_caracteristique` (
 -- Structure de la table `vehicule`
 --
 
-DROP TABLE IF EXISTS `vehicule`;
 CREATE TABLE IF NOT EXISTS `vehicule` (
   `id_vehicule` int(11) NOT NULL,
   `id_adherent` int(11) NOT NULL,
@@ -262,7 +259,6 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
 -- Structure de la table `vehicule_equipements`
 --
 
-DROP TABLE IF EXISTS `vehicule_equipements`;
 CREATE TABLE IF NOT EXISTS `vehicule_equipements` (
   `id_vehicule` int(11) NOT NULL,
   `id_equipements` int(11) NOT NULL,
