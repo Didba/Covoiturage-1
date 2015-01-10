@@ -73,7 +73,7 @@
 				$html .= '
 				<nav>';
 				$html .= '
-					<ul class="nav">';
+					<ul class="nav connected">';
 				$html .= '
 						<li>
 							<a href="super_controller.php?application=profil&id=' . $_SESSION['id'] . '">

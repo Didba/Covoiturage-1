@@ -212,13 +212,14 @@ nav
 	bottom: 0;
 	margin-top: auto;
 	margin-bottom: auto;
+	text-align: right;
 
 	display: inline-block;
 	right: 2rem;
 	font-size: 1.5rem;
 }
 
-.nav
+.nav.connected
 {
 	height: 100%;
 }
@@ -230,14 +231,14 @@ nav:hover .deconnexion_link
 
 nav li
 {
-	display: inline-block;
+	display: block;
 	vertical-align: middle;
 	height: 100%;
 }
 
 nav li *
 {
-	height: 100%;
+	height: 80%;
 	display: inline-block;
 	vertical-align: middle;
 }
@@ -249,9 +250,10 @@ nav li a *
 
 .img_container
 {
-	display: inline-block;
+	display: block;
 	position: relative;
 	height:80%;
+	text-align: center;
 }
 
 .img_container:after
@@ -268,6 +270,7 @@ nav li a img
 	bottom: 0;
 	left: 0;
 	right: 0;
+	margin:auto;
 	border:solid;
 	border-radius: 50%;
 	background-color: #fff;

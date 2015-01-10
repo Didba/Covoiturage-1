@@ -37,7 +37,7 @@
 				$html .= '<form action="super_controller.php" method="post">
 						<input type="hidden" value="new_message" name="application">
 						<input type="hidden" value="' . $elt->sujet() . '" name="sujet">
-						<input type="hidden" name="id_adherent_to" value="'.$elt->adherent_to()->id_adherent().'" name="id_adherent_to">
+						<input type="hidden" name="id_adherent_to" value="'.$elt->adherent_from()->id_adherent().'" name="id_adherent_to">
 						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
 						<div class="button_wrapper"><input type="submit" name="submit"  value="Répondre"></div>
 					</form>';
