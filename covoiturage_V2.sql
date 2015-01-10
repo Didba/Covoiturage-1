@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 10 Janvier 2015 à 18:09
+-- Généré le :  Sam 10 Janvier 2015 à 19:53
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -21,6 +21,7 @@ SET time_zone = "+00:00";
 -- Structure de la table `adherent`
 --
 
+DROP TABLE IF EXISTS `adherent`;
 CREATE TABLE IF NOT EXISTS `adherent` (
   `id_adherent` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
@@ -51,6 +52,7 @@ INSERT INTO `adherent` (`id_adherent`, `nom`, `prenom`, `sexe`, `telephone`, `da
 -- Structure de la table `administrateur`
 --
 
+DROP TABLE IF EXISTS `administrateur`;
 CREATE TABLE IF NOT EXISTS `administrateur` (
   `id_adherent` int(11) NOT NULL,
   PRIMARY KEY (`id_adherent`)
@@ -62,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `administrateur` (
 -- Structure de la table `caracteristique`
 --
 
+DROP TABLE IF EXISTS `caracteristique`;
 CREATE TABLE IF NOT EXISTS `caracteristique` (
   `id_caracteristique` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
@@ -74,11 +77,13 @@ CREATE TABLE IF NOT EXISTS `caracteristique` (
 -- Structure de la table `conducteur`
 --
 
+DROP TABLE IF EXISTS `conducteur`;
 CREATE TABLE IF NOT EXISTS `conducteur` (
   `num_permis` int(11) NOT NULL,
   `id_adherent` int(11) NOT NULL,
   PRIMARY KEY (`num_permis`,`id_adherent`),
-  UNIQUE KEY `Id_Adherent_Conducteur` (`id_adherent`)
+  UNIQUE KEY `Id_Adherent_Conducteur` (`id_adherent`),
+  UNIQUE KEY `num_permis` (`num_permis`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -95,6 +100,7 @@ INSERT INTO `conducteur` (`num_permis`, `id_adherent`) VALUES
 -- Structure de la table `equipements`
 --
 
+DROP TABLE IF EXISTS `equipements`;
 CREATE TABLE IF NOT EXISTS `equipements` (
   `id_equipements` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
@@ -107,6 +113,7 @@ CREATE TABLE IF NOT EXISTS `equipements` (
 -- Structure de la table `etapes`
 --
 
+DROP TABLE IF EXISTS `etapes`;
 CREATE TABLE IF NOT EXISTS `etapes` (
   `id_etapes` int(11) NOT NULL,
   `id_trajet` int(11) NOT NULL,
@@ -122,6 +129,7 @@ CREATE TABLE IF NOT EXISTS `etapes` (
 -- Structure de la table `message`
 --
 
+DROP TABLE IF EXISTS `message`;
 CREATE TABLE IF NOT EXISTS `message` (
   `id_msg` int(11) NOT NULL AUTO_INCREMENT,
   `id_adherent_from` int(11) NOT NULL,
@@ -158,6 +166,7 @@ INSERT INTO `message` (`id_msg`, `id_adherent_from`, `id_adherent_to`, `date`, `
 -- Structure de la table `note`
 --
 
+DROP TABLE IF EXISTS `note`;
 CREATE TABLE IF NOT EXISTS `note` (
   `id_adherent_from` int(11) NOT NULL,
   `id_adherent_to` int(11) NOT NULL,
@@ -173,6 +182,7 @@ CREATE TABLE IF NOT EXISTS `note` (
 -- Structure de la table `participe`
 --
 
+DROP TABLE IF EXISTS `participe`;
 CREATE TABLE IF NOT EXISTS `participe` (
   `id_adherent` int(11) NOT NULL,
   `id_trajet` int(11) NOT NULL,
@@ -195,6 +205,7 @@ INSERT INTO `participe` (`id_adherent`, `id_trajet`, `nb_invites`, `frais`) VALU
 -- Structure de la table `trajet`
 --
 
+DROP TABLE IF EXISTS `trajet`;
 CREATE TABLE IF NOT EXISTS `trajet` (
   `id_trajet` int(11) NOT NULL AUTO_INCREMENT,
   `id_adherent` int(11) NOT NULL,
@@ -224,6 +235,7 @@ INSERT INTO `trajet` (`id_trajet`, `id_adherent`, `num_permis`, `date_traj`, `nb
 -- Structure de la table `trajet_caracteristique`
 --
 
+DROP TABLE IF EXISTS `trajet_caracteristique`;
 CREATE TABLE IF NOT EXISTS `trajet_caracteristique` (
   `id_trajet` int(11) NOT NULL,
   `id_caracteristique` int(11) NOT NULL,
@@ -236,6 +248,7 @@ CREATE TABLE IF NOT EXISTS `trajet_caracteristique` (
 -- Structure de la table `vehicule`
 --
 
+DROP TABLE IF EXISTS `vehicule`;
 CREATE TABLE IF NOT EXISTS `vehicule` (
   `id_vehicule` int(11) NOT NULL AUTO_INCREMENT,
   `id_adherent` int(11) NOT NULL,
@@ -246,12 +259,19 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
   `couleur` varchar(50) NOT NULL,
   `photo` varchar(50) NOT NULL,
   `carburant` varchar(50) NOT NULL,
-  `immarticulation` varchar(50) NOT NULL,
+  `immatriculation` varchar(50) NOT NULL,
   PRIMARY KEY (`id_vehicule`),
   KEY `index` (`id_adherent`),
   KEY `id_adherent` (`id_adherent`),
   KEY `Num_Permis` (`num_permis`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `vehicule`
+--
+
+INSERT INTO `vehicule` (`id_vehicule`, `id_adherent`, `num_permis`, `marque`, `modele`, `type`, `couleur`, `photo`, `carburant`, `immatriculation`) VALUES
+(1, 1, 12345, 'Renault', 'Megane', 'Berline', 'Noir', '', 'Essence', '66-55-22');
 
 -- --------------------------------------------------------
 
@@ -259,6 +279,7 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
 -- Structure de la table `vehicule_equipements`
 --
 
+DROP TABLE IF EXISTS `vehicule_equipements`;
 CREATE TABLE IF NOT EXISTS `vehicule_equipements` (
   `id_vehicule` int(11) NOT NULL,
   `id_equipements` int(11) NOT NULL,
@@ -301,4 +322,11 @@ ALTER TABLE `message`
 ALTER TABLE `trajet`
   ADD CONSTRAINT `cle_conducteur` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `trajet_ibfk_1` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `vehicule`
+--
+ALTER TABLE `vehicule`
+  ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`num_permis`) REFERENCES `conducteur` (`num_permis`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `vehicule_ibfk_1` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE CASCADE ON UPDATE CASCADE;
 SET FOREIGN_KEY_CHECKS=1;

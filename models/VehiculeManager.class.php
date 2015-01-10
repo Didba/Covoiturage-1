@@ -20,13 +20,15 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO vehicule(marque,modele,type,couleur,carburant,immarticulation) VALUES (:marque,:modele,:type,:couleur,:carburant,:immarticulation)');
+			$query = $this->_db->prepare('INSERT INTO vehicule(id_adherent, num_permis, marque,modele,type,couleur,carburant,immatriculation) VALUES (:id_adherent, :num_permis, :marque,:modele,:type,:couleur,:carburant,:immatriculation)');
+			$query -> bindParam(':id_trajet', $_SESSION['id'],PDO::PARAM_INT);
+			$query -> bindParam(':num_permis', $_SESSION['permis'],PDO::PARAM_INT);
 			$query -> bindParam(':marque', $marque,PDO::PARAM_STR);
 			$query -> bindParam(':modele', $modele,PDO::PARAM_STR);
 			$query -> bindParam(':type', $type,PDO::PARAM_STR);
 			$query -> bindParam(':couleur', $couleur,PDO::PARAM_STR);
 			$query -> bindParam(':carburant', $carburant,PDO::PARAM_STR);
-			$query -> bindParam(':immarticulation', $immarticulation,PDO::PARAM_STR);
+			$query -> bindParam(':immatriculation', $immatriculation,PDO::PARAM_STR);
 			return $query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -59,7 +61,6 @@
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
-			$result['vehicule'] = $this->AdManager->get(array("id_vehicule"=>$result['vehicule']));
 			$vehicule = new Vehicule();
 			$vehicule->hydrate($result);
 			return $vehicule;
@@ -69,6 +70,7 @@
 		* Fonction permettant d'obtenir une liste des vehicule
 		**/
 		function getList($champs=NULL){
+			extract($champs);
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
@@ -76,20 +78,21 @@
 			}
 			else
 			{
-				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE id_adherent = :id_adherent');
+				$query = $this->_db->prepare('SELECT id_vehicule FROM vehicule WHERE id_adherent = :id_adherent');
 				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetchAll();
 
 				$list = array();
-
-				// On ajoute au tableau de retour les objets vehicule créés avec chaque ligne de la BDD retournée
-				foreach ($result as $key => &$value) {
-					$vehicule = $this->get(array("id_vehicule"=>$result['id_vehicule']));
-					array_push($list, $vehicule);
+				if($query->rowCount()>0)
+				{
+					// On ajoute au tableau de retour les objets vehicule créés avec chaque ligne de la BDD retournée
+					foreach ($result as $key => &$value) {
+						$vehicule = $this->get(array("id_vehicule"=>$value['id_vehicule']));
+						array_push($list, $vehicule);
+					}
 				}
 			}
-
 			return $list;
 		}
 
@@ -98,13 +101,13 @@
 		**/
 		function update($vehicule){
 			extract($vehicule);
-			$query = $this->_db->prepare('UPDATE vehicule SET marque=:marque,modele=:modele,type=:type,couleur=:couleur,carburant=:carburant,immarticulation=:immarticulation,WHERE id_vehicule=:id_vehicule');
+			$query = $this->_db->prepare('UPDATE vehicule SET marque=:marque,modele=:modele,type=:type,couleur=:couleur,carburant=:carburant,immatriculation=:immatriculation,WHERE id_vehicule=:id_vehicule');
 			$query -> bindParam(':marque', $marque,PDO::PARAM_STR);
 			$query -> bindParam(':modele', $modele,PDO::PARAM_STR);
 			$query -> bindParam(':type', $type,PDO::PARAM_STR);
 			$query -> bindParam(':couleur', $couleur,PDO::PARAM_STR);
 			$query -> bindParam(':carburant', $carburant,PDO::PARAM_STR);
-			$query -> bindParam(':immarticulation', $immarticulation,PDO::PARAM_STR);
+			$query -> bindParam(':immatriculation', $immatriculation,PDO::PARAM_STR);
 			$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}

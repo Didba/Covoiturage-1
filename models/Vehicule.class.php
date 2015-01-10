@@ -11,8 +11,8 @@
 		private $_type;
 		private $_couleur;
 		private $_carburant;
-		private $_immarticulation;
-		
+		private $_immatriculation;
+
 
 		public function id()
 		{
@@ -38,19 +38,19 @@
 		{
 			return $this->_couleur;
 		}
-		
+
 		public function carburant()
 		{
 			return $this->_carburant;
 		}
-		
-		public function immarticulation()
+
+		public function immatriculation()
 		{
-			return $this->_immarticulation;
+			return $this->_immatriculation;
 		}
-		
-		
-		
+
+
+
 		public function setId($i)
 		{
 			$this->_id_Vehicule = $i;
@@ -70,18 +70,23 @@
 		{
 			$this->_type = $type;
 		}
-		
+
+		public function setCarburant($carburant)
+		{
+			$this->_carburant = $carburant;
+		}
+
 		public function setCouleur($couleur)
 		{
 			$this->_couleur = $couleur;
 		}
-		
-		
-		public function setImmarticulation($immarticulation)
+
+
+		public function setImmatriculation($immatriculation)
 		{
-			$this->_immarticulation = $immarticulation;
+			$this->_immatriculation = $immatriculation;
 		}
-		
+
 
 		public function hydrate(array $data)
 		{

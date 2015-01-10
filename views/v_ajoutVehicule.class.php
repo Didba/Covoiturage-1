@@ -24,7 +24,7 @@
 			$html .= '<br /><input type="text" name="type" placeholder="type" required><br>';
 			$html .= '<br /><input type="text" name="couleur" placeholder="couleur" required><br>';
 			$html .= '<br /><input type="text" name="carburant" placeholder="carburant" required><br>';
-			$html .= '<br /><input type="text" name="immarticulation" placeholder="immarticulation" required><br>';
+			$html .= '<br /><input type="text" name="immatriculation" placeholder="immatriculation" required><br>';
 			$html .= '<input type="submit" name="submit" class="button" value="Go !">';
 			$html .= '</form>';
 
@@ -33,7 +33,7 @@
 			$html .= '</form>';
 			$html .= '<table border=1>';
 			$html .= '<tr>';
-			$html .= '<th>Marque </th> <th> Modele </th> <th> Type </th> <th> Couleur </th> <th> Carburant </th> <th> Immarticulation </th>';
+			$html .= '<th>Marque </th> <th> Modele </th> <th> Type </th> <th> Couleur </th> <th> Carburant </th> <th> immatriculation </th>';
 			$html .= '</tr>';
 			foreach($elts['vehicule'] as $key => $elt){
 				//var_dump($elts);
@@ -43,8 +43,7 @@
 				$html .= '<td>'.$elt->type().'</td>';
 				$html .= '<td>'.$elt->couleur().'</td>';
 				$html .= '<td>'.$elt->carburant().'</td>';
-				$html .= '<td>'.$elt->immarticulation().'</td>';
-				$html .= '<td>'.$elt->immarticulation().'</td>';
+				$html .= '<td>'.$elt->immatriculation().'</td>';
 				$html .= '</tr>';
 			}
 			$html .= '</table>';
