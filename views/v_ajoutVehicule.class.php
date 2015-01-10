@@ -17,7 +17,7 @@
 			$html .= $this->get_nav("Mes vehicules");
 
 			//liste des vehicules du conducteur
-			$html .= '<h4>Liste des véhicules</h4>';
+			$html .= '<h4>Liste de mes véhicules</h4>';
 			$html .= '</form>';
 			$html .= '<table border=1>';
 			$html .= '<tr>';
@@ -35,25 +35,26 @@
 				$html .= '</tr>';
 			}
 			$html .= '</table>';
+			$html .= '<br />';
 
 			$html .= '<h4>Ajouter véhicule</h4>';
 			$html .= '<form method="post" action="super_controller.php">';
-			$html .= '<input type="hidden" name="application" value="nouvel_ajoutVehicule" required><br>';
-			$html .= '<input type="text" name="marque" placeholder="marque" required><br>';
-			$html .= '<br /><input type="text" name="modele" placeholder="modele" required><br>';
-			$html .= '<br /><select name="type" required>';
+			$html .= '<input type="hidden" name="application" value="nouvel_ajoutVehicule" required>';
+			$html .= '<label for="marque">Marque : </label><input type="text" name="marque" required>';
+			$html .= '<br /><label for="modele">Modele : </label><input type="text" name="modele" required>';
+			$html .= '<br /><label for="type">Type : </label><select name="type" required>';
 			foreach ($elts['types'] as $key => $carb) {
 				$html .= '	<option value="' . $carb->id_type() . '">' . $carb->libelle() . '</option>';
 			}
 			$html .= '</select>';
-			$html .= '<br /><input type="text" name="couleur" placeholder="couleur" required><br>';
-			$html .= '<br /><select name="carburant" required>';
+			$html .= '<br /><label for="couleur">Couleur : </label><input type="text" name="couleur" required>';
+			$html .= '<br /><label for="carburant">Carburant : </label><select name="carburant" required>';
 			foreach ($elts['carburants'] as $key => $carb) {
 				$html .= '	<option value="' . $carb->id_carburant() . '">' . $carb->libelle() . '</option>';
 			}
 			$html .= '</select>';
-			$html .= '<br>';
-			$html .= '<br /><input type="text" name="immatriculation" placeholder="immatriculation" required><br>';
+			$html .= '<br /><label for="immatriculation">N° d\'immatriculation : </label><input type="text" name="immatriculation" required>';
+			$html .= '<br />';
 			$html .= '<input type="submit" name="submit" class="button" value="Go !">';
 			$html .= '</form>';
 

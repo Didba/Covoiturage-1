@@ -105,6 +105,20 @@ label
 	vertical-align: top;
 }
 
+input, select
+{
+	border-style: solid;
+	border-color: #ccc;
+	color: #888;
+}
+
+form *
+{
+	margin-top: 1rem;
+	font-size: 1.2rem;
+	line-height: 1.2rem;
+}
+
 .button_wrapper
 {
 	display: inline-block;
@@ -591,6 +605,7 @@ label.color-radio-label
 
 div.colorPicker-picker
 {
+	display: inline-block;
 	height: 3rem;
 	width: 3rem;
 	padding: 0 !important;

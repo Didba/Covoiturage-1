@@ -31,5 +31,5 @@ $(function() {
 		{name: "Violet", hex: "c2aeeb"}
 	]
 
-	$('input[name=couleur]').colorPicker({pickerDefault: "Gris", colors: namedColors});
+	$('input[name=couleur]').colorPicker({pickerDefault: "000000", colors: namedColors});
 });
