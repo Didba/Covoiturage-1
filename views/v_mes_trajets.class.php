@@ -38,7 +38,7 @@
 				$html .= '</div>';
 				$html .= '<form action="super_controller.php" method="post">
 						<input type="hidden" value="new_message" name="application">
-						<input type="hidden" value="' . $elt->trajet()->lieu_depart() . ' > ' . $elt->trajet()->lieu_arrivee() . ', le ' . date('d-m-y', strtotime($elt->trajet()->date_traj()) . ' à ' . date('h:m', strtotime($elt->trajet()->date_traj()) . '" name="sujet">
+						<input type="hidden" value="' . $elt->trajet()->lieu_depart() . ' > ' . $elt->trajet()->lieu_arrivee() . ', le ' . date('d-m-y', strtotime($elt->trajet()->date_traj())) . ' à ' . date('h:m', strtotime($elt->trajet()->date_traj())) . '" name="sujet">
 						<input type="hidden" name="id_adherent_to" value="'.$elt->conducteur()->id_adherent().'" name="id_adherent_to">
 						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
 						<input type="submit" name="submit"  value="Contacter">
