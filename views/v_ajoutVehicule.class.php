@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 	include_once 'v_compte.class.php';
 
@@ -11,14 +11,14 @@
 		* Défini l'HTML de la page
 		**/
 		function set_html($elts){
-			
+
 			$html =''; //Initialisation de la variable de retour
-			
+
 			$html .= $this->get_nav("Mes vehicules");
 
 			$html .= '<h3>Ajouter véhicule</h3>';
 			$html .= '<form method="post" action="super_controller.php">';
-			$html .= '<input type="hidden" name="application" value="nouvelle_proposition" required><br>';
+			$html .= '<input type="hidden" name="application" value="nouvel_ajoutVehicule" required><br>';
 			$html .= '<input type="text" name="marque" placeholder="marque" required><br>';
 			$html .= '<br /><input type="text" name="modele" placeholder="modele" required><br>';
 			$html .= '<br /><input type="text" name="type" placeholder="type" required><br>';
@@ -27,7 +27,7 @@
 			$html .= '<br /><input type="text" name="immarticulation" placeholder="immarticulation" required><br>';
 			$html .= '<input type="submit" name="submit" class="button" value="Go !">';
 			$html .= '</form>';
-			
+
 			//liste des vehicules du conducteur
 			$html .= '<h3>Liste des véhicules</h3>';
 			$html .= '</form>';
