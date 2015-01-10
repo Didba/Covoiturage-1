@@ -2,6 +2,7 @@
 
 	include_once 'models/Vehicule.class.php';
 	include_once 'models/CarburantManager.class.php';
+	include_once 'models/TypeManager.class.php';
 
 	/**
 	* Classe de gestion des vehicules
@@ -22,7 +23,7 @@
 		function add(array $data){
 			extract($data);
 			$query = $this->_db->prepare('INSERT INTO vehicule(id_adherent, num_permis, marque,modele,type,couleur,carburant,immatriculation) VALUES (:id_adherent, :num_permis, :marque,:modele,:type,:couleur,:carburant,:immatriculation)');
-			$query -> bindParam(':id_trajet', $_SESSION['id'],PDO::PARAM_INT);
+			$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 			$query -> bindParam(':num_permis', $_SESSION['permis'],PDO::PARAM_INT);
 			$query -> bindParam(':marque', $marque,PDO::PARAM_STR);
 			$query -> bindParam(':modele', $modele,PDO::PARAM_STR);
@@ -63,6 +64,10 @@
 			$cb_manager = new CarburantManager($this->_db);
 			$result['carburant'] = $cb_manager->get(array('id_carburant'=>$result['carburant']));
 			$result['carburant'] = $result['carburant']->libelle();
+
+			$cb_manager = new TypeManager($this->_db);
+			$result['type'] = $cb_manager->get(array('id_type'=>$result['type']));
+			$result['type'] = $result['type']->libelle();
 
 			$vehicule = new Vehicule();
 			$vehicule->hydrate($result);

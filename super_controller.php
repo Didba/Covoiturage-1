@@ -296,7 +296,7 @@ session_start();
 					else:
 						$_SESSION['msg'] = 'L\'ajout de votre véhicule a échoué';
 					endif;
-					header('Location: super_controller.php');
+					header('Location: super_controller.php?application=mes_vehicules');
 					break;
 
 				case 'mes_vehicules':
@@ -305,10 +305,11 @@ session_start();
 					include_once('models/CarburantManager.class.php');
 					$ve_manager = new VehiculeManager($db);
 					$cb_manager = new CarburantManager($db);
+					$tp_manager = new TypeManager($db);
 
 					$page = new v_ajoutVehicule("Mes vehicules");
 
-					$page->set_html(array("vehicule"=>$ve_manager->getList(array("id_adherent"=>$_SESSION['id'])), "carburants"=>$cb_manager->getList()));
+					$page->set_html(array("vehicule"=>$ve_manager->getList(array("id_adherent"=>$_SESSION['id'])), "carburants"=>$cb_manager->getList(), "types"=>$tp_manager->getList()));
 
 					break;
 
@@ -391,5 +392,6 @@ session_start();
 	$page->add_script('//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js');
     	$page->add_script('https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&region=FR');
 	$page->add_script("js/jquery.placecomplete.js");
+	$page->add_script("js/jquery.colorpicker.js");
 	$page->add_script("js/app.js");
 ?>

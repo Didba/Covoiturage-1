@@ -1,7 +1,6 @@
 <?php
 
 	include_once 'models/carburant.class.php';
-	include_once 'models/Adherent.class.php';
 
 	/**
 	* Classe de gestion des carburant
@@ -105,8 +104,7 @@
 
 			// On ajoute au tableau de retour les objets carburant créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
-				$carburant = new carburant();
-				$carburant->hydrate($value);
+				$carburant = $this->get(array("id_carburant"=>$value['id_carburant']));
 				array_push($list, $carburant);
 			}
 			return $list;

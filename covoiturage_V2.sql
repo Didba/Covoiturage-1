@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 10 Janvier 2015 à 20:21
+-- Généré le :  Sam 10 Janvier 2015 à 21:13
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -269,6 +269,35 @@ CREATE TABLE IF NOT EXISTS `trajet_caracteristique` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `type`
+--
+
+DROP TABLE IF EXISTS `type`;
+CREATE TABLE IF NOT EXISTS `type` (
+  `id_type` int(11) NOT NULL AUTO_INCREMENT,
+  `libelle` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Contenu de la table `type`
+--
+
+INSERT INTO `type` (`id_type`, `libelle`) VALUES
+(1, 'Moyenne berline'),
+(2, 'Citadine'),
+(3, 'Grande berline'),
+(4, 'Break'),
+(5, 'Monospace'),
+(6, '4x4, SUV'),
+(7, 'Coupé'),
+(8, 'Cabriolet'),
+(9, 'Utilitaire'),
+(10, 'Moto');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `vehicule`
 --
 
@@ -279,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
   `num_permis` int(11) NOT NULL,
   `marque` varchar(50) NOT NULL,
   `modele` varchar(50) NOT NULL,
-  `type` varchar(50) NOT NULL,
+  `type` int(50) NOT NULL,
   `couleur` varchar(50) NOT NULL,
   `photo` varchar(50) NOT NULL,
   `carburant` int(10) NOT NULL,
@@ -288,15 +317,17 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
   KEY `index` (`id_adherent`),
   KEY `id_adherent` (`id_adherent`),
   KEY `Num_Permis` (`num_permis`),
-  KEY `carburant` (`carburant`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+  KEY `carburant` (`carburant`),
+  KEY `type` (`type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Contenu de la table `vehicule`
 --
 
 INSERT INTO `vehicule` (`id_vehicule`, `id_adherent`, `num_permis`, `marque`, `modele`, `type`, `couleur`, `photo`, `carburant`, `immatriculation`) VALUES
-(1, 1, 12345, 'Renault', 'Megane', 'Berline', 'Noir', '', 1, '66-55-22');
+(1, 1, 12345, 'Renault', 'Megane', 1, '#000000', '', 1, '66-55-22'),
+(2, 1, 12345, 'Renault', 'Twingo', 2, '#fe98ca', '', 4, '8892245');
 
 -- --------------------------------------------------------
 
@@ -352,7 +383,8 @@ ALTER TABLE `trajet`
 -- Contraintes pour la table `vehicule`
 --
 ALTER TABLE `vehicule`
-  ADD CONSTRAINT `vehicule_ibfk_3` FOREIGN KEY (`carburant`) REFERENCES `carburant` (`id_carburant`),
+  ADD CONSTRAINT `vehicule_ibfk_4` FOREIGN KEY (`type`) REFERENCES `type` (`id_type`),
   ADD CONSTRAINT `vehicule_ibfk_1` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`num_permis`) REFERENCES `conducteur` (`num_permis`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`num_permis`) REFERENCES `conducteur` (`num_permis`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `vehicule_ibfk_3` FOREIGN KEY (`carburant`) REFERENCES `carburant` (`id_carburant`);
 SET FOREIGN_KEY_CHECKS=1;
