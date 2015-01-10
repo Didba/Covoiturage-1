@@ -114,7 +114,7 @@ session_start();
 					else:
 						$_SESSION['msg'] = "Votre inscription a échoué";
 					endif;
-					header('Location: super_controller.php');
+					//header('Location: super_controller.php');
 					break;
 
 
@@ -192,7 +192,6 @@ session_start();
 					else:
 						$_SESSION['msg'] = "Une erreur est survenue pendant la modification";
 					endif;
-					var_dump($_SESSION['msg']);
 					header('Location: super_controller.php?application=modif_profil');
 					break;
 

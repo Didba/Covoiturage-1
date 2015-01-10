@@ -46,9 +46,8 @@
 			$html .= '<input type="submit" name="submit" class="button" value="GO !">';
 			$html .= '<div class="form_photo">
 					<div class="photo_button">
-						<img class="adherent_photo" src="images/user.png">
-						<img src="images/icon_edit.png" class="edit_button" alt="">
-						<img src="images/icon_delete.png" class="edit_button" alt="">
+						<img class="adherent_photo" src="' . $adherent->photo() . '">
+						<!--<img src="images/icon_delete.png" class="edit_button" alt="">-->
 					</div>
 					<div class="fileUpload">
 						<span>Nouvelle image <i>(taille max. : 2mo)</i></span>

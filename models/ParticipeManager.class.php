@@ -102,7 +102,7 @@
 				$participe->setTrajet(new Trajet());
 				$value['trajet'] = $tr_manager->get(array("id_trajet"=>$value['id_trajet']));
 
-				$query = $this->_db->prepare('SELECT Prenom, Nom FROM adherent WHERE Id_Adherent=:id');
+				$query = $this->_db->prepare('SELECT Prenom, Nom FROM adherent WHERE id_adherent=:id');
 				$query -> bindParam(':id', $value['id_adherent'],PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result2 = $query->fetch();

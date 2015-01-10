@@ -37,12 +37,43 @@
 			$query->execute() or die(print_r($query->errorInfo()));
 			$result = $query->fetch();
 
-			if($conducteur)
+			if(isset($conducteur) && $conducteur)
 			{
 				$query = $this->_db->prepare('INSERT INTO conducteur VALUES (:num_permis, :id_adherent)');
 				$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
 				$query -> bindParam(':id_adherent', $result['id_adherent'],PDO::PARAM_INT);
 				if(!$query->execute()):$resp = false;endif;
+			}
+
+
+			if (isset($_FILES['photo']) AND $_FILES['photo']['error'] == 0 AND $resp)
+			{
+				// Testons si le fichier n'est pas trop gros
+				if ($_FILES['photo']['size'] <= 10000000)
+				{
+					// Testons si l'extension est autorisée
+					$infosfichier = pathinfo($_FILES['photo']['name']);
+					$extension_upload = $infosfichier['extension'];
+					$extensions_autorisees = array('jpg', 'jpeg','JPG','JPEG','Jpg','Jpeg','gif','png','PNG', 'Png', 'Gif');
+					if (in_array($extension_upload, $extensions_autorisees))
+					{
+						$_SESSION['photo_extension'] = $extension_upload;
+						$prenom = $this->convert_special_characters($prenom);
+						$nom = $this->convert_special_characters($nom);
+						$_FILES['photo']['name'] = $prenom . "_" . $nom . "_".$result['id_adherent'] .".".$extension_upload;
+						var_dump(($_FILES['photo']['name']));
+						if(file_exists('adherent/' . basename($_FILES['photo']['name'])))
+						{
+							unlink('adherent/' . basename($_FILES['photo']['name']));
+						}
+						move_uploaded_file($_FILES['photo']['tmp_name'], 'adherent/' . basename($_FILES['photo']['name']));
+						$url = 'adherent/' . basename($_FILES['photo']['name']);
+						$query = $this->_db->prepare('UPDATE adherent SET photo=:url WHERE id_adherent=:id_adherent');
+						$query -> bindParam(':url', $url,PDO::PARAM_STR);
+						$query -> bindParam(':id_adherent', $result['id_adherent'],PDO::PARAM_INT);
+						$query->execute() or die(print_r($query->errorInfo()));
+					}
+				}
 			}
 			return $resp;
 		}
@@ -157,8 +188,6 @@
 			$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 			$query->execute();
 			$result = $query->fetch();
-			var_dump(md5($password));
-			var_dump($result['password']);
 			if($result['password']==md5($password))
 			{
 				//Mise à jour des infos de base
@@ -183,7 +212,7 @@
 					if(!$query->execute()):$resp = false;endif;
 				}
 
-				if($conducteur)
+				if(isset($conducteur) && $conducteur)
 				{
 					$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_adherent=:id_adherent');
 					$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
@@ -217,12 +246,52 @@
 					}
 					unset($_SESSION['permis']);
 				}
+
+				if (isset($_FILES['photo']) AND $_FILES['photo']['error'] == 0)
+				{
+					// Testons si le fichier n'est pas trop gros
+					if ($_FILES['photo']['size'] <= 10000000)
+					{
+						// Testons si l'extension est autorisée
+						$infosfichier = pathinfo($_FILES['photo']['name']);
+						$extension_upload = $infosfichier['extension'];
+						$extensions_autorisees = array('jpg', 'jpeg','JPG','JPEG','Jpg','Jpeg','gif','png','PNG', 'Png', 'Gif');
+						if (in_array($extension_upload, $extensions_autorisees))
+						{
+							$_SESSION['photo_extension'] = $extension_upload;
+							$prenom = $this->convert_special_characters($prenom);
+							$nom = $this->convert_special_characters($nom);
+							$_FILES['photo']['name'] = $prenom . "_" . $nom . "_".$_SESSION['id'] .".".$extension_upload;
+							var_dump($_FILES['photo']);
+
+							if(file_exists('adherent/' . basename($_FILES['photo']['name'])))
+							{
+								unlink('adherent/' . basename($_FILES['photo']['name']));
+							}
+
+							move_uploaded_file($_FILES['photo']['tmp_name'], 'adherent/' . basename($_FILES['photo']['name']));
+
+							$url = 'adherent/' . basename($_FILES['photo']['name']);
+							$query = $this->_db->prepare('UPDATE adherent SET photo=:url WHERE id_adherent=:id_adherent');
+							$query -> bindParam(':url', $url,PDO::PARAM_STR);
+							$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
+							$query->execute() or die(print_r($query->errorInfo()));
+						}
+					}
+				}
 			}
 			else
 			{
 				$resp = false;
 			}
 			return $resp;
+		}
+
+		/**
+		* Remplace les caractères spéciaux
+		**/
+		function convert_special_characters($string){
+			return strtolower(trim(preg_replace('~[^0-9a-z]+~i', '-', preg_replace('~&([a-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml);~i', '$1', htmlentities($string, ENT_QUOTES, 'UTF-8'))), ' '));
 		}
 	}
 
