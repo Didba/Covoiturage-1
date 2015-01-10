@@ -114,7 +114,7 @@ session_start();
 					else:
 						$_SESSION['msg'] = "Votre inscription a échoué";
 					endif;
-					//header('Location: super_controller.php');
+					header('Location: super_controller.php');
 					break;
 
 
@@ -192,6 +192,7 @@ session_start();
 					else:
 						$_SESSION['msg'] = "Une erreur est survenue pendant la modification";
 					endif;
+					var_dump($_SESSION['msg']);
 					header('Location: super_controller.php?application=modif_profil');
 					break;
 
@@ -297,6 +298,22 @@ session_start();
 
 					break;
 
+				case 'mes_vehicules':
+					include_once 'views/v_ajoutVehicule.class.php';
+					include_once('models/VehiculeManager.class.php');
+					$ve_manager = new VehiculeManager($db);
+					//$traj_cond = array();
+					if(isset($_SESSION['permis']))
+					{
+						/*include_once('models/TrajetManager.class.php');
+						$tr_manager = new TrajetManager($db);
+						$traj_cond = $tr_manager->getList(array('id_adherent' => $_SESSION['id']));*/
+					}
+					$page = new v_ajoutVehicule("Mes vehicules");
+
+					$page->set_html(array("vehicule"=>$ve_manager->getList(array("id_adherent"=>$_SESSION['id']))));
+
+					break;
 
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------------ MESSAGERIE ----------------------------*/

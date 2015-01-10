@@ -8,7 +8,6 @@
 	class VehiculeManager
 	{
 		private $_db;
-		public $VeManager;
 
 		//Constructeur du manager, on y instancie PDO
 		function __construct($db)
@@ -71,33 +70,38 @@
 		**/
 		function getList($champs=NULL){
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
+			include_once 'models/ConducteurManager.class.php';
+			$mb_manager = new conducteurManager($this->_db);
 			if($champs==NULL)
 			{
 				$query = $this->_db->prepare('SELECT * FROM vehicule');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM vehicule WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM vehicule INNER JOIN conducteur ON vehicule.id_adherent = conducteur.id_adherent WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
-						$query_str .= ' AND ' . $champ . ' LIKE "%' . $val . '%"'; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
+						$query_str .= ' AND conducteur.' . $champ . ' LIKE "%' . $val . '%"'; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
 					}
 				}
 				$query = $this->_db->prepare($query_str);
 			}
+			
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetchAll();
+			//var_dump($result);
 			$list = array();
 
 			// On ajoute au tableau de retour les objets vehicule créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
-				$vehicule = new Adherent();
-				$value['vehicule'] = $this->AdManager->get(array("id_vehicule"=>$value['vehicule']));
+				$vehicule = new vehicule();
+				//$vehicule = $this->get(array("id_vehicule"=>$value['id_vehicule']));
 				$vehicule->hydrate($value);
 				array_push($list, $vehicule);
 			}
+			//var_dump($list);
 			return $list;
 		}
 
