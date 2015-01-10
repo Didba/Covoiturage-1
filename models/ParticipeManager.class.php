@@ -78,7 +78,7 @@
 			}
 			else
 			{
-				$query_str = "SELECT * FROM trajet INNER JOIN participe ON trajet.id_trajet = participe.id_trajet WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM participe INNER JOIN trajet ON trajet.id_trajet = participe.id_trajet WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{

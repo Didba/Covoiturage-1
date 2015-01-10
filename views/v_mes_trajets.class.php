@@ -34,7 +34,8 @@
 				$html .= '</br>Nombre de passagers : ' . ($elt->trajet()->nb_passagers_max()-$elt->trajet()->nb_passagers_rest());
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
-				$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
+				$html .= $elt->conducteur()->prenom(). ' ' . substr($elt->conducteur()->nom(), 0,1) . '.';
+				$html .= '</div>';
 
 				$html .= '<form action="super_controller.php" method="post">
 						<input type="hidden" value="new_message" name="application">
@@ -44,7 +45,6 @@
 						<input type="submit" name="submit"  value="Contacter">
 					</form>';
 
-				$html .= '</div>';
 				$html .= '<a href="super_controller.php?application=annuler&id_trajet=' . $elt->id_trajet() . '">Annuler</a>';
 				$html .= '</li>';
 				//$html .= '</br>';
