@@ -27,7 +27,7 @@
 			$query -> bindParam(':couleur', $couleur,PDO::PARAM_STR);
 			$query -> bindParam(':carburant', $carburant,PDO::PARAM_STR);
 			$query -> bindParam(':immarticulation', $immarticulation,PDO::PARAM_STR);
-			$query->execute() or die(print_r($query->errorInfo()));
+			return $query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
@@ -38,10 +38,10 @@
 			if(isset($id_Vehicule))
 			{
 				$query = $this->_db->prepare('DELETE FROM vehicule WHERE id_vehicule=:id_vehicule');
-				$query -> bindParam(':id_vehicule', $id_Vehicule,PDO::PARAM_INT);
+				$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_INT);
 			}
 
-			$query->execute() or die(print_r($query->errorInfo()));
+			return $query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
@@ -49,10 +49,10 @@
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id_Vehicule))
+			if(isset($id_vehicule))
 			{
 				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE id_vehicule=:id_vehicule');
-				$query -> bindParam(':id_vehicule', $id_Vehicule,PDO::PARAM_INT);
+				$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_INT);
 			}
 
 
@@ -70,38 +70,26 @@
 		**/
 		function getList($champs=NULL){
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
-			include_once 'models/ConducteurManager.class.php';
-			$mb_manager = new conducteurManager($this->_db);
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM vehicule');
+				return false;
 			}
 			else
 			{
-				$query_str = "SELECT * FROM vehicule INNER JOIN conducteur ON vehicule.id_adherent = conducteur.id_adherent WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
-				foreach ($champs as $champ => $val) {
-					if($val!="") //On vérifie que la valeur ne soit pas nulle
-					{
-						$query_str .= ' AND conducteur.' . $champ . ' LIKE "%' . $val . '%"'; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
-					}
+				$query = $db->prepare('SELECT id_vehicule FROM vehicule WHERE id_adherent = :id_adherent');
+				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+				$result = $query->fetchAll();
+
+				$list = array();
+
+				// On ajoute au tableau de retour les objets vehicule créés avec chaque ligne de la BDD retournée
+				foreach ($result as $key => &$value) {
+					$vehicule = $this->get(array("id_vehicule"=>$result['id_vehicule']));
+					array_push($list, $vehicule);
 				}
-				$query = $this->_db->prepare($query_str);
 			}
-			
-			$query->execute() or die(print_r($query->errorInfo()));
 
-			$result = $query->fetchAll();
-			//var_dump($result);
-			$list = array();
-
-			// On ajoute au tableau de retour les objets vehicule créés avec chaque ligne de la BDD retournée
-			foreach ($result as $key => &$value) {
-				$vehicule = new vehicule();
-				//$vehicule = $this->get(array("id_vehicule"=>$value['id_vehicule']));
-				$vehicule->hydrate($value);
-				array_push($list, $vehicule);
-			}
-			//var_dump($list);
 			return $list;
 		}
 
@@ -117,6 +105,7 @@
 			$query -> bindParam(':couleur', $couleur,PDO::PARAM_STR);
 			$query -> bindParam(':carburant', $carburant,PDO::PARAM_STR);
 			$query -> bindParam(':immarticulation', $immarticulation,PDO::PARAM_STR);
+			$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 	}
