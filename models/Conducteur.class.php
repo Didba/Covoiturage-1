@@ -1,4 +1,7 @@
 <?php
+
+	include_once 'models/Adherent.class.php';
+	
 	/**
 	* Classe conducteur
 	*/
