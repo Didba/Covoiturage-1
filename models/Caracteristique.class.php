@@ -3,11 +3,11 @@
 	/**
 	* Classe caractéristique
 	*/
-	class caracteristique
+	class Caracteristique
 	{
 		private $_id_caracteristique;
 		private $_nom;
-		
+
 
 		public function id_caracteristique()
 		{
@@ -18,7 +18,7 @@
 		{
 			return $this->_nom;
 		}
-		
+
 		public function setId_caracteristique($i)
 		{
 			$this->_id_caracteristique = $i;
@@ -28,7 +28,7 @@
 		{
 			$this->_nom =  $nom;
 		}
-		
+
 		public function hydrate(array $data)
 		{
 			foreach ($data as $key => $value)
