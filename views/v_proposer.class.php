@@ -46,7 +46,7 @@
 			$html .= '</select>';
 			$html .= '<br /><label for="caracteristique">Caracteristique : </label>';
 			foreach ($elts['caracteristique'] as $key => $carac) {
-				$html .= '<input type="checkbox" name="caracteristique[]" value="' . $carac->id_caracteristique() . '" />' . $carac->nom();
+				$html .= '<p><input type="checkbox" name="caracteristique[]" value="' . $carac->id_caracteristique() . '" />' . $carac->nom() . '</p>';
 			}
 			$html .= '<br /><label for="id_vehicule">Véhicule : </label><input type="text" name="id_vehicule" value="1">';
 			$html .= '<br /><label for="nb_passagers_max">Nombre de passagers : </label><input type="number" name="nb_passagers_max" required><br>';
