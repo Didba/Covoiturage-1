@@ -638,6 +638,11 @@ label.color-radio-label
 	border-bottom-style: solid;
 }
 
+.vehicule:last-child
+{
+	border-bottom-style: none;
+}
+
 /*-------------------------------------------------*/
 /*-------------- Placecomplete --------------*/
 /*-------------------------------------------------*/

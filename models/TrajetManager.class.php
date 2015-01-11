@@ -71,6 +71,7 @@
 		function get(array $data){
 			extract($data);
 			$mb_manager = new AdherentManager($this->_db);
+			$tcr_manager = new Trajet_CaracteristiqueManager($this->_db);
 			if(isset($id_trajet))
 			{
 				$query = $this->_db->prepare('SELECT * FROM trajet WHERE id_trajet=:id_trajet');
@@ -84,14 +85,10 @@
 				$query -> bindParam(':id', $result['id_trajet'],PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result2 = $query->fetch();
+				//On formate la date
 				$result['date'] = $result2['D'] . ' ' . $result2['d'] . ' ' . $result2['m'] . ' ' . $result2['y'];
 
-				if(isset($result['Trajet_Caracteristique']))
-				{
-					$result['Trajet_Caracteristique'] = $this->caManager->get(array("id_trajet"=>$result['Trajet_Caracteristique']));
-				}
-
-				$query = $this->_db->prepare('SELECT Prenom, Nom FROM adherent WHERE Id_Adherent=:id');
+				$query = $this->_db->prepare('SELECT prenom, nom FROM adherent WHERE id_adherent=:id');
 				$query -> bindParam(':id', $result['id_adherent'],PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result2 = $query->fetch();
@@ -106,6 +103,8 @@
 				$result['conducteur'] = $mb_manager->get(array('id_adherent'=>$result['id_adherent']));
 
 				$result['nb_passagers_rest'] = $result['nb_passagers_max'] - $this->get_rest($id_trajet);
+
+				$result['caracteristiques'] = $tcr_manager->getList(array('id_trajet'=>$id_trajet));
 			}
 
 			if(!empty($result))
@@ -132,13 +131,15 @@
 			}
 			else if(isset($champs['lieu_depart'])&&isset($champs['lieu_arrivee']))
 			{
+				//On récupère les villes proches
 				$depart = $this->getNearby($champs['lieu_depart']);
 				$arrivee = $this->getNearby($champs['lieu_arrivee']);
+
 				$query_str = "SELECT * FROM trajet WHERE lieu_depart REGEXP '" . $champs['lieu_depart']; //Début de la requête.
 				foreach ($depart as $key => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
-						$query_str .= '|' . $val['nom']; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
+						$query_str .= '|' . $val['nom']; // On ajoute chaque ville proche
 					}
 				}
 
@@ -146,11 +147,11 @@
 				foreach ($arrivee as $key => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
-						$query_str .= '|' . $val['nom'] . ''; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
+						$query_str .= '|' . $val['nom'] . '';
 					}
 				}
 
-				$query_str .= "' AND date_traj > '" . $champs['date_traj'] . ' ' . ($champs['hour']-1) . ':' . $champs['minute'] . "' AND date_traj < '" . $champs['date_traj'] . ' ' . ($champs['hour']+10) . ':' . $champs['minute'] . "' ORDER BY date_traj ASC";
+				$query_str .= "' AND date_traj > '" . $champs['date_traj'] . ' ' . ($champs['hour']-1) . ':' . $champs['minute'] . "' AND date_traj < '" . $champs['date_traj'] . ' ' . ($champs['hour']+10) . ':' . $champs['minute'] . "' ORDER BY date_traj ASC"; //On ajoute la vérification de la date (-1h et +10h)
 				$query = $this->_db->prepare($query_str);
 			}
 			else
@@ -171,6 +172,7 @@
 			$list = array();
 
 			foreach ($result as $key => &$value) {
+				//On créé un objet trajet pour chaque élément retourné par la requête
 				$trajet = $this->get(array("id_trajet"=>$value['id_trajet']));
 				array_push($list, $trajet);
 			}
@@ -236,19 +238,19 @@
 			$distance = 10;
 			$unit = 'km';
 
-			// radius of earth; @note: the earth is not perfectly spherical, but this is considered the 'mean radius'
-			if ($unit == 'km') $radius = 6371.009; // in kilometers
+			// Rayon de la Terre
+			if ($unit == 'km') $radius = 6371.009; // en km
 			elseif ($unit == 'mi') $radius = 3958.761; // in miles
 
-			// latitude boundaries
+			// Bornes latitudes
 			$maxLat = (float) $lat + rad2deg($distance / $radius);
 			$minLat = (float) $lat - rad2deg($distance / $radius);
 
-			// longitude boundaries (longitude gets smaller when latitude increases)
+			// Bornes longitude
 			$maxLng = (float) $lng + rad2deg($distance / $radius / cos(deg2rad((float) $lat)));
 			$minLng = (float) $lng - rad2deg($distance / $radius / cos(deg2rad((float) $lat)));
 
-			// get results ordered by distance (approx)
+			// Récupération des résultat par distance
 			$query = $this->_db->prepare('SELECT ville_nom_reel AS nom FROM villes WHERE lat > :minLat AND lat < :maxLat AND lng > :minLng AND lng < :maxLng ORDER BY ABS(lat - :lat) + ABS(lng - :lng) ASC LIMIT :limit');
 			$query -> bindParam(':minLat', $minLat,PDO::PARAM_INT);
 			$query -> bindParam(':maxLat', $maxLat,PDO::PARAM_INT);
@@ -260,9 +262,6 @@
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetchAll();
-			foreach ($result as $key => &$value) {
-				$value['nom'] = ($value['nom']);
-			}
 			return $result;
 		}
 
