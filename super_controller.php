@@ -285,10 +285,18 @@ session_start();
 				/*-------------------------------------------------------------------------------*/
 				/*------------------------------ AJOUT VEHICULE ----------------------------*/
 				/*-------------------------------------------------------------------------------*/
-
+				case 'new_vehicule':
+					include_once('models/VehiculeManager.class.php');
+					include_once('views/v_ajoutVehicule.class.php');
+					$ve_manager = new vehiculeManager($db);
+					$page = new v_ajoutVehicule("Ajouter véhicule");
+					$page->set_html();
+					break;
+				
 				case 'nouvel_ajoutVehicule':
 					include_once('models/VehiculeManager.class.php');
 					include_once('models/ConducteurManager.class.php');
+					
 					$ve_manager = new VehiculeManager($db);
 
 					if($ve_manager->add($_POST)):
@@ -299,19 +307,20 @@ session_start();
 					header('Location: super_controller.php?application=mes_vehicules');
 					break;
 
+					
 				case 'mes_vehicules':
-					include_once 'views/v_ajoutVehicule.class.php';
+					include_once 'views/v_mes_vehicules.class.php';
 					include_once('models/VehiculeManager.class.php');
 					include_once('models/CarburantManager.class.php');
 					$ve_manager = new VehiculeManager($db);
 					$cb_manager = new CarburantManager($db);
 					$tp_manager = new TypeManager($db);
 
-					$page = new v_ajoutVehicule("Mes vehicules");
+					$page = new v_mes_vehicules("Mes véhicules");
 
 					$page->set_html(array("vehicule"=>$ve_manager->getList(array("id_adherent"=>$_SESSION['id'])), "carburants"=>$cb_manager->getList(), "types"=>$tp_manager->getList()));
 
-					break;
+					break;	
 
 
 				/*-------------------------------------------------------------------------------*/
