@@ -24,7 +24,9 @@
 			else:
 
 			foreach ($list as $key => $trajet) {
+
 				$max = $trajet->nb_passagers_rest()-1;
+
 				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
 				$html .= '<div class="cities">';
@@ -36,38 +38,49 @@
 				$html .= $trajet->distance() . 'kms';
 				$html .= '</br>';
 				$html .= gmdate('H\hi',$trajet->time()) . '';
+				$html .= '</br>Nombre de passagers : ' . ($trajet->nb_passagers_max()-$trajet->nb_passagers_rest()) . '/' . $trajet->nb_passagers_max();
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '.';
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
-				$html .= '</br>';
 				$html .= $trajet->frais() . '€ <i>par passager</i>';
-				$html .= 'Places restantes : ' . $trajet->nb_passagers_rest();
+					$html .= '</br>';
 				if(isset($_SESSION['id'])&& $_SESSION['id']==$trajet->id_adherent())
 				{
 					$html .= '<p>Vous êtes le conducteur</p>';
 				}
 				else if(isset($_SESSION['id']))
 				{
+					if($trajet->nb_passagers_rest()!=0)
+					{
+						$html .= '<form action="super_controller.php" method="post">
+							<input type="hidden" value="new_message" name="application">
+							<input type="hidden" value="' . $trajet->lieu_depart() . ' > ' . $trajet->lieu_arrivee() . ', le ' . date('d/m/y', strtotime($trajet->date_traj())) . ' à ' . date('h:m', strtotime($trajet->date_traj())) . '" name="sujet">
+							<input type="hidden" name="id_adherent_to" value="'.$trajet->conducteur()->id_adherent().'" name="id_adherent_to">
+							<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
+							<input type="submit" name="submit" value="Contacter">
+						</form>';
 
-					$html .= '<form action="super_controller.php" method="post">
-						<input type="hidden" value="new_message" name="application">
-						<input type="hidden" value="' . $elt->trajet()->lieu_depart() . ' > ' . $elt->trajet()->lieu_arrivee() . ', le ' . date('d/m/y', strtotime($elt->trajet()->date_traj())) . ' à ' . date('h:m', strtotime($elt->trajet()->date_traj())) . '" name="sujet">
-						<input type="hidden" name="id_adherent_to" value="'.$trajet->conducteur()->id_adherent().'" name="id_adherent_to">
-						<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
-						<input type="submit" name="submit" value="Contacter">
-					</form>';
 
+						$html .= '<form action="super_controller.php" method="post">
+							<input type="hidden" value="reserver" name="application">
+							<input type="hidden" value="' . $trajet->id_trajet() . '" name="id_trajet">
+							<input type="hidden" value="' . $_SESSION['id'] . '" name="id_adherent">
+							Places supplémentaires : <select name="nb_invites">';
+						for ($i=0; $i <= $max; $i++) {
+							$html .= '<option value="' . $i . '">' . $i . '</option>';
+						}
+						$html .= '</select>';
 
-					$html .= '<form action="super_controller.php" method="post">
-						<input type="hidden" value="reserver" name="application">
-						<input type="hidden" value="' . $trajet->id_trajet() . '" name="id_trajet">
-						<input type="hidden" value="' . $_SESSION['id'] . '" name="id_adherent">
-						</br>Places supplémentaires : <input type="number" name="nb_invites" value="0" max="' . $max . '">
-						<input type="hidden" name="frais" value="' . $trajet->frais() . '">
-						</br><input type="submit" name="submit" class="button" value="Réserver">
-					</form>';
+						$html .= '<input type="hidden" name="frais" value="' . $trajet->frais() . '">
+							</br><input type="submit" name="submit" class="button" value="Réserver">
+						</form>';
+					}
+					else
+					{
+						$html .= '<h4>Trajet complet</h4>';
+					}
 				}
 				else
 				{

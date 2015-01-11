@@ -116,7 +116,7 @@ session_start();
 					else:
 						$_SESSION['msg'] = "Votre inscription a échoué";
 					endif;
-					//header('Location: super_controller.php');
+					header('Location: super_controller.php');
 					break;
 
 				/*-------------------------------------------------------------------------------*/
@@ -234,7 +234,7 @@ session_start();
 					if($pa_manager->add($_POST)):
 						$_SESSION['msg'] = "Votre inscription a bien été prise en compte";
 					else:
-						$_SESSION['msg'] = "Une erreur a empêché votre réservation";
+						$_SESSION['msg'] = "Une erreur a empêché votre réservation. Vérifiez que vous n'avez pas déjà réservé ce trajet";
 					endif;
 					header('Location: super_controller.php?application=mes_trajets');
 					break;

@@ -43,7 +43,7 @@
 				$html .= ' value="' . $adherent->num_permis() . '"';
 			}
 			$html .= '><br>';
-			$html .= '<input type="submit" name="submit" class="button" value="GO !">';
+			$html .= '<div class="button_wrapper"><input type="submit" name="submit" class="button" value="Modifier"></div>';
 			$html .= '<div class="form_photo">
 					<div class="photo_button">
 						<img class="adherent_photo" src="' . $adherent->photo() . '">
@@ -56,7 +56,7 @@
 				</div>';
 			$html .= '</form>';
 
-		$html .= '<a href="super_controller.php?application=supprimer"><h5>Supprimer compte</h5></a>';
+		$html .= '<div class="button_wrapper"><a href="super_controller.php?application=supprimer"><h4>Supprimer compte</h4></a></div>';
 
 
 			//On retourne tout ce qu'on vient de créer en HTML dans l'attribut correspondant de la page

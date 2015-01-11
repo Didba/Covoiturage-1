@@ -36,7 +36,14 @@
 				}
 			}
 			echo  $this->head->to_html() . $this->html . '
-			</div>' .$scripts . '
+			</div>
+			</div>';
+			echo '<footer><div class="large">';
+			echo '<div class="logo"><img src="images/logo.png" alt=""></div>';
+
+			echo '<p>IUT Dijon - 2015</p><div class="footer_infos"></div></div></footer>';
+
+			echo $scripts . '
 		</body>
 	</html>';
 			unset($_SESSION['msg']);

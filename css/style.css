@@ -30,13 +30,23 @@ body
 	background-size: cover;
 }
 
+.large
+{
+	width: 1300px;
+	margin: auto;
+}
+
 .content
 {
-	background-color: rgba(240,240,240,0.9);
 	margin: auto;
 	margin-top: 6.25rem;
 	position: relative;
 	z-index: 0;
+}
+
+.wrapper
+{
+	background-color: rgba(240,240,240,0.9);
 	padding: 2rem;
 }
 
@@ -46,11 +56,6 @@ body
 	vertical-align: middle;
 	position: relative;
 	display: inline-block;
-}
-
-.large
-{
-	width: 1300px;
 }
 
 h2
@@ -65,6 +70,7 @@ h3
 {
 	font-size: 3rem;
 	margin-bottom: 1rem;
+	color:#004963;
 }
 
 h4
@@ -72,6 +78,7 @@ h4
 	font-size: 1.5rem;
 	margin-bottom: 1rem;
 	text-indent: 2rem;
+	color:#004963;
 }
 
 .alert
@@ -99,7 +106,7 @@ ul
 label
 {
 	display: inline-block;
-	width: 15%;
+	width: 16%;
 	text-align: right;
 	margin-right: 1rem;
 	vertical-align: top;
@@ -314,6 +321,10 @@ body.index .content
 	left: 0;
 	right: 0;
 	bottom: 20%;
+}
+
+.index .wrapper
+{
 	background: none;
 }
 
@@ -459,7 +470,8 @@ label.color-radio-label
 .heure
 {
 	font-weight: 700;
-	font-size: 1.2rem;
+	font-size: 1.5rem;
+	color: #004963
 }
 
 .result_driver
@@ -485,6 +497,7 @@ label.color-radio-label
 	width: 100%;
 	text-align: center;
 	margin-bottom: 1.5rem;
+	color:#004963;
 }
 
 #onglets
@@ -662,4 +675,47 @@ div.colorPicker-swatch
 	float: left;
 	cursor: pointer;
 	line-height: 2rem;
+}
+
+/*-------------------------------------------------*/
+/*-------------------- Footer -------------------*/
+/*-------------------------------------------------*/
+
+footer
+{
+	background-color: rgba(200,200,200,1);
+	padding: 1rem 0 1rem 1rem;
+	position: relative;
+	z-index: 2;
+	color: #fff;
+	text-align: center;
+	margin-top: 1rem;
+}
+
+.index footer
+{
+	display: none;
+}
+
+footer .large
+{
+	display: table;
+	table-layout: fixed;
+}
+
+footer .logo, footer p, .footer_infos
+{
+	display: table-cell;
+	overflow: hidden;
+	vertical-align: middle;
+}
+
+footer .logo, .footer_infos
+{
+	width: 20%;
+}
+
+footer .logo img
+{
+	width: 100%;
 }

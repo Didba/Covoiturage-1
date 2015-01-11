@@ -37,7 +37,7 @@
 			$html .= '</table>';
 			$html .= '<br />';
 
-			$html .= '<h4>Ajouter véhicule</h4>';
+			$html .= '<h4>Ajouter un véhicule</h4>';
 			$html .= '<form method="post" action="super_controller.php">';
 			$html .= '<input type="hidden" name="application" value="nouvel_ajoutVehicule" required>';
 			$html .= '<label for="marque">Marque : </label><input type="text" name="marque" required>';
@@ -55,7 +55,7 @@
 			$html .= '</select>';
 			$html .= '<br /><label for="immatriculation">N° d\'immatriculation : </label><input type="text" name="immatriculation" required>';
 			$html .= '<br />';
-			$html .= '<input type="submit" name="submit" class="button" value="Go !">';
+			$html .= '<div class="button_wrapper"><input type="submit" name="submit" class="button" value="Ajouter"></div>';
 			$html .= '</form>';
 
 			//On retourne tout ce qu'on vient de créer en HTML dans l'attribut correspondant de la page

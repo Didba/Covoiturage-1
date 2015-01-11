@@ -39,7 +39,7 @@
 				$html .= $elt->conducteur()->prenom(). ' ' . substr($elt->conducteur()->nom(), 0,1) . '.';
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
-				$html .= $elt->trajet()->frais() . '€';
+				$html .= $elt->frais() . '€';
 				$html .= '</br>';
 				$html .= '<form action="super_controller.php" method="post">
 						<input type="hidden" value="new_message" name="application">

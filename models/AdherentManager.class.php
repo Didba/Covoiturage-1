@@ -75,6 +75,14 @@
 					}
 				}
 			}
+			else
+			{
+				$url = 'adherent/default.png';
+				$query = $this->_db->prepare('UPDATE adherent SET photo=:url WHERE id_adherent=:id_adherent');
+				$query -> bindParam(':url', $url,PDO::PARAM_STR);
+				$query -> bindParam(':id_adherent', $result['id_adherent'],PDO::PARAM_INT);
+				$query->execute() or die(print_r($query->errorInfo()));
+			}
 			return $resp;
 		}
 

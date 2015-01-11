@@ -124,6 +124,8 @@
 			{
 				$html .= '<div class="alert">' . $this->message . '</div>';
 			}
+			$html .= '
+				<div class="wrapper">';
 			return $html;
 		}
 

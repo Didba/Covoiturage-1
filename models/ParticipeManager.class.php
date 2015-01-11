@@ -34,7 +34,8 @@
 			extract($data);
 			if(isset($id_trajet))
 			{
-				$query = $this->_db->prepare('DELETE FROM participe WHERE id_trajet=:id_trajet');
+				$query = $this->_db->prepare('DELETE FROM participe WHERE id_trajet=:id_trajet AND id_adherent=:id_adherent');
+				$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 				$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_INT);
 			}
 
