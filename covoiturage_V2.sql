@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  127.0.0.1
--- Généré le :  Sam 10 Janvier 2015 à 21:13
+-- Généré le :  Dim 11 Janvier 2015 à 12:56
 -- Version du serveur :  5.6.17
 -- Version de PHP :  5.5.12
 
@@ -220,8 +220,7 @@ CREATE TABLE IF NOT EXISTS `participe` (
 --
 
 INSERT INTO `participe` (`id_adherent`, `id_trajet`, `nb_invites`, `frais`) VALUES
-(1, 19, 0, 18),
-(8, 19, 0, 18);
+(15, 19, 1, 36);
 
 -- --------------------------------------------------------
 
@@ -239,19 +238,21 @@ CREATE TABLE IF NOT EXISTS `trajet` (
   `lieu_depart` varchar(30) NOT NULL,
   `lieu_arrivee` varchar(30) NOT NULL,
   `commentaire` varchar(1000) DEFAULT NULL,
+  `id_vehicule` int(11) NOT NULL,
   PRIMARY KEY (`id_trajet`),
-  KEY `id_adherent` (`id_adherent`)
+  KEY `id_adherent` (`id_adherent`),
+  KEY `id_vehicule` (`id_vehicule`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
 --
 -- Contenu de la table `trajet`
 --
 
-INSERT INTO `trajet` (`id_trajet`, `id_adherent`, `num_permis`, `date_traj`, `nb_passagers_max`, `lieu_depart`, `lieu_arrivee`, `commentaire`) VALUES
-(2, 1, 7, '2014-12-16 00:00:00', 3, 'Dijon', 'Paris', ''),
-(3, 1, 0, '2015-01-02 00:00:00', 3, 'Auxerre', 'Dijon', NULL),
-(8, 1, 0, '2015-01-02 00:00:00', 3, 'Strasbourg', 'Dijon', NULL),
-(19, 1, 0, '2015-01-09 12:00:00', 3, 'Dijon', 'Palaiseau', 'Jeeezus');
+INSERT INTO `trajet` (`id_trajet`, `id_adherent`, `num_permis`, `date_traj`, `nb_passagers_max`, `lieu_depart`, `lieu_arrivee`, `commentaire`, `id_vehicule`) VALUES
+(2, 1, 7, '2014-12-16 00:00:00', 3, 'Dijon', 'Paris', '', 1),
+(3, 1, 0, '2015-01-02 00:00:00', 3, 'Auxerre', 'Dijon', NULL, 2),
+(8, 1, 0, '2015-01-02 00:00:00', 3, 'Strasbourg', 'Dijon', NULL, 1),
+(19, 1, 0, '2015-01-09 12:00:00', 3, 'Dijon', 'Palaiseau', 'Jeeezus', 2);
 
 -- --------------------------------------------------------
 
@@ -319,7 +320,7 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
   KEY `Num_Permis` (`num_permis`),
   KEY `carburant` (`carburant`),
   KEY `type` (`type`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Contenu de la table `vehicule`
@@ -327,7 +328,9 @@ CREATE TABLE IF NOT EXISTS `vehicule` (
 
 INSERT INTO `vehicule` (`id_vehicule`, `id_adherent`, `num_permis`, `marque`, `modele`, `type`, `couleur`, `photo`, `carburant`, `immatriculation`) VALUES
 (1, 1, 12345, 'Renault', 'Megane', 1, '#000000', '', 1, '66-55-22'),
-(2, 1, 12345, 'Renault', 'Twingo', 2, '#fe98ca', '', 4, '8892245');
+(2, 1, 12345, 'Renault', 'Twingo', 2, '#fe98ca', '', 4, '8892245'),
+(3, 15, 856, 'Mercedes', 'Classe A', 2, '#666666', '', 1, '123456789'),
+(4, 15, 856, 'Suzuki', 'GSX R', 10, '#010066', '', 1, '987654');
 
 -- --------------------------------------------------------
 
@@ -376,6 +379,7 @@ ALTER TABLE `message`
 -- Contraintes pour la table `trajet`
 --
 ALTER TABLE `trajet`
+  ADD CONSTRAINT `trajet_ibfk_2` FOREIGN KEY (`id_vehicule`) REFERENCES `vehicule` (`id_vehicule`),
   ADD CONSTRAINT `cle_conducteur` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `trajet_ibfk_1` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
@@ -383,8 +387,8 @@ ALTER TABLE `trajet`
 -- Contraintes pour la table `vehicule`
 --
 ALTER TABLE `vehicule`
-  ADD CONSTRAINT `vehicule_ibfk_4` FOREIGN KEY (`type`) REFERENCES `type` (`id_type`),
   ADD CONSTRAINT `vehicule_ibfk_1` FOREIGN KEY (`id_adherent`) REFERENCES `conducteur` (`id_adherent`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `vehicule_ibfk_2` FOREIGN KEY (`num_permis`) REFERENCES `conducteur` (`num_permis`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `vehicule_ibfk_3` FOREIGN KEY (`carburant`) REFERENCES `carburant` (`id_carburant`);
+  ADD CONSTRAINT `vehicule_ibfk_3` FOREIGN KEY (`carburant`) REFERENCES `carburant` (`id_carburant`),
+  ADD CONSTRAINT `vehicule_ibfk_4` FOREIGN KEY (`type`) REFERENCES `type` (`id_type`);
 SET FOREIGN_KEY_CHECKS=1;
