@@ -21,8 +21,9 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO trajet_caracteristique(id_caracteristique) VALUES (:id_caracteristique)');
-			$query -> bindParam(':id_caracteristique', $id_Caracteristique,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO trajet_caracteristique(id_caracteristique,id_trajet) VALUES (:id_caracteristique,:id_trajet)');
+			$query -> bindParam(':id_caracteristique', $id_caracteristique,PDO::PARAM_STR);
+			$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 

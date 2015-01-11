@@ -19,7 +19,7 @@
 			return $this->_nom;
 		}
 		
-		public function setId($i)
+		public function setId_caracteristique($i)
 		{
 			$this->_id_caracteristique = $i;
 		}
