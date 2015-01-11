@@ -117,6 +117,30 @@
 			{
 				$query = $this->_db->prepare('SELECT * FROM trajet');
 			}
+			else if(isset($champs['lieu_depart'])&&isset($champs['lieu_arrivee']))
+			{
+				$depart = $this->getNearby($champs['lieu_depart']);
+				$arrivee = $this->getNearby($champs['lieu_arrivee']);
+				$query_str = "SELECT * FROM trajet WHERE lieu_depart REGEXP '" . $champs['lieu_depart']; //Début de la requête.
+				foreach ($depart as $key => $val) {
+					if($val!="") //On vérifie que la valeur ne soit pas nulle
+					{
+						$query_str .= '|' . $val['nom']; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
+					}
+				}
+
+				$query_str .= '\' AND lieu_arrivee REGEXP \'' . $champs['lieu_arrivee'];
+				foreach ($arrivee as $key => $val) {
+					if($val!="") //On vérifie que la valeur ne soit pas nulle
+					{
+						$query_str .= '|' . $val['nom'] . ''; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
+					}
+				}
+
+				$query_str .= "' ORDER BY date_traj ASC";
+				var_dump($query_str);
+				$query = $this->_db->prepare($query_str);
+			}
 			else
 			{
 				$query_str = "SELECT * FROM trajet WHERE 1"; //Début de la requête.
@@ -126,7 +150,7 @@
 						$query_str .= ' AND ' . $champ . ' LIKE "%' . $val . '%"'; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
 					}
 				}
-				$query_str .= " ORDER BY date_traj DESC";
+				$query_str .= " ORDER BY date_traj ASC";
 				$query = $this->_db->prepare($query_str);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -138,7 +162,6 @@
 				$trajet = $this->get(array("id_trajet"=>$value['id_trajet']));
 				array_push($list, $trajet);
 			}
-
 			return $list;
 		}
 
@@ -188,15 +211,18 @@
 			return $result['total'];
 		}
 
-		public static function getNearby($champs)
+		function getNearby($ville)
 		{
-			$lat;
-			$lng;
+			$ville = urlencode($ville);
+			$data = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=$ville");
+			$data = json_decode($data);
+			$lat = $data->results[0]->geometry->location->lat;
+			$lng = $data->results[0]->geometry->location->lng;
+
 			$type = 'cities';
-			$limit = 50;
+			$limit = 10;
 			$distance = 10;
 			$unit = 'km';
-			extract($champs);
 
 			// radius of earth; @note: the earth is not perfectly spherical, but this is considered the 'mean radius'
 			if ($unit == 'km') $radius = 6371.009; // in kilometers
@@ -211,10 +237,7 @@
 			$minLng = (float) $lng - rad2deg($distance / $radius / cos(deg2rad((float) $lat)));
 
 			// get results ordered by distance (approx)
-			$query = $db->prepare('SELECT * FROM villes ');
-			$query->execute() or die(print_r($query->errorInfo()));
-
-			$result = $query->fetchAll('SELECT * FROM villes WHERE lat > :minLat AND lat < :maxLat AND lng > :minLng AND lng < :maxLng ORDER BY ABS(lat - :lat) + ABS(lng - :lng) ASC LIMIT :limit');
+			$query = $this->_db->prepare('SELECT ville_nom_reel AS nom FROM villes WHERE lat > :minLat AND lat < :maxLat AND lng > :minLng AND lng < :maxLng ORDER BY ABS(lat - :lat) + ABS(lng - :lng) ASC LIMIT :limit');
 			$query -> bindParam(':minLat', $minLat,PDO::PARAM_INT);
 			$query -> bindParam(':maxLat', $maxLat,PDO::PARAM_INT);
 			$query -> bindParam(':minLng', $minLng,PDO::PARAM_INT);
@@ -223,9 +246,12 @@
 			$query -> bindParam(':lng', $lng,PDO::PARAM_STR);
 			$query -> bindParam(':limit', $limit,PDO::PARAM_INT);
 			$query->execute() or die(print_r($query->errorInfo()));
-			$nearby = $query->fetchAll();
 
-			return $nearby;
+			$result = $query->fetchAll();
+			foreach ($result as $key => &$value) {
+				$value['nom'] = ($value['nom']);
+			}
+			return $result;
 		}
 
 	}
