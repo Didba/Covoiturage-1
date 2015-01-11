@@ -9,7 +9,6 @@
 	class CaracteristiqueManager
 	{
 		private $_db;
-		public $_CarManager;
 
 		//Constructeur du manager, on y instancie PDO
 		function __construct($db)
@@ -32,7 +31,7 @@
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id_Caracteristique))
+			if(isset($id_caracteristique))
 			{
 				$query = $this->_db->prepare('DELETE FROM caracteristique WHERE id_caracteristique=:id_caracteristique');
 				$query -> bindParam(':id_caracteristique', $id_Caracteristique,PDO::PARAM_INT);
@@ -50,21 +49,20 @@
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id_Caracteristique))
+			if(isset($id_caracteristique))
 			{
 				$query = $this->_db->prepare('SELECT * FROM caracteristique WHERE id_caracteristique=:id_caracteristique');
-				$query -> bindParam(':id_caracteristique', $id_Caracteristique,PDO::PARAM_INT);
+				$query -> bindParam(':id_caracteristique', $id_caracteristique,PDO::PARAM_INT);
 			}
-			else if(isset($nom))
+			/*else if(isset($nom))
 			{
 				$query = $this->_db->prepare('SELECT * FROM caracteristique WHERE nom=:nom');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
-			}
-
+			}*/
+			
 			$query->execute() or die(print_r($query->errorInfo()));
-
 			$result = $query->fetch();
-			$result['caracteristique'] = $this->_CarManager->get(array("id_caracteristique"=>$result['caracteristique']));
+			
 			$caracteristique = new caracteristique();
 			$caracteristique->hydrate($result);
 			return $caracteristique;
@@ -97,9 +95,7 @@
 
 			// On ajoute au tableau de retour les objets caracteristique créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
-				$caracteristique = new caracteristique();
-				$value['caracteristique'] = $this->_CarManager->get(array("id_caracteristique"=>$value['caracteristique']));
-				$caracteristique->hydrate($value);
+				$caracteristique = $this->get(array("id_caracteristique"=>$value['id_caracteristique']));
 				array_push($list, $caracteristique);
 			}
 			return $list;

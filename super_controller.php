@@ -125,14 +125,18 @@ session_start();
 
 				case 'proposer':
 					include_once('views/v_proposer.class.php');
+					include_once('models/CaracteristiqueManager.class.php');
+					$cr_manager = new CaracteristiqueManager($db);
 					$page = new v_proposer("Proposer un nouveau trajet");
-					$page->set_html();
+					$page->set_html(array("caracteristique"=>$cr_manager->getList()));
 					break;
 
 				case 'nouvelle_proposition':
 					include_once('models/TrajetManager.class.php');
-					$mb_manager = new TrajetManager($db);
-					if($mb_manager->add($_POST)):
+					include_once('models/Trajet_CaracteristiqueManager.class.php');
+					$tr_manager = new TrajetManager($db);
+					$tc_manager = new Trajet_CaracteristiqueManager($db);
+					if(($tr_manager->add($_POST))&&($tc_manager->add($_POST))):
 						$_SESSION['msg'] = "Votre proposition a bien été prise en compte";
 					else:
 						$_SESSION['msg'] = "Une erreur est survenue dans l'enregistrement de votre trajet";

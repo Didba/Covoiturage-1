@@ -5,13 +5,13 @@
 	*/
 	class caracteristique
 	{
-		private $_id_Caracteristique;
+		private $_id_caracteristique;
 		private $_nom;
 		
 
-		public function id()
+		public function id_caracteristique()
 		{
-			return $this->_id_Caracteristique;
+			return $this->_id_caracteristique;
 		}
 
 		public function nom()
@@ -21,7 +21,7 @@
 		
 		public function setId($i)
 		{
-			$this->_id_Caracteristique = $i;
+			$this->_id_caracteristique = $i;
 		}
 
 		public function setNom($nom)
