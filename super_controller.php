@@ -141,7 +141,7 @@ session_start();
 					else:
 						$_SESSION['msg'] = "Une erreur est survenue dans l'enregistrement de votre trajet";
 					endif;
-					//header('Location: super_controller.php?application=mes_trajets');
+					header('Location: super_controller.php?application=mes_trajets');
 					break;
 
 				/*-------------------------------------------------------------------------------*/
