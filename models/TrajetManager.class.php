@@ -22,13 +22,15 @@
 		function add(array $data){
 			extract($data);
 			$date = $date . ' ' .$heure;
-			$query = $this->_db->prepare('INSERT INTO trajet(commentaire,date_traj,lieu_arrivee,lieu_depart,nb_passagers_max,id_adherent) VALUES (:commentaire, :date, :lieu_arrivee, :lieu_depart, :nb_passagers_max, :id_adherent)');
+			$query = $this->_db->prepare('INSERT INTO trajet(commentaire,date_traj,lieu_arrivee,lieu_depart,nb_passagers_max,id_adherent, id_vehicule, num_permis) VALUES (:commentaire, :date, :lieu_arrivee, :lieu_depart, :nb_passagers_max, :id_adherent, :id_vehicule, :num_permis)');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
 			$query -> bindParam(':lieu_depart', $lieu_depart,PDO::PARAM_STR);
 			$query -> bindParam(':lieu_arrivee', $lieu_arrivee,PDO::PARAM_STR);
 			$query -> bindParam(':nb_passagers_max', $nb_passagers_max,PDO::PARAM_STR);
-			$query -> bindParam(':id_adherent', $Id_Adherent,PDO::PARAM_STR);
+			$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_STR);
+			$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_INT);
+			$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
 			return $query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -184,6 +186,46 @@
 
 			$result = $query->fetch();
 			return $result['total'];
+		}
+
+		public static function getNearby($champs)
+		{
+			$lat;
+			$lng;
+			$type = 'cities';
+			$limit = 50;
+			$distance = 10;
+			$unit = 'km';
+			extract($champs);
+
+			// radius of earth; @note: the earth is not perfectly spherical, but this is considered the 'mean radius'
+			if ($unit == 'km') $radius = 6371.009; // in kilometers
+			elseif ($unit == 'mi') $radius = 3958.761; // in miles
+
+			// latitude boundaries
+			$maxLat = (float) $lat + rad2deg($distance / $radius);
+			$minLat = (float) $lat - rad2deg($distance / $radius);
+
+			// longitude boundaries (longitude gets smaller when latitude increases)
+			$maxLng = (float) $lng + rad2deg($distance / $radius / cos(deg2rad((float) $lat)));
+			$minLng = (float) $lng - rad2deg($distance / $radius / cos(deg2rad((float) $lat)));
+
+			// get results ordered by distance (approx)
+			$query = $db->prepare('SELECT * FROM villes ');
+			$query->execute() or die(print_r($query->errorInfo()));
+
+			$result = $query->fetchAll('SELECT * FROM villes WHERE lat > :minLat AND lat < :maxLat AND lng > :minLng AND lng < :maxLng ORDER BY ABS(lat - :lat) + ABS(lng - :lng) ASC LIMIT :limit');
+			$query -> bindParam(':minLat', $minLat,PDO::PARAM_INT);
+			$query -> bindParam(':maxLat', $maxLat,PDO::PARAM_INT);
+			$query -> bindParam(':minLng', $minLng,PDO::PARAM_INT);
+			$query -> bindParam(':maxLng', $maxLng,PDO::PARAM_INT);
+			$query -> bindParam(':lat', $lat,PDO::PARAM_STR);
+			$query -> bindParam(':lng', $lng,PDO::PARAM_STR);
+			$query -> bindParam(':limit', $limit,PDO::PARAM_INT);
+			$query->execute() or die(print_r($query->errorInfo()));
+			$nearby = $query->fetchAll();
+
+			return $nearby;
 		}
 
 	}

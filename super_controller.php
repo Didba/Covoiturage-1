@@ -136,7 +136,7 @@ session_start();
 					include_once('models/Trajet_CaracteristiqueManager.class.php');
 					$tr_manager = new TrajetManager($db);
 					$tc_manager = new Trajet_CaracteristiqueManager($db);
-					if(($tr_manager->add($_POST))&&($tc_manager->add($_POST))):
+					if($tr_manager->add($_POST)):
 						$_SESSION['msg'] = "Votre proposition a bien été prise en compte";
 					else:
 						$_SESSION['msg'] = "Une erreur est survenue dans l'enregistrement de votre trajet";

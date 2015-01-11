@@ -14,8 +14,8 @@
 
 			$html .= '<form method="post" action="super_controller.php" class="form">';
 			$html .= '<input type="hidden" name="application" value="nouvelle_proposition" required>';
-			$html .= '<input type="hidden" name="Id_Adherent" value="' . $_SESSION['id'] . ' " required>';
-			$html .= '<br /><input type="hidden" name="Num_Permis" value="' . $_SESSION['permis'] . ' " required>';
+			$html .= '<input type="hidden" name="id_adherent" value="' . $_SESSION['id'] . ' " required>';
+			$html .= '<br /><input type="hidden" name="num_permis" value="' . $_SESSION['permis'] . ' " required>';
 			$html .= '<br />';
 			$html .= '<label for="lieu_depart">Lieu de départ : </label><input type="text" id="depart" name="lieu_depart" placeholder="Lieu de départ" required><br>';
 			$html .= '<br /><label for="lieu_arrivee">Lieu d\'arrivée : </label><input type="text" id="arrivee" name="lieu_arrivee" placeholder="Lieu d\'arrivée" required><br>';
@@ -23,9 +23,9 @@
 			$html .= '<br /><label for="heure">Heure : </label><input type="time" name="heure" value="12:00" required><br>';
 			$html .= '<br /><label for="caracteristique">Caracteristique : </label>';
 			foreach ($elts['caracteristique'] as $key => $carac) {
-				$html .= '<p><input type="checkbox" name="caracteristique[]" value="'.$carac->id_caracteristique().'" />'.$carac->nom().'</p>';
+				$html .= '<p><input type="checkbox" name="caracteristique[]" value="' . $carac->id_caracteristique() . '" />' . $carac->nom() . '</p>';
 			}
-			$html .= '<br /><label for="id_vehicule">Véhicule : </label><input type="text" name="id_vehicule" value="1" disabled>';
+			$html .= '<br /><label for="id_vehicule">Véhicule : </label><input type="text" name="id_vehicule" value="1">';
 			$html .= '<br /><label for="nb_passagers_max">Nombre de passagers : </label><input type="number" name="nb_passagers_max" required><br>';
 			$html .= '<br /><label for="commentaire">Commentaire : </label><textarea name="commentaire" rows="10" cols="50" placeholder="Saisir les informations du trajet ici"></textarea><br>';
 			$html .= '<div class="button_wrapper"><input type="submit" name="submit" class="button" value="GO !"></div>';
