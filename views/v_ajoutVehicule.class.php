@@ -13,31 +13,18 @@
 		function set_html($elts){
 
 			$html =''; //Initialisation de la variable de retour
+			$html .= '<ul>';
+			$html .= $this->get_nav('Ajout de vehicule');
 
-			$html .= $this->get_nav("Mes vehicules");
+			$html .= '
+				<div id="menu">
+				<ul id="onglets">
+				<li><a href="super_controller.php?application=mes_vehicules"><h4>Mes véhicules</h4></a></li>
+				<li class="active"><a href="super_controller.php?application=new_vehicule"><h4>Ajouter un nouveau véhicule</h4></a></li>
 
-			//liste des vehicules du conducteur
-			$html .= '<h4>Liste de mes véhicules</h4>';
-			$html .= '</form>';
-			$html .= '<table border=1>';
-			$html .= '<tr>';
-			$html .= '<th>Marque </th> <th> Modele </th> <th> Type </th> <th> Couleur </th> <th> Carburant </th> <th> immatriculation </th>';
-			$html .= '</tr>';
-			foreach($elts['vehicule'] as $key => $elt){
-				//var_dump($elts);
-				$html .= '<tr>';
-				$html .= '<td>'.$elt->marque().'</td>';
-				$html .= '<td>'.$elt->modele().'</td>';
-				$html .= '<td>'.$elt->type().'</td>';
-				$html .= '<td style="background-color:'.$elt->couleur().'"></td>';
-				$html .= '<td>'.$elt->carburant().'</td>';
-				$html .= '<td>'.$elt->immatriculation().'</td>';
-				$html .= '</tr>';
-			}
-			$html .= '</table>';
-			$html .= '<br />';
+			</ul>
+			</div>';
 
-			$html .= '<h4>Ajouter un véhicule</h4>';
 			$html .= '<form method="post" action="super_controller.php">';
 			$html .= '<input type="hidden" name="application" value="nouvel_ajoutVehicule" required>';
 			$html .= '<label for="marque">Marque : </label><input type="text" name="marque" required>';
@@ -55,7 +42,7 @@
 			$html .= '</select>';
 			$html .= '<br /><label for="immatriculation">N° d\'immatriculation : </label><input type="text" name="immatriculation" required>';
 			$html .= '<br />';
-			$html .= '<div class="button_wrapper"><input type="submit" name="submit" class="button" value="Ajouter"></div>';
+			$html .= '<input type="submit" name="submit" class="button" value="Go !">';
 			$html .= '</form>';
 
 			//On retourne tout ce qu'on vient de créer en HTML dans l'attribut correspondant de la page
