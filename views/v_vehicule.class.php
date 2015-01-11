@@ -8,36 +8,50 @@
 	class v_vehicule extends v_compte
 	{
 		/**
-		* Défini l'HTML de la page
+		* retourne la navigation des vues liées aux véhicules
 		**/
-		function set_html(){
-
-			$html =''; //Initialisation de la variable de retour
+		function get_nav_Vh($active){
 
 
-			$html .= $this->get_nav('Vehicule');
+			 $tab = array (
+				"Ma liste" => array("addr" => "super_controller.php?application=mes_vehicules", "cond" => 'isset($_SESSION["permis"])'),
+				"Ajouter un véhicule" => array("addr" => "super_controller.php?application=new_vehicule", "cond" => 'isset($_SESSION["permis"])')
+			);
 
-			$html .= '<aside>';
-			$html .= '<ul>';
+			$nav = '';
+			$nav .= '
+				<div class="menu">
+				<ul class="onglets small">
+				';
+			foreach ($tab as $nom => $value) {
+				$display = true;
+				if ($value['cond'])
+				{
+					if(!eval("return " . $value['cond'] . ";"))
+					{
+						$display = false;
+					}
+				}
+
+				if($display)
+				{
+					$nav .= '<li';
+					if($active==$nom)
+					{
+						$nav .= ' class="active"';
+					}
+					$nav .= '>';
+					$nav .= '<a href="' . $value['addr'] . '">' . $nom . '</a>';
 
 
+					$nav .= '</li>';
+				}
+			}
 
-			$html .= '
-				<div id="menu">
-				<ul id="onglets">
-				<li class="active"><a href="super_controller.php?application=mes_vehicules"><h4>Liste véhicule</h4></a></li>
-				<li><a href="super_controller.php?application=new_vehicule"><h4>Ajouter nouveau</h4></a></li>
-
-
+			$nav .= '
 			</ul>
-			</div>'	;
-
-			$html .= '</aside>';
-
-			$html .= '</ul>';
-
-			//On retourne tout ce qu'on vient de créer en HTML dans l'attribut correspondant de la page
-			$this->html = $html;
+			</div>';
+			return $nav;
 		}
 	}
 ?>

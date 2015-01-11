@@ -14,34 +14,25 @@
 
 		$html =''; //Initialisation de la variable de retour
 
-			$html .= '<aside>';
-			$html .= '<ul>';
-
-
 			$html .= $this->get_nav('Mes messages');
 
 			$html .= '
-				<div id="menu">
-				<ul id="onglets">
-				<li><a href="super_controller.php?application=recu"><h4>Réception</h4></a></li>
-				<li class="active"><a href="super_controller.php?application=envoye"><h4>Envoyé</h4></a></li>
+				<div class="menu">
+				<ul class="onglets small">
+				<li><a href="super_controller.php?application=recu">Réception</a></li>
+				<li class="active"><a href="super_controller.php?application=envoye">Envoyé</a></li>
 
 			</ul>
 			</div>'	;
 
-			$html .= '</aside>';
-
-
 			foreach ($elts as $key => $elt) {
-				$html .= '<li>';
+				$html .= '<li class="vehicule">';
 				//$html .= '<b>De : '.$elt->adherent_from()->nom().'</br>';
 				$html .= '<b>À : '.$elt->adherent_to()->nom().'</br>';
 				$html .= ''.$elt->date().'</br>';
 				$html .= '</br> Objet : '.$elt->sujet().'</b></br>';
 				$html .= '</br><p>	'.$elt->message().'</p></br>';
-
 				$html .= '</li>';
-				$html .='<hr>';
 
 			}
 

@@ -287,15 +287,21 @@ session_start();
 				/*-------------------------------------------------------------------------------*/
 				case 'new_vehicule':
 					include_once('views/v_ajoutVehicule.class.php');
-					include_once('models/VehiculeManager.class.php');
+					$page = new v_ajoutVehicule("Ajouter un véhicule");
 					include_once('models/CarburantManager.class.php');
 					include_once('models/TypeManager.class.php');
-					$ve_manager = new VehiculeManager($db);
 					$cb_manager = new CarburantManager($db);
 					$tp_manager = new TypeManager($db);
 
-					$page = new v_ajoutVehicule("Ajouter véhicule");
-					$page->set_html(array("vehicule"=>$ve_manager->getList(array("id_adherent"=>$_SESSION['id'])), "carburants"=>$cb_manager->getList(), "types"=>$tp_manager->getList()));
+					$page->set_html(array("carburants"=>$cb_manager->getList(), "types"=>$tp_manager->getList()));
+					break;
+
+				case 'mes_vehicules':
+					include_once 'views/v_mes_vehicules.class.php';
+					include_once('models/VehiculeManager.class.php');
+					$ve_manager = new VehiculeManager($db);
+					$page = new v_mes_vehicules("Mes véhicules");
+					$page->set_html(array("vehicule"=>$ve_manager->getList(array("id_adherent"=>$_SESSION['id']))));
 					break;
 
 				case 'nouvel_ajoutVehicule':
@@ -309,22 +315,6 @@ session_start();
 						$_SESSION['msg'] = 'L\'ajout de votre véhicule a échoué';
 					endif;
 					header('Location: super_controller.php?application=mes_vehicules');
-					break;
-
-
-				case 'mes_vehicules':
-					include_once 'views/v_mes_vehicules.class.php';
-					include_once('models/VehiculeManager.class.php');
-					include_once('models/CarburantManager.class.php');
-					include_once('models/TypeManager.class.php');
-					$ve_manager = new VehiculeManager($db);
-					$cb_manager = new CarburantManager($db);
-					$tp_manager = new TypeManager($db);
-
-					$page = new v_mes_vehicules("Mes véhicules");
-
-					$page->set_html(array("vehicule"=>$ve_manager->getList(array("id_adherent"=>$_SESSION['id'])), "carburants"=>$cb_manager->getList(), "types"=>$tp_manager->getList()));
-
 					break;
 
 

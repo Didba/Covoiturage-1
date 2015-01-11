@@ -1,11 +1,11 @@
 <?php
 
-	include_once 'v_compte.class.php';
+	include_once 'v_vehicule.class.php';
 
 	/**
 	* Classe de la vue pour afficher les vehicules
 	*/
-	class v_ajoutVehicule extends v_compte
+	class v_ajoutVehicule extends v_vehicule
 	{
 		/**
 		* Défini l'HTML de la page
@@ -13,17 +13,8 @@
 		function set_html($elts){
 
 			$html =''; //Initialisation de la variable de retour
-			$html .= '<ul>';
-			$html .= $this->get_nav('Ajout de vehicule');
-
-			$html .= '
-				<div id="menu">
-				<ul id="onglets">
-				<li><a href="super_controller.php?application=mes_vehicules"><h4>Mes véhicules</h4></a></li>
-				<li class="active"><a href="super_controller.php?application=new_vehicule"><h4>Ajouter un nouveau véhicule</h4></a></li>
-
-			</ul>
-			</div>';
+			$html .= $this->get_nav('Mes véhicules');
+			$html .= $this->get_nav_Vh('Ajouter un véhicule');
 
 			$html .= '<form method="post" action="super_controller.php">';
 			$html .= '<input type="hidden" name="application" value="nouvel_ajoutVehicule" required>';

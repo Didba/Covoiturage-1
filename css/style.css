@@ -491,7 +491,7 @@ label.color-radio-label
 /*-------------------- Profil --------------------*/
 /*-------------------------------------------------*/
 
-#menu
+.menu
 {
 	display: table;
 	width: 100%;
@@ -500,7 +500,7 @@ label.color-radio-label
 	color:#004963;
 }
 
-#onglets
+.onglets
 {
 	display: table-row;
 	font : bold 20px,sans-serif;
@@ -509,7 +509,7 @@ label.color-radio-label
 	margin-left : 0;
 }
 
-#onglets li
+.onglets li
 {
 	font-size: 1.5rem;
 	display: table-cell;
@@ -521,12 +521,12 @@ label.color-radio-label
 	transition: font-size 0.1s;
 }
 
-#onglets li:hover
+.onglets li:hover
 {
 	font-size: 1.8rem;
 }
 
-#onglets li.active
+.onglets li.active
 {
 	font-size: 3rem;
 	color: #333;
@@ -535,9 +535,25 @@ label.color-radio-label
 	border-color: #900;
 }
 
-#onglets li a
+.onglets li a
 {
 	text-decoration: none;
+}
+
+.onglets.small li
+{
+	font-size: 1.4rem;
+}
+
+.onglets.small li:hover
+{
+	font-size: 1.6rem;
+}
+
+.onglets.small li.active
+{
+	font-size: 2rem;
+	border-width: 0.1rem;
 }
 
 /*-------------------------------------------------*/

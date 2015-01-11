@@ -11,7 +11,7 @@
 			 $tab = array (
 				"Mon profil"  => array("addr" => "super_controller.php?application=profil&id=" . $_SESSION['id'], "cond" => false),
 				"Proposer un trajet" => array("addr" => "super_controller.php?application=proposer", "cond" => 'isset($_SESSION["permis"])'),
-				"Mes vehicules" => array("addr" => "super_controller.php?application=mes_vehicules", "cond" => 'isset($_SESSION["permis"])'),
+				"Mes véhicules" => array("addr" => "super_controller.php?application=mes_vehicules", "cond" => 'isset($_SESSION["permis"])'),
 				"Mes trajets"   => array("addr" => "super_controller.php?application=mes_trajets", "cond" => false),
 				"Modifier mon profil"   => array("addr" => "super_controller.php?application=modif_profil", "cond" => false),
 				"Mes messages"   => array("addr" => "super_controller.php?application=recu", "cond" => false)
@@ -19,8 +19,8 @@
 
 			$nav = '';
 			$nav .= '
-				<div id="menu">
-				<ul id="onglets">
+				<div class="menu">
+				<ul class="onglets">
 				';
 			foreach ($tab as $nom => $value) {
 				$display = true;

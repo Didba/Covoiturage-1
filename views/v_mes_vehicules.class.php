@@ -1,11 +1,11 @@
 ﻿<?php
 
-	include_once 'v_compte.class.php';
+	include_once 'v_vehicule.class.php';
 
 	/**
 	* Classe de la vue pour afficher les vehicules
 	*/
-	class v_mes_vehicules extends v_compte
+	class v_mes_vehicules extends v_vehicule
 	{
 		/**
 		* Défini l'HTML de la page
@@ -13,19 +13,8 @@
 		function set_html($elts){
 
 			$html =''; //Initialisation de la variable de retour
-
-			$html .= '<ul>';
-
-			$html .= $this->get_nav('Vehicules');
-
-			$html .= '
-				<div id="menu">
-				<ul id="onglets">
-				<li class="active"><a href="super_controller.php?application=mes_vehicules"><h4>Mes véhicules</h4></a></li>
-				<li><a href="super_controller.php?application=new_vehicule"><h4>Ajouter un nouveau véhicule</h4></a></li>
-
-			</ul>
-			</div>'	;
+			$html .= $this->get_nav('Mes véhicules');
+			$html .= $this->get_nav_Vh('Ma liste');
 			$html .= '<ul>';
 			//liste des vehicules du conducteur
 			foreach($elts['vehicule'] as $key => $elt){
