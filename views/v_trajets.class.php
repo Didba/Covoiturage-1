@@ -15,7 +15,7 @@
 
 			$html .= '<div class="query_data">';
 			$html .= '<h3>Recherche</h3>';
-			$html .= $_SESSION['recherche']['lieu_depart'] . ' > ' . $_SESSION['recherche']['lieu_arrivee'] . ' - Le ' . date('d/m/Y', strtotime($_SESSION['recherche']['date'])); // On récupère les données de la requete de l'utilisateur dans la variable de session qu'on a définie dans le controller
+			$html .= $_SESSION['recherche']['lieu_depart'] . ' > ' . $_SESSION['recherche']['lieu_arrivee'] . ' - Le ' . date('d/m/Y', strtotime($_SESSION['recherche']['date_traj'])) . ' à ' . $_SESSION['recherche']['hour'] . ':' . $_SESSION['recherche']['minute']; // On récupère les données de la requete de l'utilisateur dans la variable de session qu'on a définie dans le controller
 
 			$html .= '</div>';
 			$html .= '<ul class="results">';
@@ -33,7 +33,10 @@
 				$html .= ucfirst($trajet->lieu_depart()) . ' > ';
 				$html .= ucfirst($trajet->lieu_arrivee());
 				$html .= '</div>';
-				$html .= date('d/m/y', strtotime($trajet->date_traj())) . '<br />' . date('h:m', strtotime($trajet->date_traj()));
+				$html .= '<div class="heure">';
+				$html .= date('h:m', strtotime($trajet->date_traj()));
+				$html .= '</div>';
+				$html .= date('d/m/y', strtotime($trajet->date_traj()));
 				$html .= '</br>';
 				$html .= $trajet->distance() . 'kms';
 				$html .= '</br>';

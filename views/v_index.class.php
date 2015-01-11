@@ -23,8 +23,32 @@
 			';
 			$html .= '		<input id="arrivee" type="text" name="finish" placeholder="Destination" required>
 			';
-			$html .= '		<input type="date" name="date" value="' . date('Y-m-d') . '" required>
+			$html .= '		<input type="date" name="date_traj" value="' . date('Y-m-d') . '" required>
 			';
+			$html .= '		<select name="hour" required>
+			';
+			for ($h=0; $h < 24; $h++) {
+				$h2 = $h;
+				if ($h2<10)
+				{
+					$h2 = '0' . $h2;
+				}
+				$html .= '<option value="' . $h2 . '">' . $h2 . '</option>';
+			}
+
+			$html .= '		</select>:';
+			$html .= '		<select name="minute" required>
+			';
+			for ($m=0; $m < 60; $m=$m+15) {
+				$m2 = $m;
+				if ($m2<10)
+				{
+					$m2 = '0' . $m2;
+				}
+				$html .= '<option value="' . $m2 . '">' . $m2 . '</option>';
+			}
+
+			$html .= '		</select>';
 			$html .= '		<input type="submit" name="submit" class="button" value="GO !">
 			';
 			$html .= '	</form>

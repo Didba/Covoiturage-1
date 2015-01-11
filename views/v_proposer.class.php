@@ -20,7 +20,30 @@
 			$html .= '<label for="lieu_depart">Lieu de départ : </label><input type="text" id="depart" name="lieu_depart" placeholder="Lieu de départ" required><br>';
 			$html .= '<br /><label for="lieu_arrivee">Lieu d\'arrivée : </label><input type="text" id="arrivee" name="lieu_arrivee" placeholder="Lieu d\'arrivée" required><br>';
 			$html .= '<br /><label for="date">Date : </label><input type="date" name="date" value="' . date('Y-m-d') . '" required><br>';
-			$html .= '<br /><label for="heure">Heure : </label><input type="time" name="heure" value="12:00" required><br>';
+			$html .= '<label for="heure">Heure : </label><select name="hour" required>
+			';
+			for ($h=0; $h < 24; $h++) {
+				$h2 = $h;
+				if ($h2<10)
+				{
+					$h2 = '0' . $h2;
+				}
+				$html .= '<option value="' . $h2 . '">' . $h2 . '</option>';
+			}
+
+			$html .= '</select>:';
+			$html .= '<select name="minute" required>
+			';
+			for ($m=0; $m < 60; $m=$m+15) {
+				$m2 = $m;
+				if ($m2<10)
+				{
+					$m2 = '0' . $m2;
+				}
+				$html .= '<option value="' . $m2 . '">' . $m2 . '</option>';
+			}
+
+			$html .= '</select>';
 			$html .= '<br /><label for="caracteristique">Caracteristique : </label>';
 			foreach ($elts['caracteristique'] as $key => $carac) {
 				$html .= '<p><input type="checkbox" name="caracteristique[]" value="' . $carac->id_caracteristique() . '" />' . $carac->nom() . '</p>';

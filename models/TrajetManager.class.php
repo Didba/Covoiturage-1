@@ -21,7 +21,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$date = $date . ' ' .$heure;
+			$date = $date . ' ' . $hour . ':' . $minute;
 			$query = $this->_db->prepare('INSERT INTO trajet(commentaire,date_traj,lieu_arrivee,lieu_depart,nb_passagers_max,id_adherent, id_vehicule, num_permis) VALUES (:commentaire, :date, :lieu_arrivee, :lieu_depart, :nb_passagers_max, :id_adherent, :id_vehicule, :num_permis)');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
@@ -31,6 +31,7 @@
 			$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_STR);
 			$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_INT);
 			$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
+			var_dump($caracteristique);
 			return $query->execute() or die(print_r($query->errorInfo()));
 		}
 
@@ -108,10 +109,6 @@
 		**/
 		function getList($champs=NULL){
 			// On vérifie le paramètre.
-			if(isset($champs['date'])):
-				$champs['date_traj'] = $champs['date'];
-				unset($champs['date']);
-			endif;
 
 			if($champs==NULL)
 			{
@@ -137,8 +134,7 @@
 					}
 				}
 
-				$query_str .= "' ORDER BY date_traj ASC";
-				var_dump($query_str);
+				$query_str .= "' AND date_traj > '" . $champs['date_traj'] . ' ' . ($champs['hour']-1) . ':' . $champs['minute'] . "' AND date_traj < '" . $champs['date_traj'] . ' ' . ($champs['hour']+10) . ':' . $champs['minute'] . "' ORDER BY date_traj ASC";
 				$query = $this->_db->prepare($query_str);
 			}
 			else

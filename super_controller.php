@@ -26,7 +26,7 @@ session_start();
 					$traj_manager = new TrajetManager($db);
 					if (isset($_POST)) {
 						extract($_POST);
-						$datas = array("lieu_depart" => $start,"lieu_arrivee" => $finish, "date" => $date); //On écrit les données de la requete dans un tableau
+						$datas = array("lieu_depart" => $start,"lieu_arrivee" => $finish, "date_traj" => $date_traj, "hour"=>$hour, "minute"=>$minute); //On écrit les données de la requete dans un tableau
 						$_SESSION['recherche'] = $datas; //Afin de conserver la requete en mémoire pour l'affichage ultérieur, on le stock dans une var de session
 						$page = new v_trajets("Résultat de la recherche");
 						$page->set_html($traj_manager->getList($datas));
@@ -141,7 +141,7 @@ session_start();
 					else:
 						$_SESSION['msg'] = "Une erreur est survenue dans l'enregistrement de votre trajet";
 					endif;
-					header('Location: super_controller.php?application=mes_trajets');
+					//header('Location: super_controller.php?application=mes_trajets');
 					break;
 
 				/*-------------------------------------------------------------------------------*/

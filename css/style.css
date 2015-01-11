@@ -346,7 +346,7 @@ body.index header
 	text-align: center;
 }
 
-.index_form input
+.index_form input, .index_form select
 {
 	border: none;
 	padding: 1rem;
@@ -356,6 +356,11 @@ body.index header
 	margin-right: 1rem;
 	color: white;
 	width: auto;
+}
+
+.index_form select[name="hour"]
+{
+	margin-right: 0rem;
 }
 
 @media screen and (max-width: 1300px)
