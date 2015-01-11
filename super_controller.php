@@ -126,9 +126,11 @@ session_start();
 				case 'proposer':
 					include_once('views/v_proposer.class.php');
 					include_once('models/CaracteristiqueManager.class.php');
+					include_once('models/VehiculeManager.class.php');
 					$cr_manager = new CaracteristiqueManager($db);
+					$ve_manager = new VehiculeManager($db);
 					$page = new v_proposer("Proposer un nouveau trajet");
-					$page->set_html(array("caracteristique"=>$cr_manager->getList()));
+					$page->set_html(array("caracteristique"=>$cr_manager->getList(),"vehicule"=>$ve_manager->getList(array("id_adherent"=>$_SESSION['id']))));
 					break;
 
 				case 'nouvelle_proposition':

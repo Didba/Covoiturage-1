@@ -14,7 +14,7 @@
 		private $_immatriculation;
 
 
-		public function id()
+		public function id_vehicule()
 		{
 			return $this->_id_Vehicule;
 		}
@@ -51,7 +51,7 @@
 
 
 
-		public function setId($i)
+		public function setId_vehicule($i)
 		{
 			$this->_id_Vehicule = $i;
 		}

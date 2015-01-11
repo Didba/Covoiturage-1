@@ -48,7 +48,11 @@
 			foreach ($elts['caracteristique'] as $key => $carac) {
 				$html .= '<input type="checkbox" name="caracteristique[]" value="' . $carac->id_caracteristique() . '" />' . $carac->nom();
 			}
-			$html .= '<br /><label for="id_vehicule">Véhicule : </label><input type="text" name="id_vehicule" value="1">';
+			$html .= '<br /><label for="id_vehicule">Véhicule : </label><select name="id_vehicule" required>';
+			foreach ($elts['vehicule'] as $key => $vehi) {
+				$html .= '	<option value="' . $vehi->id_vehicule() . '">' . $vehi->marque() . '-' . $vehi->modele() . '-' . $vehi->type() . '-' . $vehi->carburant() .'</option>';
+			}
+			$html .= '</select>';
 			$html .= '<br /><label for="nb_passagers_max">Nombre de passagers : </label><input type="number" name="nb_passagers_max" required><br>';
 			$html .= '<br /><label for="commentaire">Commentaire : </label><textarea name="commentaire" rows="10" cols="50" placeholder="Saisir les informations du trajet ici"></textarea><br>';
 			$html .= '<div class="button_wrapper"><input type="submit" name="submit" class="button" value="GO !"></div>';
