@@ -25,6 +25,7 @@
 			foreach ($elts['caracteristique'] as $key => $carac) {
 				$html .= '<p><input type="checkbox" name="caracteristique[]" value="'.$carac->id_caracteristique().'" />'.$carac->nom().'</p>';
 			}
+			$html .= '<br /><label for="id_vehicule">Véhicule : </label><input type="text" name="id_vehicule" value="1" disabled>';
 			$html .= '<br /><label for="nb_passagers_max">Nombre de passagers : </label><input type="number" name="nb_passagers_max" required><br>';
 			$html .= '<br /><label for="commentaire">Commentaire : </label><textarea name="commentaire" rows="10" cols="50" placeholder="Saisir les informations du trajet ici"></textarea><br>';
 			$html .= '<div class="button_wrapper"><input type="submit" name="submit" class="button" value="GO !"></div>';
