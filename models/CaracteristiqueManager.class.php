@@ -1,7 +1,6 @@
 <?php
 
 	include_once 'models/Caracteristique.class.php';
-	include_once 'models/Trajet_Caracteristique.class.php';
 
 	/**
 	* Classe de gestion des caracteristique
@@ -54,15 +53,10 @@
 				$query = $this->_db->prepare('SELECT * FROM caracteristique WHERE id_caracteristique=:id_caracteristique');
 				$query -> bindParam(':id_caracteristique', $id_caracteristique,PDO::PARAM_INT);
 			}
-			/*else if(isset($nom))
-			{
-				$query = $this->_db->prepare('SELECT * FROM caracteristique WHERE nom=:nom');
-				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
-			}*/
-			
+
 			$query->execute() or die(print_r($query->errorInfo()));
 			$result = $query->fetch();
-			
+
 			$caracteristique = new caracteristique();
 			$caracteristique->hydrate($result);
 			return $caracteristique;

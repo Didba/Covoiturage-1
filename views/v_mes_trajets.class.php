@@ -37,6 +37,15 @@
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
 				$html .= $elt->conducteur()->prenom(). ' ' . substr($elt->conducteur()->nom(), 0,1) . '.';
+				$html .= '<img src="' . $elt->conducteur()->photo() . '" alt="">';
+				$html .= '<ul class="caracs">';
+				if(is_array($elt->caracteristiques()))
+				{
+					foreach ($elt->caracteristiques() as $key => $value) {
+						$html .= '<li class="carac">' . $value->nom() . '</li>';
+					}
+				}
+				$html .= '</ul>';
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
 				$html .= $elt->frais() . '€';
@@ -51,7 +60,6 @@
 				$html .= '<a href="super_controller.php?application=annuler&id_trajet=' . $elt->id_trajet() . '">Annuler cette réservation</a>';
 				$html .= '</div>';
 				$html .= '</li>';
-				//$html .= '</br>';
 			}
 
 			if(isset($_SESSION['permis']))
@@ -78,6 +86,15 @@
 					$html .= '</div>';
 					$html .= '<div class="result_driver">';
 					$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
+					$html .= '<img src="' . $elt->conducteur()->photo() . '" alt="">';
+				$html .= '<ul class="caracs">';
+				if(is_array($elt->caracteristiques()))
+				{
+					foreach ($elt->caracteristiques() as $key => $value) {
+						$html .= '<li class="carac">' . $value->nom() . '</li>';
+					}
+				}
+				$html .= '</ul>';
 					$html .= '</div>';
 					$html .= '<div class="result_resa">';
 					$html .= $elt->frais() . '€ <i>par passager</i>';

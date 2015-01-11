@@ -3,10 +3,10 @@
 	/**
 	* Classe trajet_Caractéristique
 	*/
-	class trajet_Caracterisque
+	class Trajet_Caracteristique
 	{
 		private $_id_trajet;
-		private $id_Caracteristique;
+		private $id_caracteristique;
 
 
 		public function id_trajet()
@@ -14,9 +14,9 @@
 			return $this->_id_trajet;
 		}
 
-		public function id_Caracteristique()
+		public function id_caracteristique()
 		{
-			return $this->id_Caracteristique;
+			return $this->id_caracteristique;
 		}
 
 		public function setId_trajet($i)
@@ -24,9 +24,9 @@
 			$this->_id_trajet = $i;
 		}
 
-		public function setId_Caracteristique($i)
+		public function setId_caracteristique($i)
 		{
-			$this->id_Caracteristique =  $i;
+			$this->id_caracteristique =  $i;
 		}
 
 		public function hydrate(array $data)

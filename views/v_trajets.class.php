@@ -23,44 +23,53 @@
 			if(empty($list)):$html .= 'Aucun résultat ne correspond à vos critères.'; //Si la liste est vide, on annonce que la recherche n'a retourné aucun résultat
 			else:
 
-			foreach ($list as $key => $trajet) {
+			foreach ($list as $key => $elt) {
 
-				$max = $trajet->nb_passagers_rest()-1;
+				$max = $elt->nb_passagers_rest()-1;
 
 				$html .= '<li class="result">';
 				$html .= '<div class="result_data">';
 				$html .= '<div class="cities">';
-				$html .= ucfirst($trajet->lieu_depart()) . ' > ';
-				$html .= ucfirst($trajet->lieu_arrivee());
+				$html .= ucfirst($elt->lieu_depart()) . ' > ';
+				$html .= ucfirst($elt->lieu_arrivee());
 				$html .= '</div>';
 				$html .= '<div class="heure">';
-				$html .= date('h:m', strtotime($trajet->date_traj()));
+				$html .= date('h:m', strtotime($elt->date_traj()));
 				$html .= '</div>';
-				$html .= date('d/m/y', strtotime($trajet->date_traj()));
+				$html .= date('d/m/y', strtotime($elt->date_traj()));
 				$html .= '</br>';
-				$html .= $trajet->distance() . 'kms';
+				$html .= $elt->distance() . 'kms';
 				$html .= '</br>';
-				$html .= gmdate('H\hi',$trajet->time()) . '';
-				$html .= '</br>Nombre de passagers : ' . ($trajet->nb_passagers_max()-$trajet->nb_passagers_rest()) . '/' . $trajet->nb_passagers_max();
+				$html .= gmdate('H\hi',$elt->time()) . '';
+				$html .= '</br>Nombre de passagers : ' . ($elt->nb_passagers_max()-$elt->nb_passagers_rest()) . '/' . $elt->nb_passagers_max();
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
-				$html .= $trajet->conducteur()->Prenom(). ' ' . substr($trajet->conducteur()->Nom(), 0,1) . '.';
+				$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
+				$html .= '<img src="' . $elt->conducteur()->photo() . '" alt="">';
+				$html .= '<ul class="caracs">';
+				if(is_array($elt->caracteristiques()))
+				{
+					foreach ($elt->caracteristiques() as $key => $value) {
+						$html .= '<li class="carac">' . $value->nom() . '</li>';
+					}
+				}
+				$html .= '</ul>';
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
-				$html .= $trajet->frais() . '€ <i>par passager</i>';
+				$html .= $elt->frais() . '€ <i>par passager</i>';
 					$html .= '</br>';
-				if(isset($_SESSION['id'])&& $_SESSION['id']==$trajet->id_adherent())
+				if(isset($_SESSION['id'])&& $_SESSION['id']==$elt->id_adherent())
 				{
 					$html .= '<p>Vous êtes le conducteur</p>';
 				}
 				else if(isset($_SESSION['id']))
 				{
-					if($trajet->nb_passagers_rest()!=0)
+					if($elt->nb_passagers_rest()!=0)
 					{
 						$html .= '<form action="super_controller.php" method="post">
 							<input type="hidden" value="new_message" name="application">
-							<input type="hidden" value="' . $trajet->lieu_depart() . ' > ' . $trajet->lieu_arrivee() . ', le ' . date('d/m/y', strtotime($trajet->date_traj())) . ' à ' . date('h:m', strtotime($trajet->date_traj())) . '" name="sujet">
-							<input type="hidden" name="id_adherent_to" value="'.$trajet->conducteur()->id_adherent().'" name="id_adherent_to">
+							<input type="hidden" value="' . $elt->lieu_depart() . ' > ' . $elt->lieu_arrivee() . ', le ' . date('d/m/y', strtotime($elt->date_traj())) . ' à ' . date('h:m', strtotime($elt->date_traj())) . '" name="sujet">
+							<input type="hidden" name="id_adherent_to" value="'.$elt->conducteur()->id_adherent().'" name="id_adherent_to">
 							<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
 							<input type="submit" name="submit" value="Contacter">
 						</form>';
@@ -68,7 +77,7 @@
 
 						$html .= '<form action="super_controller.php" method="post">
 							<input type="hidden" value="reserver" name="application">
-							<input type="hidden" value="' . $trajet->id_trajet() . '" name="id_trajet">
+							<input type="hidden" value="' . $elt->id_trajet() . '" name="id_trajet">
 							<input type="hidden" value="' . $_SESSION['id'] . '" name="id_adherent">
 							Places supplémentaires : <select name="nb_invites">';
 						for ($i=0; $i <= $max; $i++) {
@@ -76,7 +85,7 @@
 						}
 						$html .= '</select>';
 
-						$html .= '<input type="hidden" name="frais" value="' . $trajet->frais() . '">
+						$html .= '<input type="hidden" name="frais" value="' . $elt->frais() . '">
 							</br><input type="submit" name="submit" class="button" value="Réserver">
 						</form>';
 					}

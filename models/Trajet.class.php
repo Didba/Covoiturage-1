@@ -17,6 +17,7 @@
 		private $_time;
 		private $_distance;
 		private $_frais;
+		private $_caracteristiques;
 
 		public function id_trajet()
 		{
@@ -83,6 +84,11 @@
 			return $this->_frais;
 		}
 
+		public function caracteristiques()
+		{
+			return $this->_caracteristiques;
+		}
+
 		public function setId_trajet($i)
 		{
 			$this->_id_trajet = $i;
@@ -146,6 +152,11 @@
 		public function setConducteur($adh)
 		{
 			$this->_conducteur = $adh;
+		}
+
+		public function setCaracteristiques($adh)
+		{
+			$this->_caracteristiques = $adh;
 		}
 
 		public function toString()
