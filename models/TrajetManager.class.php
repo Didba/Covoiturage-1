@@ -2,6 +2,7 @@
 
 	include_once 'models/Trajet.class.php';
 	include_once 'models/AdherentManager.class.php';
+	include_once 'models/Trajet_CaracteristiqueManager.class.php';
 
 	/**
 	* Classe de gestion des trajets
@@ -21,6 +22,8 @@
 		**/
 		function add(array $data){
 			extract($data);
+			$resp = true;
+			$tc_manager = new Trajet_CaracteristiqueManager($this->_db);
 			$date = $date . ' ' . $hour . ':' . $minute;
 			$query = $this->_db->prepare('INSERT INTO trajet(commentaire,date_traj,lieu_arrivee,lieu_depart,nb_passagers_max,id_adherent, id_vehicule, num_permis) VALUES (:commentaire, :date, :lieu_arrivee, :lieu_depart, :nb_passagers_max, :id_adherent, :id_vehicule, :num_permis)');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
@@ -31,8 +34,21 @@
 			$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_STR);
 			$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_INT);
 			$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
+			if(!$query->execute()): $resp = false;endif;
+
+
+			//ajout des carcteristiques du trajet dans la table trajet_caracteristique
+			$query = $this->_db->prepare('SELECT id_trajet FROM trajet ORDER BY id_trajet DESC LIMIT 0,1');
+			$query->execute() or die(print_r($query->errorInfo()));
+			$result = $query->fetch();
+
+			$list = array();
 			var_dump($caracteristique);
-			return $query->execute() or die(print_r($query->errorInfo()));
+			foreach ($caracteristique as $key => $value) {
+				$tc_manager->add(array('id_trajet'=>$result['id_trajet'], 'id_caracteristique'=>$value));
+			}
+
+			return $resp;
 		}
 
 		/**
