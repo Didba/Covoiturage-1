@@ -8,7 +8,6 @@
 	class Trajet_CaracteristiqueManager
 	{
 		private $_db;
-		public $caManager;
 
 		//Constructeur du manager, on y instancie PDO
 		function __construct($db)
@@ -17,57 +16,57 @@
 		}
 
 		/**
-		* Fonction permettant d'ajouter un Trajet_Caracteristique
+		* Fonction permettant d'ajouter un trajet_caracteristique
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO trajet_caracteristique(id_caracteristique,id_trajet) VALUES (:id_caracteristique,:id_trajet)');
-			$query -> bindParam(':id_caracteristique', $id_caracteristique,PDO::PARAM_STR);
-			$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_STR);
+			$query = $this->_db->prepare('INSERT INTO trajet_caracteristique(id_trajet, id_caracteristique) VALUES (:id_trajet, :id_caracteristique)');
+			$query -> bindParam(':id_caracteristique', $id_caracteristique,PDO::PARAM_INT);
+			$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_INT);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
-		* Fonction permettant de retirer un Trajet_Caracteristique
+		* Fonction permettant de retirer un trajet_caracteristique
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id_Trajet_Caracteristique))
+			if(isset($id_trajet_caracteristique))
 			{
 				$query = $this->_db->prepare('DELETE FROM trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
-				$query -> bindParam(':id_caracteristique', $id_Trajet_Caracteristique,PDO::PARAM_INT);
+				$query -> bindParam(':id_caracteristique', $id_trajet_caracteristique,PDO::PARAM_INT);
 			}
-			else if(isset($id_Trajet))
+			else if(isset($id_trajet))
 			{
 				$query = $this->_db->prepare('DELETE FROM trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
-				$query -> bindParam(':id_caracteristique', $id_Trajet,PDO::PARAM_STR);
+				$query -> bindParam(':id_caracteristique', $id_trajet,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
 
 		/**
-		* Fonction permettant de récupérer un Trajet_Caracteristique.
+		* Fonction permettant de récupérer un trajet_caracteristique.
 		**/
 		function get(array $data){
 			extract($data);
-			if(isset($id_Trajet_Caracteristique))
+			if(isset($id_trajet_caracteristique))
 			{
 				$query = $this->_db->prepare('SELECT * FROM trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
-				$query -> bindParam(':id_caracteristique', $id_Trajet_Caracteristique,PDO::PARAM_INT);
+				$query -> bindParam(':id_caracteristique', $id_trajet_caracteristique,PDO::PARAM_INT);
 			}
-			else if(isset($id_Trajet))
+			else if(isset($id_trajet))
 			{
 				$query = $this->_db->prepare('SELECT * FROM trajet_caracteristique WHERE id_trajet=:id_trajet');
-				$query -> bindParam(':id_trajet', $id_Trajet,PDO::PARAM_STR);
+				$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_STR);
 			}
 
 			$query->execute() or die(print_r($query->errorInfo()));
 
 			$result = $query->fetch();
 			$result['trajet_caracteristique'] = $this->caManager->get(array("id_caracteristique"=>$result['trajet_caracteristique']));
-			$Trajet_Caracteristique = new Trajet_Caracteristique();
-			$Trajet_Caracteristique->hydrate($result);
-			return $Trajet_Caracteristique;
+			$trajet_caracteristique = new Trajet_Caracteristique();
+			$trajet_caracteristique->hydrate($result);
+			return $trajet_caracteristique;
 		}
 
 		/**
@@ -95,12 +94,12 @@
 			$result = $query->fetchAll();
 			$list = array();
 
-			// On ajoute au tableau de retour les objets Trajet_Caracteristique créés avec chaque ligne de la BDD retournée
+			// On ajoute au tableau de retour les objets trajet_caracteristique créés avec chaque ligne de la BDD retournée
 			foreach ($result as $key => &$value) {
-				$Trajet_Caracteristique = new Trajet_Caracteristique();
-				$value['trajet_caracteristique'] = $this->caManager->get(array("id_caracteristique"=>$value['trajet_caracteristique']));
-				$Trajet_Caracteristique->hydrate($value);
-				array_push($list, $Trajet_Caracteristique);
+				$trajet_caracteristique = new Trajet_Caracteristique();
+				$value['trajet_caracteristique'] = $this->get(array("id_caracteristique"=>$value['trajet_caracteristique']));
+				$trajet_caracteristique->hydrate($value);
+				array_push($list, $trajet_caracteristique);
 			}
 			return $list;
 		}
