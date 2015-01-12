@@ -44,6 +44,7 @@
 			echo '<p>IUT Dijon - 2015</p><div class="footer_infos"></div></div></footer>';
 
 			echo $scripts . '
+			</div>
 		</body>
 	</html>';
 			unset($_SESSION['msg']);

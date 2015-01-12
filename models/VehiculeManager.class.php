@@ -22,7 +22,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO vehicule(id_adherent, num_permis, marque,modele,type,couleur,carburant,immatriculation) VALUES (:id_adherent, :num_permis, :marque,:modele,:type,:couleur,:carburant,:immatriculation)');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_vehicule(id_adherent, num_permis, marque,modele,type,couleur,carburant,immatriculation) VALUES (:id_adherent, :num_permis, :marque,:modele,:type,:couleur,:carburant,:immatriculation)');
 			$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 			$query -> bindParam(':num_permis', $_SESSION['permis'],PDO::PARAM_INT);
 			$query -> bindParam(':marque', $marque,PDO::PARAM_STR);
@@ -41,7 +41,7 @@
 			extract($data);
 			if(isset($id_Vehicule))
 			{
-				$query = $this->_db->prepare('DELETE FROM vehicule WHERE id_vehicule=:id_vehicule');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_vehicule WHERE id_vehicule=:id_vehicule');
 				$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_INT);
 			}
 
@@ -55,7 +55,7 @@
 			extract($data);
 			if(isset($id_vehicule))
 			{
-				$query = $this->_db->prepare('SELECT * FROM vehicule WHERE id_vehicule=:id_vehicule');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_vehicule WHERE id_vehicule=:id_vehicule');
 				$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_INT);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -86,7 +86,7 @@
 			}
 			else
 			{
-				$query = $this->_db->prepare('SELECT id_vehicule FROM vehicule WHERE id_adherent = :id_adherent');
+				$query = $this->_db->prepare('SELECT id_vehicule FROM covoiturage_vehicule WHERE id_adherent = :id_adherent');
 				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetchAll();
@@ -109,7 +109,7 @@
 		**/
 		function update($vehicule){
 			extract($vehicule);
-			$query = $this->_db->prepare('UPDATE vehicule SET marque=:marque,modele=:modele,type=:type,couleur=:couleur,carburant=:carburant,immatriculation=:immatriculation,WHERE id_vehicule=:id_vehicule');
+			$query = $this->_db->prepare('UPDATE covoiturage_vehicule SET marque=:marque,modele=:modele,type=:type,couleur=:couleur,carburant=:carburant,immatriculation=:immatriculation,WHERE id_vehicule=:id_vehicule');
 			$query -> bindParam(':marque', $marque,PDO::PARAM_STR);
 			$query -> bindParam(':modele', $modele,PDO::PARAM_STR);
 			$query -> bindParam(':type', $type,PDO::PARAM_STR);

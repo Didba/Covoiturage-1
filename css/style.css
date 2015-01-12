@@ -6,7 +6,9 @@ html
 {
 	font-family: 'Raleway', sans-serif;
 	font-size: 16px;
-	min-height: 100%;
+	margin:0;
+	padding: 0;
+	height: 89.8%;
 }
 
 html *
@@ -24,10 +26,17 @@ body
 {
 	color: #888;
 	background-color: #fff;
-	height: 100%;
-	min-height: 800px;
 	background-repeat: no-repeat;
 	background-size: cover;
+	margin:0;
+	padding: 0;
+	height: 100%;
+}
+
+#gen_wrapper
+{
+	min-height: 100%;
+	position: relative;
 }
 
 .large
@@ -42,6 +51,7 @@ body
 	margin-top: 6.25rem;
 	position: relative;
 	z-index: 0;
+	padding-bottom: 5rem;
 }
 
 .wrapper
@@ -56,6 +66,11 @@ body
 	vertical-align: middle;
 	position: relative;
 	display: inline-block;
+}
+
+.dummy
+{
+	margin-top: 100%;
 }
 
 h2
@@ -210,7 +225,7 @@ form *
 
 header
 {
-	background-color: rgba(200,200,200,1);
+	background-color: rgba(200,200,200,0.9);
 	padding: 1rem 0 1rem 1rem;
 	position: fixed;
 	left: 0;
@@ -255,6 +270,7 @@ nav li
 	display: block;
 	vertical-align: middle;
 	height: 100%;
+	text-align: center;
 }
 
 nav li *
@@ -271,27 +287,26 @@ nav li a *
 
 .img_container
 {
-	display: block;
+	display: inline-block;
 	position: relative;
-	height:80%;
+	width:50%;
 	text-align: center;
 }
 
-.img_container:after
+.dummy
 {
-	content: '';
-	display: block;
-	margin-left: 100%;
+	margin-top: 100%;
 }
 
-nav li a img
+.img
 {
 	position: absolute;
 	top: 0;
 	bottom: 0;
 	left: 0;
 	right: 0;
-	margin:auto;
+	background-size: cover;
+	background-position: center center;
 	border:solid;
 	border-radius: 50%;
 	background-color: #fff;
@@ -466,6 +481,30 @@ label.color-radio-label
 	text-align: center;
 }
 
+.table
+{
+	display: table;
+	width: 100%;
+	height: 100%;
+	table-layout: fixed;
+}
+
+.cell
+{
+	display: table-cell;
+	width: 30%;
+	text-align: center;
+	vertical-align: middle;
+	overflow: hidden;
+}
+
+.cell img
+{
+	width: 70%;
+	border-radius: 50%;
+
+}
+
 .cities
 {
 	font-weight: 700;
@@ -561,6 +600,19 @@ label.color-radio-label
 	border-width: 0.1rem;
 }
 
+.profil
+{
+	text-align: center;
+}
+
+.pp
+{
+	border-radius: 50%;
+	border-style: solid;
+	border-width: 0.5rem;
+	border-color: #999;
+}
+
 /*-------------------------------------------------*/
 /*----------------- Modif profil -----------------*/
 /*-------------------------------------------------*/
@@ -618,6 +670,16 @@ label.color-radio-label
 .edit_button:last-child
 {
 	right: 10%;
+}
+
+.form_photo
+{
+	width: 30%;
+}
+
+input[type=checkbox]
+{
+	margin-left: 1rem;
 }
 
 /*-------------------------------------------------*/
@@ -729,11 +791,15 @@ footer
 {
 	background-color: rgba(200,200,200,1);
 	padding: 1rem 0 1rem 1rem;
-	position: relative;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
 	z-index: 2;
 	color: #fff;
 	text-align: center;
 	margin-top: 1rem;
+
 }
 
 .index footer

@@ -12,7 +12,7 @@
         // * On vérifie maintenant si la table "produits" existe. Si oui, o valide la connexion dans la supervariable co, sinon on précise le message
         // **/
 
-        // $check = $db->query("SELECT 1 FROM produits");
+        // $check = $db->query("SELECT 1 FROM covoiturage_produits");
         // if ($check !== FALSE) {
         //     $_SESSION['co'] = true;
         // }

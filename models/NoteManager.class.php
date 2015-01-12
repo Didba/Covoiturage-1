@@ -22,7 +22,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO note(id_adherent_from,id_adherent_to,date,note,commentaire) VALUES (:id_adherent_from,:id_adherent_to,:date,:note,:commentaire)');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_note(id_adherent_from,id_adherent_to,date,note,commentaire) VALUES (:id_adherent_from,:id_adherent_to,:date,:note,:commentaire)');
 			$query -> bindParam(':id_adherent_from', $id_AdherentE,PDO::PARAM_STR);
 			$query -> bindParam(':id_adherent_to', $id_AdherentR,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
@@ -38,7 +38,7 @@
 			extract($data);
 			if(isset($id_note))
 			{
-				$query = $this->_db->prepare('DELETE FROM note WHERE id_adherent_from=:id_adherent_from');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_note WHERE id_adherent_from=:id_adherent_from');
 				$query -> bindParam(':id_adherent_from', $id_note,PDO::PARAM_INT);
 			}
 
@@ -52,7 +52,7 @@
 			extract($data);
 			if(isset($id_note))
 			{
-				$query = $this->_db->prepare('SELECT * FROM note WHERE id_adherent_from=:id_adherent_from');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_note WHERE id_adherent_from=:id_adherent_from');
 				$query -> bindParam(':id_adherent_from', $id_note,PDO::PARAM_INT);
 			}
 
@@ -73,11 +73,11 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM note');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_note');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM note WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM covoiturage_note WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -106,7 +106,7 @@
 		**/
 		function update($Note){
 			extract($Note);
-			$query = $this->_db->prepare('UPDATE note SET commentaire=:commentaire,note=:note,WHERE id_adherent_from=:id_adherent_from');
+			$query = $this->_db->prepare('UPDATE covoiturage_note SET commentaire=:commentaire,note=:note,WHERE id_adherent_from=:id_adherent_from');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':note', $note,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));

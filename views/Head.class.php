@@ -63,6 +63,7 @@
 			$html .= $this->title=="Accueil"? ' class="index">':'>';
 
 			$html .= '
+			<div id="gen_wrapper">
 			<header>';
 			$html .= '
 				<a href="super_controller.php">
@@ -77,7 +78,7 @@
 				$html .= '
 						<li>
 							<a href="super_controller.php?application=profil&id=' . $_SESSION['id'] . '">
-								<div class="img_container"><img src="' . $_SESSION['photo'] . '" alt=""></div><span class="username">Mon profil</span>
+								<div class="img_container"><div class="dummy"></div><div class="img" style="background-image:url(\'' . $_SESSION['photo'] . '\')"></div></div><span class="username">Mon profil</span>
 							</a>
 						</li>';
 				$html .= '

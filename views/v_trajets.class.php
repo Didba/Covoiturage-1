@@ -34,7 +34,7 @@
 				$html .= ucfirst($elt->lieu_arrivee());
 				$html .= '</div>';
 				$html .= '<div class="heure">';
-				$html .= date('h:m', strtotime($elt->date_traj()));
+				$html .= date('H:i', strtotime($elt->date_traj()));
 				$html .= '</div>';
 				$html .= date('d/m/y', strtotime($elt->date_traj()));
 				$html .= '</br>';
@@ -44,20 +44,35 @@
 				$html .= '</br>Nombre de passagers : ' . ($elt->nb_passagers_max()-$elt->nb_passagers_rest()) . '/' . $elt->nb_passagers_max();
 				$html .= '</div>';
 				$html .= '<div class="result_driver">';
-				$html .= $elt->conducteur()->Prenom(). ' ' . substr($elt->conducteur()->Nom(), 0,1) . '.';
-				$html .= '<img src="' . $elt->conducteur()->photo() . '" alt="">';
-				$html .= '<ul class="caracs">';
+				$html .= '<div class="table">';
+				$html .= '	<div class="cell">';
+				$html .= '		<p>' . $elt->conducteur()->prenom() . ' ' . substr($elt->conducteur()->nom(), 0,1) . '.</p>';
+				$html .= '		<p>' . $elt->conducteur()->age() . ' ans</p>';
+				$html .= '		<div class="img_container">';
+				$html .= '		<div class="img" style="background-image:url(\'' . $elt->conducteur()->photo() . '\')"></div>';
+				$html .= '		<div class="dummy"></div>';
+				$html .= '		</div>';
+				$html .= '	</div>';
+				$html .= '	<div class="cell">';
+				$html .= '		<ul class="caracs">';
 				if(is_array($elt->caracteristiques()))
 				{
 					foreach ($elt->caracteristiques() as $key => $value) {
 						$html .= '<li class="carac">' . $value->nom() . '</li>';
 					}
 				}
-				$html .= '</ul>';
+				$html .= '		</ul>';
+				$html .= '	</div>';
+				$html .= '		<div class="cell">';
+				$html .= 			'<p>' . $elt->vehicule()->marque() . ' ' . $elt->vehicule()->modele() . '</p>';
+				$html .= '			<div class="colortile" style="background-color:' . $elt->vehicule()->couleur() . '"></div>';
+				$html .= 			'<p>' . $elt->vehicule()->type() . '</p>';
+				$html .= '		</div>';
+				$html .= '	</div>';
 				$html .= '</div>';
 				$html .= '<div class="result_resa">';
-				$html .= $elt->frais() . '€ <i>par passager</i>';
-					$html .= '</br>';
+				$html .= '<div class="heure">' . $elt->frais() . '€<i>par passager</i></div>';
+				$html .= '</br>';
 				if(isset($_SESSION['id'])&& $_SESSION['id']==$elt->id_adherent())
 				{
 					$html .= '<p>Vous êtes le conducteur</p>';
@@ -68,7 +83,7 @@
 					{
 						$html .= '<form action="super_controller.php" method="post">
 							<input type="hidden" value="new_message" name="application">
-							<input type="hidden" value="' . $elt->lieu_depart() . ' > ' . $elt->lieu_arrivee() . ', le ' . date('d/m/y', strtotime($elt->date_traj())) . ' à ' . date('h:m', strtotime($elt->date_traj())) . '" name="sujet">
+							<input type="hidden" value="' . $elt->lieu_depart() . ' > ' . $elt->lieu_arrivee() . ', le ' . date('d/m/y', strtotime($elt->date_traj())) . ' à ' . date('H:i', strtotime($elt->date_traj())) . '" name="sujet">
 							<input type="hidden" name="id_adherent_to" value="'.$elt->conducteur()->id_adherent().'" name="id_adherent_to">
 							<input type="hidden" name="id_adherent_from" value="' . $_SESSION['id'] . '" name="id_adherent_from">
 							<input type="submit" name="submit" value="Contacter">

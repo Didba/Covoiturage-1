@@ -9,12 +9,7 @@ $('body').on('reset','form', function(){
 	$('input:file').parent().removeClass('fileUploaded');
 });
 
-
-
-//Run the code when document ready
 $(function() {
-	//use this method to add new colors to pallete
-	//$.fn.colorPicker.addColors(['000', '000', 'fff', 'fff']);
 	var namedColors = [
 		{name: "Noir", hex: "000000"},
 		{name: "Gris", hex: "666666"},
@@ -32,4 +27,9 @@ $(function() {
 	]
 
 	$('input[name=couleur]').colorPicker({pickerDefault: "000000", colors: namedColors});
+});
+
+$('.result_resa a').on('click', function() {
+	if(!confirm('Voulez-vous vraiment annuler ?'))
+		return false;
 });

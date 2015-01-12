@@ -11,6 +11,7 @@
 		private $_sexe;
 		private $_telephone;
 		private $_date_naissance;
+		private $_age;
 		private $_mail;
 		private $_password;
 		private $_photo;
@@ -23,6 +24,11 @@
 		public function nom()
 		{
 			return $this->_nom;
+		}
+
+		public function age()
+		{
+			return $this->_age;
 		}
 
 		public function prenom()
@@ -69,6 +75,11 @@
 		public function setNom($nom)
 		{
 			$this->_nom =  $nom;
+		}
+
+		public function setAge($age)
+		{
+			$this->_age =  $age;
 		}
 
 		public function setPrenom($prenom)

@@ -20,7 +20,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO caracteristique(nom) VALUES (:nom )');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_caracteristique(nom) VALUES (:nom )');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -32,12 +32,12 @@
 			extract($data);
 			if(isset($id_caracteristique))
 			{
-				$query = $this->_db->prepare('DELETE FROM caracteristique WHERE id_caracteristique=:id_caracteristique');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_caracteristique WHERE id_caracteristique=:id_caracteristique');
 				$query -> bindParam(':id_caracteristique', $id_Caracteristique,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
-				$query = $this->_db->prepare('DELETE FROM caracteristique WHERE nom=:nom');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_caracteristique WHERE nom=:nom');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -50,7 +50,7 @@
 			extract($data);
 			if(isset($id_caracteristique))
 			{
-				$query = $this->_db->prepare('SELECT * FROM caracteristique WHERE id_caracteristique=:id_caracteristique');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_caracteristique WHERE id_caracteristique=:id_caracteristique');
 				$query -> bindParam(':id_caracteristique', $id_caracteristique,PDO::PARAM_INT);
 			}
 
@@ -69,11 +69,11 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM caracteristique');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_caracteristique');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM caracteristique WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM covoiturage_caracteristique WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -100,7 +100,7 @@
 		**/
 		function update($caracteristique){
 			extract($caracteristique);
-			$query = $this->_db->prepare('UPDATE caracteristique SET nom=:nom WHERE id_caracteristique=:id_caracteristique');
+			$query = $this->_db->prepare('UPDATE covoiturage_caracteristique SET nom=:nom WHERE id_caracteristique=:id_caracteristique');
 			$query -> bindParam(':id_caracteristique', $id_Caracteristique,PDO::PARAM_INT);
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));

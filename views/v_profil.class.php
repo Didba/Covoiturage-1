@@ -14,10 +14,10 @@
 
 			$html .= $this->get_nav("Mon profil");
 
-			$html .= '<ul class="results">';
-			$html .= '<img src="' . $adherent->photo() . '" width="100" height="100" /><br />';
-			$html .= $adherent->prenom() ;
-			$html .= ' ' . $adherent->nom(). '<br />';
+			$html .= '<ul class="profil">';
+			$html .= '<img class="pp" src="' . $adherent->photo() . '" width="200" height="200" /><br />';
+			$html .= '<h4>' . $adherent->prenom();
+			$html .= ' ' . $adherent->nom(). '</h4>';
 			$html .= $adherent->sexe() . '<br />';
 			$html .= $adherent->telephone() . '<br />';
 			$html .=   date('d/m/Y',strtotime($adherent->date_Naissance())) . '<br />';

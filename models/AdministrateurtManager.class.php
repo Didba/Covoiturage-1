@@ -24,7 +24,7 @@
 			extract($data);
 			if(isset($id_adherent))
 			{
-				$query = $this->_db->prepare('DELETE FROM administrateur WHERE id_adherent=:id_adherent');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_administrateur WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 				return $query->execute();
 			}
@@ -38,7 +38,7 @@
 			extract($data);
 			if(isset($id))
 			{
-				$query = $this->_db->prepare('SELECT * FROM administrateur WHERE id_adherent=:id_adherent');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_administrateur WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 
@@ -59,11 +59,11 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM administrateur');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_administrateur');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM administrateur WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM covoiturage_administrateur WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{

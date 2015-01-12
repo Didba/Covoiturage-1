@@ -36,7 +36,7 @@ TRUNCATE TABLE `adherent`;
 -- Contenu de la table `adherent`
 --
 
-INSERT INTO `adherent` (`Id_Adherent`, `Nom`, `Prenom`, `Sexe`, `Telephone`, `Date_Naissance`, `Mail`, `Password`) VALUES
+INSERT INTO covoiturage_`adherent` (`Id_Adherent`, `Nom`, `Prenom`, `Sexe`, `Telephone`, `Date_Naissance`, `Mail`, `Password`) VALUES
 (1, 'Boulongne', 'Thomas', '1', '0160103788', '2014-12-03', 'thomasboulongne@hotmail.com', '1234'),
 (2, 'Chapka', 'Thomas', '1', '0102030405', '2014-12-16', 'thomas@mail.fr', '1234'),
 (3, 'Chakrina', 'Mouhouni', '1', '0102030405', '2013-06-21', 'mou@mail.com', '1234');
@@ -99,7 +99,7 @@ TRUNCATE TABLE `conducteur`;
 -- Contenu de la table `conducteur`
 --
 
-INSERT INTO `conducteur` (`Num_Permis`, `Id_Adherent_Conducteur`) VALUES
+INSERT INTO covoiturage_`conducteur` (`Num_Permis`, `Id_Adherent_Conducteur`) VALUES
 (12345, 1);
 
 -- --------------------------------------------------------
@@ -232,7 +232,7 @@ TRUNCATE TABLE `trajet`;
 -- Contenu de la table `trajet`
 --
 
-INSERT INTO `trajet` (`id_trajet`, `id_adherent`, `num_permis`, `date_traj`, `nb_passagers_max`, `lieu_depart`, `lieu_arrivee`, `commentaire`) VALUES
+INSERT INTO covoiturage_`trajet` (`id_trajet`, `id_adherent`, `num_permis`, `date_traj`, `nb_passagers_max`, `lieu_depart`, `lieu_arrivee`, `commentaire`) VALUES
 (1, 1, 25156, '2014-12-16 00:00:00', 3, 'Dijon', 'Paris', ''),
 (2, 1, 7, '2014-12-16 00:00:00', 3, 'Dijon', 'Paris', ''),
 (3, 1, 0, '2015-01-02 00:00:00', 3, 'Bora Bora', 'Dijon', NULL),

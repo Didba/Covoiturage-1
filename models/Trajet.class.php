@@ -14,6 +14,7 @@
 		private $_nb_passagers_max;
 		private $_nb_passagers_rest;
 		private $_conducteur;
+		private $_vehicule;
 		private $_time;
 		private $_distance;
 		private $_frais;
@@ -37,6 +38,11 @@
 		public function conducteur()
 		{
 			return $this->_conducteur;
+		}
+
+		public function vehicule()
+		{
+			return $this->_vehicule;
 		}
 
 		public function commentaire()
@@ -114,12 +120,12 @@
 			$this->_id_adherent = $id_adherent;
 		}
 
-		public function setlieu_arrivee($lieu_arrivee)
+		public function setLieu_arrivee($lieu_arrivee)
 		{
 			$this->_lieu_arrivee = $lieu_arrivee;
 		}
 
-		public function setlieu_depart($lieu_depart)
+		public function setLieu_depart($lieu_depart)
 		{
 			$this->_lieu_depart = $lieu_depart;
 		}
@@ -129,7 +135,7 @@
 			$this->_nb_passagers_rest = $nb_passagers_rest;
 		}
 
-		public function setnb_passagers_max($nb_passagers_max)
+		public function setNb_passagers_max($nb_passagers_max)
 		{
 			$this->_nb_passagers_max = $nb_passagers_max;
 		}
@@ -154,6 +160,11 @@
 			$this->_conducteur = $adh;
 		}
 
+		public function setVehicule($adh)
+		{
+			$this->_vehicule = $adh;
+		}
+
 		public function setCaracteristiques($adh)
 		{
 			$this->_caracteristiques = $adh;
@@ -162,6 +173,22 @@
 		public function toString()
 		{
 			return "Le trajet " . $this->_id_trajet;
+		}
+
+		/*-------------------------------------------------------------------------------*/
+		/*-------- Retourne le conenu des attributs dans un tableau ------*/
+		/*-------------------------------------------------------------------------------*/
+
+		public function dump()
+		{
+			unset($this->_frais);
+			unset($this->_id_adherent);
+			$result = get_object_vars($this);
+			foreach ($result as $key => &$value) {
+				$key2 = substr($key,1);
+				$result[$key2] = $value;
+			}
+			return $result;
 		}
 
 		public function hydrate(array $data)

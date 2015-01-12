@@ -22,7 +22,7 @@
 			extract($data);
 			$resp = true;
 			$password = md5($password);
-			$query = $this->_db->prepare('INSERT INTO adherent(nom,prenom,sexe,telephone,date_naissance,mail,password) VALUES (:nom, :prenom, :sexe, :telephone, :date_naissance, :mail, :password)');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_adherent(nom,prenom,sexe,telephone,date_naissance,mail,password) VALUES (:nom, :prenom, :sexe, :telephone, :date_naissance, :mail, :password)');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
 			$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);
@@ -32,14 +32,14 @@
 			$query -> bindParam(':password', $password,PDO::PARAM_STR);
 			if(!$query->execute()):$resp = false;endif;
 
-			$query = $this->_db->prepare('SELECT id_adherent FROM adherent WHERE mail=:mail ORDER BY id_adherent DESC');
+			$query = $this->_db->prepare('SELECT id_adherent FROM covoiturage_adherent WHERE mail=:mail ORDER BY id_adherent DESC');
 			$query -> bindParam(':mail', $mail,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 			$result = $query->fetch();
 
 			if(isset($conducteur) && $conducteur)
 			{
-				$query = $this->_db->prepare('INSERT INTO conducteur VALUES (:num_permis, :id_adherent)');
+				$query = $this->_db->prepare('INSERT INTO covoiturage_conducteur VALUES (:num_permis, :id_adherent)');
 				$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
 				$query -> bindParam(':id_adherent', $result['id_adherent'],PDO::PARAM_INT);
 				if(!$query->execute()):$resp = false;endif;
@@ -68,7 +68,7 @@
 						}
 						move_uploaded_file($_FILES['photo']['tmp_name'], 'adherent/' . basename($_FILES['photo']['name']));
 						$url = 'adherent/' . basename($_FILES['photo']['name']);
-						$query = $this->_db->prepare('UPDATE adherent SET photo=:url WHERE id_adherent=:id_adherent');
+						$query = $this->_db->prepare('UPDATE covoiturage_adherent SET photo=:url WHERE id_adherent=:id_adherent');
 						$query -> bindParam(':url', $url,PDO::PARAM_STR);
 						$query -> bindParam(':id_adherent', $result['id_adherent'],PDO::PARAM_INT);
 						$query->execute() or die(print_r($query->errorInfo()));
@@ -78,7 +78,7 @@
 			else
 			{
 				$url = 'adherent/default.png';
-				$query = $this->_db->prepare('UPDATE adherent SET photo=:url WHERE id_adherent=:id_adherent');
+				$query = $this->_db->prepare('UPDATE covoiturage_adherent SET photo=:url WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':url', $url,PDO::PARAM_STR);
 				$query -> bindParam(':id_adherent', $result['id_adherent'],PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
@@ -93,13 +93,13 @@
 			extract($data);
 			if(isset($id_adherent))
 			{
-				$query = $this->_db->prepare('DELETE FROM adherent WHERE id_adherent=:id_adherent');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_adherent WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 				return $query->execute();
 			}
 			else if(isset($nom))
 			{
-				$query = $this->_db->prepare('DELETE FROM adherent WHERE nom=:nom');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_adherent WHERE nom=:nom');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 				return $query->execute();
 			}
@@ -117,7 +117,7 @@
 			if(isset($pwd)):$pwd = md5($pwd);endif;
 			if(isset($id_adherent))
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherent WHERE id_adherent=:id_adherent');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_adherent WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 
@@ -125,7 +125,7 @@
 			}
 			else if(isset($mail))
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherent WHERE mail=:mail && password=:pwd');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_adherent WHERE mail=:mail && password=:pwd');
 				$query -> bindParam(':mail', $mail,PDO::PARAM_STR);
 				$query -> bindParam(':pwd', $pwd,PDO::PARAM_STR);
 				$query->execute() or die(print_r($query->errorInfo()));
@@ -136,6 +136,10 @@
 			{
 				$_SESSION['msg'] = 'Impossible de retourner l\'adhérent';
 			}
+
+			$from = new DateTime($result['date_naissance']);
+			$to   = new DateTime('today');
+			$result['age'] = $from->diff($to)->y;
 
 			//On vérifie si la requête a bien retourné un utilisateur
 			if(!empty($result))
@@ -157,11 +161,11 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM adherent');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_adherent');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM adherent WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM covoiturage_adherent WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -192,14 +196,14 @@
 			extract($adherent);
 			$resp = true;
 
-			$query = $this->_db->prepare('SELECT password FROM adherent WHERE id_adherent=:id_adherent');
+			$query = $this->_db->prepare('SELECT password FROM covoiturage_adherent WHERE id_adherent=:id_adherent');
 			$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 			$query->execute();
 			$result = $query->fetch();
 			if($result['password']==md5($password))
 			{
 				//Mise à jour des infos de base
-				$query = $this->_db->prepare('UPDATE adherent SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,date_naissance=:date_naissance,mail=:mail WHERE id_adherent=:id_adherent');
+				$query = $this->_db->prepare('UPDATE covoiturage_adherent SET nom=:nom,prenom=:prenom,sexe=:sexe,telephone=:telephone,date_naissance=:date_naissance,mail=:mail WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 				$query -> bindParam(':prenom', $prenom,PDO::PARAM_STR);
 				$query -> bindParam(':sexe', $sexe,PDO::PARAM_STR);
@@ -214,7 +218,7 @@
 				if(isset($new_password) && isset($conf_password) && $new_password == $conf_password && $new_password!="" && $new_password!=null)
 				{
 					$password = md5($new_password);
-					$query = $this->_db->prepare('UPDATE adherent SET password=:password WHERE id_adherent=:id_adherent');
+					$query = $this->_db->prepare('UPDATE covoiturage_adherent SET password=:password WHERE id_adherent=:id_adherent');
 					$query -> bindParam(':password', $password,PDO::PARAM_STR);
 					$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 					if(!$query->execute()):$resp = false;endif;
@@ -222,19 +226,19 @@
 
 				if(isset($conducteur) && $conducteur)
 				{
-					$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_adherent=:id_adherent');
+					$query = $this->_db->prepare('SELECT * FROM covoiturage_conducteur WHERE id_adherent=:id_adherent');
 					$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 					$query->execute();
 					if($query->rowCount() > 0)
 					{
-						$query = $this->_db->prepare('UPDATE conducteur SET num_permis = :num_permis WHERE id_adherent = :id_adherent');
+						$query = $this->_db->prepare('UPDATE covoiturage_conducteur SET num_permis = :num_permis WHERE id_adherent = :id_adherent');
 						$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
 						$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 						if(!$query->execute()):$resp = false;endif;
 					}
 					else
 					{
-						$query = $this->_db->prepare('INSERT INTO conducteur VALUES (:num_permis, :id_adherent)');
+						$query = $this->_db->prepare('INSERT INTO covoiturage_conducteur VALUES (:num_permis, :id_adherent)');
 						$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_INT);
 						$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 						if(!$query->execute()):$resp = false;endif;
@@ -243,12 +247,12 @@
 				}
 				else
 				{
-					$query = $this->_db->prepare('SELECT * FROM conducteur WHERE id_adherent=:id_adherent');
+					$query = $this->_db->prepare('SELECT * FROM covoiturage_conducteur WHERE id_adherent=:id_adherent');
 					$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 					$query->execute();
 					if($query->rowCount() > 0)
 					{
-						$query = $this->_db->prepare('DELETE FROM conducteur WHERE id_adherent = :id_adherent');
+						$query = $this->_db->prepare('DELETE FROM covoiturage_conducteur WHERE id_adherent = :id_adherent');
 						$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 						if(!$query->execute()):$resp = false;endif;
 					}
@@ -280,7 +284,7 @@
 							move_uploaded_file($_FILES['photo']['tmp_name'], 'adherent/' . basename($_FILES['photo']['name']));
 
 							$url = 'adherent/' . basename($_FILES['photo']['name']);
-							$query = $this->_db->prepare('UPDATE adherent SET photo=:url WHERE id_adherent=:id_adherent');
+							$query = $this->_db->prepare('UPDATE covoiturage_adherent SET photo=:url WHERE id_adherent=:id_adherent');
 							$query -> bindParam(':url', $url,PDO::PARAM_STR);
 							$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 							$query->execute() or die(print_r($query->errorInfo()));

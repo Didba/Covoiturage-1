@@ -21,7 +21,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO trajet_caracteristique(id_trajet, id_caracteristique) VALUES (:id_trajet, :id_caracteristique)');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_trajet_caracteristique(id_trajet, id_caracteristique) VALUES (:id_trajet, :id_caracteristique)');
 			$query -> bindParam(':id_caracteristique', $id_caracteristique,PDO::PARAM_INT);
 			$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_INT);
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -34,12 +34,12 @@
 			extract($data);
 			if(isset($id_trajet_caracteristique))
 			{
-				$query = $this->_db->prepare('DELETE FROM trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
 				$query -> bindParam(':id_caracteristique', $id_trajet_caracteristique,PDO::PARAM_INT);
 			}
 			else if(isset($id_trajet))
 			{
-				$query = $this->_db->prepare('DELETE FROM trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_trajet_caracteristique WHERE id_caracteristique=:id_caracteristique');
 				$query -> bindParam(':id_caracteristique', $id_trajet,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -53,11 +53,11 @@
 			$cr_manager = new CaracteristiqueManager($this->_db);
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM trajet_caracteristique');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_trajet_caracteristique');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM trajet_caracteristique WHERE 1"; //Début de la requête.
+				$query_str = "SELECT * FROM covoiturage_trajet_caracteristique WHERE 1"; //Début de la requête.
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{

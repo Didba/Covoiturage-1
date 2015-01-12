@@ -22,7 +22,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO produits(nom,prix,categorie) VALUES (:nom, :prix, :categorie)');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_produits(nom,prix,categorie) VALUES (:nom, :prix, :categorie)');
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prix', $prix,PDO::PARAM_STR);
 			$query -> bindParam(':categorie', $categorie,PDO::PARAM_STR);
@@ -36,12 +36,12 @@
 			extract($data);
 			if(isset($id))
 			{
-				$query = $this->_db->prepare('DELETE FROM produits WHERE id=:id');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_produits WHERE id=:id');
 				$query -> bindParam(':id', $id,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
-				$query = $this->_db->prepare('DELETE FROM produits WHERE nom=:nom');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_produits WHERE nom=:nom');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -54,12 +54,12 @@
 			extract($data);
 			if(isset($id))
 			{
-				$query = $this->_db->prepare('SELECT * FROM produits WHERE id=:id');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_produits WHERE id=:id');
 				$query -> bindParam(':id', $id,PDO::PARAM_INT);
 			}
 			else if(isset($nom))
 			{
-				$query = $this->_db->prepare('SELECT * FROM produits WHERE nom=:nom');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_produits WHERE nom=:nom');
 				$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			}
 
@@ -79,11 +79,11 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM produits');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_produits');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM produits WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM covoiturage_produits WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -112,7 +112,7 @@
 		**/
 		function update($produit){
 			extract($produit);
-			$query = $this->_db->prepare('UPDATE produits SET nom=:nom,prix=:prix,categorie=:categorie WHERE id=:id');
+			$query = $this->_db->prepare('UPDATE covoiturage_produits SET nom=:nom,prix=:prix,categorie=:categorie WHERE id=:id');
 			$query -> bindParam(':id', $id,PDO::PARAM_INT);
 			$query -> bindParam(':nom', $nom,PDO::PARAM_STR);
 			$query -> bindParam(':prix', $prix,PDO::PARAM_STR);

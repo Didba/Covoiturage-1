@@ -21,7 +21,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO conducteur(num_permis) VALUES (:num_permis )');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_conducteur(num_permis) VALUES (:num_permis )');
 			$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -33,12 +33,12 @@
 			extract($data);
 			if(isset($id_Adherent))
 			{
-				$query = $this->_db->prepare('DELETE FROM conducteur WHERE id_adherent=:id_adherent');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_conducteur WHERE id_adherent=:id_adherent');
 				$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 			}
 			else if(isset($num_permis))
 			{
-				$query = $this->_db->prepare('DELETE FROM conducteur WHERE num_permis=:num_permis');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_conducteur WHERE num_permis=:num_permis');
 				$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -52,14 +52,14 @@
 
 			if(isset($id_adherent))
 			{
-				$query = $this->_db->prepare('SELECT * FROM conducteur INNER JOIN adherent ON conducteur.id_adherent = adherent.id_adherent WHERE conducteur.id_adherent=:id_adherent');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_conducteur INNER JOIN covoiturage_adherent ON covoiturage_conducteur.id_adherent = covoiturage_adherent.id_adherent WHERE covoiturage_conducteur.id_adherent=:id_adherent');
 				$query -> bindParam(':id_adherent', $id_adherent,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetch();
 			}
 			else if(isset($num_permis))
 			{
-				$query = $this->_db->prepare('SELECT * FROM conducteur INNER JOIN adherent ON conducteur.id_adherent = adherent.id_adherent WHERE num_permis=:num_permis');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_conducteur INNER JOIN covoiturage_adherent ON covoiturage_conducteur.id_adherent = covoiturage_adherent.id_adherent WHERE num_permis=:num_permis');
 				$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_STR);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetch();
@@ -85,15 +85,15 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM conducteur');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_conducteur');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM conducteur WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM covoiturage_conducteur WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
-						$query_str .= ' AND ' . $champ . ' LIKE "%' . $val . '%"'; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
+						$query_str .= ' AND ' . $champ . ' =' . $val . ''; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
 					}
 				}
 				$query = $this->_db->prepare($query_str);
@@ -118,7 +118,7 @@
 		**/
 		function update($conducteur){
 			extract($conducteur);
-			$query = $this->_db->prepare('UPDATE conducteur SET num_permis=:num_permis WHERE id_adherent=:id_adherent');
+			$query = $this->_db->prepare('UPDATE covoiturage_conducteur SET num_permis=:num_permis WHERE id_adherent=:id_adherent');
 			$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_INT);
 			$query -> bindParam(':num_permis', $num_permis,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));

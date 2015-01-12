@@ -21,7 +21,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO etapes(lieu, ordre) VALUES (:lieu, :ordre)');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_etapes(lieu, ordre) VALUES (:lieu, :ordre)');
 			$query -> bindParam(':lieu', $Lieu,PDO::PARAM_STR);
 			$query -> bindParam(':ordre', $Ordre,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -34,12 +34,12 @@
 			extract($data);
 			if(isset($id_Etapes))
 			{
-				$query = $this->_db->prepare('DELETE FROM etapes WHERE id_etapes=:id_etapes');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_etapes WHERE id_etapes=:id_etapes');
 				$query -> bindParam(':id_etapes', $id_Etapes,PDO::PARAM_INT);
 			}
 			else if(isset($id_Trajet))
 			{
-				$query = $this->_db->prepare('DELETE FROM etapes WHERE id_trajet=:id_trajet');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_etapes WHERE id_trajet=:id_trajet');
 				$query -> bindParam(':id_trajet', $id_Trajet,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -52,12 +52,12 @@
 			extract($data);
 			if(isset($id_Etapes))
 			{
-				$query = $this->_db->prepare('SELECT * FROM etapes WHERE id_etapes=:id_etapes');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_etapes WHERE id_etapes=:id_etapes');
 				$query -> bindParam(':id_etapes', $id_Etapes,PDO::PARAM_INT);
 			}
 			else if(isset($id_Trajet))
 			{
-				$query = $this->_db->prepare('SELECT * FROM etapes WHERE id_trajet=:id_trajet');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_etapes WHERE id_trajet=:id_trajet');
 				$query -> bindParam(':id_trajet', $id_Trajet,PDO::PARAM_STR);
 			}
 
@@ -74,14 +74,14 @@
 		* Fonction permettant d'obtenir une liste des caracteristiques
 		**/
 		function getList($champs=NULL){
-			// On vérifie le paramètre. 
+			// On vérifie le paramètre.
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM etapes');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_etapes');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM etapes WHERE 1"; //Début de la requête.
+				$query_str = "SELECT * FROM covoiturage_etapes WHERE 1"; //Début de la requête.
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -110,7 +110,7 @@
 		**/
 		function update($Etapes){
 			extract($Etapes);
-			$query = $this->_db->prepare('UPDATE etapes SET ,lieu=:lieu, ordre=:ordre WHERE id_etapes=:id_etapes');
+			$query = $this->_db->prepare('UPDATE covoiturage_etapes SET ,lieu=:lieu, ordre=:ordre WHERE id_etapes=:id_etapes');
 			$query -> bindParam(':lieu', $Lieu,PDO::PARAM_INT);
 			$query -> bindParam(':ordre', $Ordre,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));

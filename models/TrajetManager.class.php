@@ -2,6 +2,7 @@
 
 	include_once 'models/Trajet.class.php';
 	include_once 'models/AdherentManager.class.php';
+	include_once 'models/VehiculeManager.class.php';
 	include_once 'models/Trajet_CaracteristiqueManager.class.php';
 
 	/**
@@ -25,7 +26,7 @@
 			$resp = true;
 			$tc_manager = new Trajet_CaracteristiqueManager($this->_db);
 			$date = $date . ' ' . $hour . ':' . $minute;
-			$query = $this->_db->prepare('INSERT INTO trajet(commentaire,date_traj,lieu_arrivee,lieu_depart,nb_passagers_max,id_adherent, id_vehicule, num_permis) VALUES (:commentaire, :date, :lieu_arrivee, :lieu_depart, :nb_passagers_max, :id_adherent, :id_vehicule, :num_permis)');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_trajet(commentaire,date_traj,lieu_arrivee,lieu_depart,nb_passagers_max,id_adherent, id_vehicule, num_permis) VALUES (:commentaire, :date, :lieu_arrivee, :lieu_depart, :nb_passagers_max, :id_adherent, :id_vehicule, :num_permis)');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':date', $date,PDO::PARAM_STR);
 			$query -> bindParam(':lieu_depart', $lieu_depart,PDO::PARAM_STR);
@@ -38,7 +39,7 @@
 
 
 			//ajout des carcteristiques du trajet dans la table trajet_caracteristique
-			$query = $this->_db->prepare('SELECT id_trajet FROM trajet ORDER BY id_trajet DESC LIMIT 0,1');
+			$query = $this->_db->prepare('SELECT id_trajet FROM covoiturage_trajet ORDER BY id_trajet DESC LIMIT 0,1');
 			$query->execute() or die(print_r($query->errorInfo()));
 			$result = $query->fetch();
 
@@ -58,7 +59,7 @@
 			extract($data);
 			if(isset($id_trajet))
 			{
-				$query = $this->_db->prepare('DELETE FROM trajet WHERE id_trajet=:id_trajet');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_trajet WHERE id_trajet=:id_trajet');
 				$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_INT);
 				return $query->execute() or die(print_r($query->errorInfo()));
 			}
@@ -71,27 +72,23 @@
 		function get(array $data){
 			extract($data);
 			$mb_manager = new AdherentManager($this->_db);
+			$vh_manager = new VehiculeManager($this->_db);
 			$tcr_manager = new Trajet_CaracteristiqueManager($this->_db);
 			if(isset($id_trajet))
 			{
-				$query = $this->_db->prepare('SELECT * FROM trajet WHERE id_trajet=:id_trajet');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_trajet WHERE id_trajet=:id_trajet');
 				$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 
 				$result = $query->fetch();
 				//Mise en forme de la date en passant par les méthodes SQL
 				$this->_db->exec("SET lc_time_names = 'fr_FR';SELECT @@lc_time_names"); //On définit la locale pour la langue des jours/mois
-				$query = $this->_db->prepare('SELECT YEAR(date_traj) as y, MONTHNAME(date_traj) as m, DAY(date_traj) as d, DAYNAME(date_traj) as D FROM trajet WHERE id_trajet=:id');
+				$query = $this->_db->prepare('SELECT YEAR(date_traj) as y, MONTHNAME(date_traj) as m, DAY(date_traj) as d, DAYNAME(date_traj) as D FROM covoiturage_trajet WHERE id_trajet=:id');
 				$query -> bindParam(':id', $result['id_trajet'],PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result2 = $query->fetch();
 				//On formate la date
 				$result['date'] = $result2['D'] . ' ' . $result2['d'] . ' ' . $result2['m'] . ' ' . $result2['y'];
-
-				$query = $this->_db->prepare('SELECT prenom, nom FROM adherent WHERE id_adherent=:id');
-				$query -> bindParam(':id', $result['id_adherent'],PDO::PARAM_INT);
-				$query->execute() or die(print_r($query->errorInfo()));
-				$result2 = $query->fetch();
 
 				$geo = $this->get_geoData($result['lieu_depart'], $result['lieu_arrivee']);
 
@@ -105,6 +102,8 @@
 				$result['nb_passagers_rest'] = $result['nb_passagers_max'] - $this->get_rest($id_trajet);
 
 				$result['caracteristiques'] = $tcr_manager->getList(array('id_trajet'=>$id_trajet));
+
+				$result['vehicule'] = $vh_manager->get(array('id_vehicule'=>$result['id_vehicule']));
 			}
 
 			if(!empty($result))
@@ -127,7 +126,7 @@
 
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM trajet');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_trajet');
 			}
 			else if(isset($champs['lieu_depart'])&&isset($champs['lieu_arrivee']))
 			{
@@ -135,7 +134,7 @@
 				$depart = $this->getNearby($champs['lieu_depart']);
 				$arrivee = $this->getNearby($champs['lieu_arrivee']);
 
-				$query_str = "SELECT * FROM trajet WHERE lieu_depart REGEXP '" . $champs['lieu_depart']; //Début de la requête.
+				$query_str = "SELECT * FROM covoiturage_trajet WHERE lieu_depart REGEXP \"" . $champs['lieu_depart']; //Début de la requête.
 				foreach ($depart as $key => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -143,24 +142,25 @@
 					}
 				}
 
-				$query_str .= '\' AND lieu_arrivee REGEXP \'' . $champs['lieu_arrivee'];
+				$query_str .= '" AND lieu_arrivee REGEXP "' . $champs['lieu_arrivee'];
 				foreach ($arrivee as $key => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
-						$query_str .= '|' . $val['nom'] . '';
+						$query_str .= '|' . $val['nom'];
 					}
 				}
+				var_dump($query_str);
 
-				$query_str .= "' AND date_traj > '" . $champs['date_traj'] . ' ' . ($champs['hour']-1) . ':' . $champs['minute'] . "' AND date_traj < '" . $champs['date_traj'] . ' ' . ($champs['hour']+10) . ':' . $champs['minute'] . "' ORDER BY date_traj ASC"; //On ajoute la vérification de la date (-1h et +10h)
+				$query_str .= "\" AND date_traj > '" . $champs['date_traj'] . ' ' . ($champs['hour']-1) . ':' . $champs['minute'] . "' AND date_traj < '" . $champs['date_traj'] . ' ' . ($champs['hour']+10) . ':' . $champs['minute'] . "' ORDER BY date_traj ASC"; //On ajoute la vérification de la date (-1h et +10h)
 				$query = $this->_db->prepare($query_str);
 			}
 			else
 			{
-				$query_str = "SELECT * FROM trajet WHERE 1"; //Début de la requête.
+				$query_str = "SELECT * FROM covoiturage_trajet WHERE 1"; //Début de la requête.
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
-						$query_str .= ' AND ' . $champ . ' LIKE "%' . $val . '%"'; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
+						$query_str .= ' AND ' . $champ . ' =' . $val ; // Ici on priviligie le LIKE à l'égalité pour plus de tolérance dans la saisie
 					}
 				}
 				$query_str .= " ORDER BY date_traj ASC";
@@ -184,7 +184,7 @@
 		**/
 		function update($trajet){
 			extract($trajet);
-			$query = $this->_db->prepare('UPDATE trajets SET commentaire=:commentaire,date_traj=:Date,lieu_depart=:lieu_depart,lieu_arrivee=:lieu_arrivee,nb_passagers_max=:nb_passagers_max WHERE id_trajet=:id_trajet');
+			$query = $this->_db->prepare('UPDATE covoiturage_trajets SET commentaire=:commentaire,date_traj=:Date,lieu_depart=:lieu_depart,lieu_arrivee=:lieu_arrivee,nb_passagers_max=:nb_passagers_max WHERE id_trajet=:id_trajet');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query -> bindParam(':date', $Date,PDO::PARAM_STR);
 			$query -> bindParam(':id_adherent', $id_Adherent,PDO::PARAM_STR);
@@ -217,7 +217,7 @@
 		**/
 		function get_rest($id_trajet)
 		{
-			$query = $this->_db->prepare('SELECT COUNT(id_trajet)+SUM(nb_invites) AS total FROM participe WHERE id_trajet=:id_trajet');
+			$query = $this->_db->prepare('SELECT COUNT(id_trajet)+SUM(nb_invites) AS total FROM covoiturage_participe WHERE id_trajet=:id_trajet');
 			$query -> bindParam(':id_trajet', $id_trajet,PDO::PARAM_INT);
 			$query->execute() or die(print_r($query->errorInfo()));
 
@@ -251,7 +251,7 @@
 			$minLng = (float) $lng - rad2deg($distance / $radius / cos(deg2rad((float) $lat)));
 
 			// Récupération des résultat par distance
-			$query = $this->_db->prepare('SELECT ville_nom_reel AS nom FROM villes WHERE lat > :minLat AND lat < :maxLat AND lng > :minLng AND lng < :maxLng ORDER BY ABS(lat - :lat) + ABS(lng - :lng) ASC LIMIT :limit');
+			$query = $this->_db->prepare('SELECT ville_nom_reel AS nom FROM covoiturage_villes WHERE lat > :minLat AND lat < :maxLat AND lng > :minLng AND lng < :maxLng ORDER BY ABS(lat - :lat) + ABS(lng - :lng) ASC LIMIT :limit');
 			$query -> bindParam(':minLat', $minLat,PDO::PARAM_INT);
 			$query -> bindParam(':maxLat', $maxLat,PDO::PARAM_INT);
 			$query -> bindParam(':minLng', $minLng,PDO::PARAM_INT);

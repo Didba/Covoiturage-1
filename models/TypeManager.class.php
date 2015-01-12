@@ -20,7 +20,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO type(libelle) VALUES (:libelle)');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_type(libelle) VALUES (:libelle)');
 			$query -> bindParam(':libelle', $libelle,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -32,12 +32,12 @@
 			extract($data);
 			if(isset($id_type))
 			{
-				$query = $this->_db->prepare('DELETE FROM type WHERE id_type=:id_type');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_type WHERE id_type=:id_type');
 				$query -> bindParam(':id_type', $id_type,PDO::PARAM_INT);
 			}
 			else if(isset($libelle))
 			{
-				$query = $this->_db->prepare('DELETE FROM type WHERE libelle=:libelle');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_type WHERE libelle=:libelle');
 				$query -> bindParam(':libelle', $libelle,PDO::PARAM_STR);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -51,14 +51,14 @@
 
 			if(isset($id_type))
 			{
-				$query = $this->_db->prepare('SELECT * FROM type WHERE id_type=:id_type');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_type WHERE id_type=:id_type');
 				$query -> bindParam(':id_type', $id_type,PDO::PARAM_INT);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetch();
 			}
 			else if(isset($libelle))
 			{
-				$query = $this->_db->prepare('SELECT * FROM type WHERE libelle=:libelle');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_type WHERE libelle=:libelle');
 				$query -> bindParam(':libelle', $libelle,PDO::PARAM_STR);
 				$query->execute() or die(print_r($query->errorInfo()));
 				$result = $query->fetch();
@@ -84,11 +84,11 @@
 			// On vérifie le paramètre. S'il n'y en a pas, on retourne la liste complète. Sinon, on analyse le tableau des champs
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM type');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_type');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM type WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
+				$query_str = "SELECT * FROM covoiturage_type WHERE 1"; //Début de la requête. Le WHERE 1 (toujours vrai) est là pour faciliter la boucle qui suit et que le "statement" puisse toujours commencer par " AND" m^me s'il s'agit du premier champ
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -115,7 +115,7 @@
 		**/
 		function update($type){
 			extract($type);
-			$query = $this->_db->prepare('UPDATE type SET libelle=:libelle WHERE id_type=:id_type');
+			$query = $this->_db->prepare('UPDATE covoiturage_type SET libelle=:libelle WHERE id_type=:id_type');
 			$query -> bindParam(':id_type', $id_type,PDO::PARAM_INT);
 			$query -> bindParam(':libelle', $libelle,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));

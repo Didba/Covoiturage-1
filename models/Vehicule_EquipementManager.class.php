@@ -24,7 +24,7 @@
 		**/
 		function add(array $data){
 			extract($data);
-			$query = $this->_db->prepare('INSERT INTO vehicule_equipements(commentaire) VALUES (:commentaire)');
+			$query = $this->_db->prepare('INSERT INTO covoiturage_vehicule_equipements(commentaire) VALUES (:commentaire)');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_STR);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}
@@ -36,7 +36,7 @@
 			extract($data);
 			if(isset($id_Vehicule_equipement))
 			{
-				$query = $this->_db->prepare('DELETE FROM vehicule_equipements WHERE id_vehicule=:id_vehicule');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_vehicule_equipements WHERE id_vehicule=:id_vehicule');
 				$query -> bindParam(':id_vehicule', $id_Vehicule_equipement,PDO::PARAM_INT);
 			}
 			$query->execute() or die(print_r($query->errorInfo()));
@@ -49,12 +49,12 @@
 			extract($data);
 			if(isset($id_Vehicule))
 			{
-				$query = $this->_db->prepare('SELECT * FROM vehicule_equipements WHERE id_vehicule=:id_vehicule');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_vehicule_equipements WHERE id_vehicule=:id_vehicule');
 				$query -> bindParam(':id_vehicule', $id_Vehicule,PDO::PARAM_INT);
 			}
 			else if(isset($id_Equipement))
 			{
-				$query = $this->_db->prepare('SELECT * FROM vehicule_equipements WHERE id_equipements=:id_equipements');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_vehicule_equipements WHERE id_equipements=:id_equipements');
 				$query -> bindParam(':id_equipements', $id_Equipement,PDO::PARAM_STR);
 			}
 
@@ -71,14 +71,14 @@
 		* Fonction permettant d'obtenir une liste des equipements
 		**/
 		function getList($champs=NULL){
-			// On vérifie le paramètre. 
+			// On vérifie le paramètre.
 			if($champs==NULL)
 			{
-				$query = $this->_db->prepare('SELECT * FROM vehicule_equipements');
+				$query = $this->_db->prepare('SELECT * FROM covoiturage_vehicule_equipements');
 			}
 			else
 			{
-				$query_str = "SELECT * FROM vehicule_equipements WHERE 1"; //Début de la requête.
+				$query_str = "SELECT * FROM covoiturage_vehicule_equipements WHERE 1"; //Début de la requête.
 				foreach ($champs as $champ => $val) {
 					if($val!="") //On vérifie que la valeur ne soit pas nulle
 					{
@@ -107,7 +107,7 @@
 		**/
 		function update($Vehicule_equipement){
 			extract($Vehicule_equipement);
-			$query = $this->_db->prepare('UPDATE vehicule_equipements SET commentaire=:commentaire WHERE id_vehicule=:id_vehicule');
+			$query = $this->_db->prepare('UPDATE covoiturage_vehicule_equipements SET commentaire=:commentaire WHERE id_vehicule=:id_vehicule');
 			$query -> bindParam(':commentaire', $commentaire,PDO::PARAM_INT);
 			$query->execute() or die(print_r($query->errorInfo()));
 		}

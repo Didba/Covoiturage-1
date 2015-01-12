@@ -563,7 +563,7 @@ session_start();
 	// 			{
 	// 				extract($_POST);
 	// 				$mdp = sha1($mdp . SALT);
-	// 				$query = $db->prepare('SELECT * FROM utilisateurs WHERE login=:login AND mdp=:mdp');
+	// 				$query = $db->prepare('SELECT * FROM covoiturage_utilisateurs WHERE login=:login AND mdp=:mdp');
 	// 				$query -> bindParam(':login', $login,PDO::PARAM_STR);
 	// 				$query -> bindParam(':mdp', $mdp,PDO::PARAM_STR);
 	// 				$query->execute() or die(print_r($query->errorInfo()));

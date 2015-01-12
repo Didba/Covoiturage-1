@@ -48,7 +48,7 @@
     $.fn.colorPicker = function (options) {
 
         return this.each(function () {
-            // Setup time. Clone new elements from our templates, set some IDs, make shortcuts, jazzercise.
+            // Setup time. Clone new elements FROM covoiturage_our templates, set some IDs, make shortcuts, jazzercise.
             var element      = $(this),
                 opts         = $.extend({}, $.fn.colorPicker.defaults, options),
                 defaultColor = $.fn.colorPicker.toHex(
