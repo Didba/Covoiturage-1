@@ -39,13 +39,13 @@
 		**/
 		function remove(array $data){
 			extract($data);
-			if(isset($id_Vehicule))
+			if(isset($id_vehicule))
 			{
-				$query = $this->_db->prepare('DELETE FROM covoiturage_vehicule WHERE id_vehicule=:id_vehicule');
+				$query = $this->_db->prepare('DELETE FROM covoiturage_vehicule WHERE id_vehicule=:id_vehicule AND id_adherent=:id_adherent');
 				$query -> bindParam(':id_vehicule', $id_vehicule,PDO::PARAM_INT);
+				$query -> bindParam(':id_adherent', $_SESSION['id'],PDO::PARAM_INT);
 			}
-
-			return $query->execute() or die(print_r($query->errorInfo()));
+			return $query->execute();
 		}
 
 		/**

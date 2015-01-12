@@ -149,7 +149,6 @@
 						$query_str .= '|' . $val['nom'];
 					}
 				}
-				var_dump($query_str);
 
 				$query_str .= "\" AND date_traj > '" . $champs['date_traj'] . ' ' . ($champs['hour']-1) . ':' . $champs['minute'] . "' AND date_traj < '" . $champs['date_traj'] . ' ' . ($champs['hour']+10) . ':' . $champs['minute'] . "' ORDER BY date_traj ASC"; //On ajoute la vérification de la date (-1h et +10h)
 				$query = $this->_db->prepare($query_str);
@@ -228,7 +227,7 @@
 		function getNearby($ville)
 		{
 			$ville = urlencode($ville);
-			$data = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=$ville");
+			$data = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=$ville&key=AIzaSyDgvEoJJoF0I6N_Vo_3LUyhcTZUI75WR14");
 			$data = json_decode($data);
 			$lat = $data->results[0]->geometry->location->lat;
 			$lng = $data->results[0]->geometry->location->lng;

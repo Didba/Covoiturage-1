@@ -26,6 +26,7 @@
 				$html .= '<b>Couleur : </b><div class="colortile" style="background-color:' . $elt->couleur() . '"></div></br>';
 				$html .= '<b>Carburant : </b>'.$elt->carburant().'</br>';
 				$html .= '<b>Immatriculation : </b>'.$elt->immatriculation().'</br>';
+				$html .= '<a href="super_controller.php?application=sup_vehicule&id_vehicule=' . $elt->id_vehicule() . '">Supprimer ce véhicule</a>';
 				$html .= '</li>';
 			}
 

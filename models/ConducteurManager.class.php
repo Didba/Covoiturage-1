@@ -1,12 +1,12 @@
 <?php
 
-	include_once 'models/conducteur.class.php';
+	include_once 'models/Conducteur.class.php';
 	include_once 'models/Adherent.class.php';
 
 	/**
 	* Classe de gestion des conducteur
 	*/
-	class conducteurManager
+	class ConducteurManager
 	{
 		private $_db;
 

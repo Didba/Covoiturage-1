@@ -3,7 +3,7 @@
 	/**
 	* Classe véhicule
 	*/
-	class vehicule
+	class Vehicule
 	{
 		private $_id_Vehicule;
 		private $_marque;

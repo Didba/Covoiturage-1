@@ -1,6 +1,6 @@
 <?php
 
-	include_once 'models/carburant.class.php';
+	include_once 'models/Carburant.class.php';
 
 	/**
 	* Classe de gestion des carburant

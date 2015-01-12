@@ -1,11 +1,11 @@
 <?php
 
-	include_once 'models/type.class.php';
+	include_once 'models/Type.class.php';
 
 	/**
 	* Classe de gestion des type
 	*/
-	class typeManager
+	class TypeManager
 	{
 		private $_db;
 

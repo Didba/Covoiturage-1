@@ -1,14 +1,14 @@
 <?php
 
 	/**
-	* Classe vehicule equipement 
+	* Classe vehicule equipement
 	*/
-	class vehicule_equipement
+	class Vehicule_Equipement
 	{
 		private $_id_Vehicule;
 		private $_id_equipement;
 		private $_commentaire;
-		
+
 
 		public function id()
 		{
@@ -24,8 +24,8 @@
 		{
 			return $this->_commentaire;
 		}
-		
-		
+
+
 		public function setIdVehicule($i)
 		{
 			$this->_id_Vehicule = $i;

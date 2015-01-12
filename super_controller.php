@@ -212,8 +212,8 @@ session_start();
 						include 'models/AdherentManager.class.php';
 						$mb_manager = new AdherentManager($db);
 
-						include_once('models/conducteurManager.class.php');
-						$cd_manager = new conducteurManager($db);
+						include_once('models/ConducteurManager.class.php');
+						$cd_manager = new ConducteurManager($db);
 						$page = new v_profil("Mon profil");
 
 						if($conducteur = $cd_manager->get(array("id_adherent_conducteur"=>$id)))
@@ -319,6 +319,19 @@ session_start();
 						$_SESSION['msg'] = "Votre ajout de véhicule a bien été prise en compte";
 					else:
 						$_SESSION['msg'] = 'L\'ajout de votre véhicule a échoué';
+					endif;
+					header('Location: super_controller.php?application=mes_vehicules');
+					break;
+
+				case 'sup_vehicule':
+					include_once('models/VehiculeManager.class.php');
+
+					$ve_manager = new VehiculeManager($db);
+
+					if($ve_manager->remove($_GET)):
+						$_SESSION['msg'] = "La suppression de votre véhicule a bien été prise en compte";
+					else:
+						$_SESSION['msg'] = 'La suppression de votre véhicule a échoué';
 					endif;
 					header('Location: super_controller.php?application=mes_vehicules');
 					break;

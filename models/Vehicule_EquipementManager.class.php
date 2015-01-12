@@ -8,7 +8,7 @@
 	/**
 	* Classe de gestion des Vehicule_equipement
 	*/
-	class Vehicule_equipementManager
+	class Vehicule_EquipementManager
 	{
 		private $_db;
 		public $VeEqManager;

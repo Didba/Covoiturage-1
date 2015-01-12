@@ -3,7 +3,7 @@
 	/**
 	* Classe adhérant
 	*/
-	class adherent
+	class Adherent
 	{
 		private $id_adherent;
 		private $_nom;

@@ -1,11 +1,11 @@
 <?php
 
 	include_once 'models/Adherent.class.php';
-	
+
 	/**
 	* Classe conducteur
 	*/
-	class conducteur extends adherent
+	class Conducteur extends Adherent
 	{
 		private $_num_permis;
 
