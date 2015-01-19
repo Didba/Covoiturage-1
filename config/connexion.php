@@ -7,32 +7,12 @@
         $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         $db->query("SET lc_time_names = 'fr_FR'");
         $db->exec("SET CHARACTER SET utf8");
-
-        // /**
-        // * On vérifie maintenant si la table "produits" existe. Si oui, o valide la connexion dans la supervariable co, sinon on précise le message
-        // **/
-
-        // $check = $db->query("SELECT 1 FROM covoiturage_produits");
-        // if ($check !== FALSE) {
-        //     $_SESSION['co'] = true;
-        // }
-        // else
-        // {
-        //     $_SESSION['msg'] = 'La table "produits" n\'existe pas. Vous pouvez la créer depuis le menu.'; //die('Erreur : '.$e->getMessage());
-        //     $_SESSION['co'] = false;
-        // }
     }
     catch(Exception $e)
     {
-        echo "Prob de connexion";
-        // $db = new PDO('mysql:host=localhost', 'root', '');
-        // $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        // $db->query("SET lc_time_names = 'fr_FR'");
-        // $db->exec("SET CHARACTER SET utf8");
-        // $_SESSION['msg'] = "La base de données n'existe pas. Vous pouvez la créer depuis le menu."; //die('Erreur : '.$e->getMessage());
-        // $_SESSION['co'] = false;
+        echo "Echec de la connexion de connexion";
     }
 
-    define('SALT', '²ebdè"nk');
+    define('SALT', '²ebdè"nk'); // A éventuellement ajouter au chiffrage des mots de passe
 
 ?>

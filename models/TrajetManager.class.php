@@ -194,7 +194,7 @@
 		}
 
 		/**
-		* Retourne la distance et la durée d'un trajet
+		* Retourne la distance, la durée d'un trajet et les frais calculés
 		**/
 		function get_geoData($from,$to)
 		{
@@ -208,11 +208,11 @@
 				$time += $road->duration->value;
 				$distance += $road->distance->text;
 			}
-			return array("distance"=>$distance, "time" => $time, "frais" => round($distance*0.06));
+			return array("distance"=>$distance, "time" => $time, "frais" => round($distance*0.06)); //0.06, c'est à dire 6 centimes par km
 		}
 
 		/**
-		* Retourne la distance et la durée d'un trajet
+		* Retourne le nombre de passagers prévus pour un trajet
 		**/
 		function get_rest($id_trajet)
 		{
@@ -224,6 +224,11 @@
 			return $result['total'];
 		}
 
+
+		/*-------------------------------------------------------------------------------*/
+		/*--------- Retourne la liste des villes dans un rayon donné -------*/
+		/*-------------------------------------------------------------------------------*/
+
 		function getNearby($ville)
 		{
 			$ville = urlencode($ville);
@@ -233,13 +238,11 @@
 			$lng = $data->results[0]->geometry->location->lng;
 
 			$type = 'cities';
-			$limit = 10;
-			$distance = 10;
-			$unit = 'km';
+			$limit = 10; //nombre de villes
+			$distance = 10; //rayon
 
 			// Rayon de la Terre
-			if ($unit == 'km') $radius = 6371.009; // en km
-			elseif ($unit == 'mi') $radius = 3958.761; // in miles
+			$radius = 6371.009; // en km
 
 			// Bornes latitudes
 			$maxLat = (float) $lat + rad2deg($distance / $radius);

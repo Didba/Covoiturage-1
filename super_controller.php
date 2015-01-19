@@ -8,11 +8,23 @@ session_start();
 
 	include_once 'config/connexion.php';
 
-	if(isset($_GET)):extract($_GET);endif;
-	if(isset($_POST)):extract($_POST);endif;
+	if(isset($_GET)):
+		foreach ($_GET as $key => &$value) {
+			//On évite les failles XSS
+			$value = htmlspecialchars($value);
+		}
+		extract($_GET);
+	endif;
+	if(isset($_POST)):
+		foreach ($_POST as $key => &$value) {
+			//On évite les failles XSS
+			$value = htmlspecialchars($value);
+		}
+		extract($_POST);
+	endif;
 
 	/*-------------------------------------------------------------------------------*/
-	/*--------------- Vérification si l'utilisateur est un admin -------------*/
+	/*------ Vérification si une action particulière est demandée ----*/
 	/*-------------------------------------------------------------------------------*/
 	if(isset($application))
 	{
@@ -120,7 +132,7 @@ session_start();
 					break;
 
 				/*-------------------------------------------------------------------------------*/
-				/*------------------------------PROPOSER TRAJET ----------------------------*/
+				/*--------------------------PROPOSER TRAJET ------------------------*/
 				/*-------------------------------------------------------------------------------*/
 
 				case 'proposer':
@@ -147,7 +159,7 @@ session_start();
 					break;
 
 				/*-------------------------------------------------------------------------------*/
-				/*------------------------------MODIFIER PROFIL ----------------------------*/
+				/*---------------------------MODIFIER PROFIL -------------------------*/
 				/*-------------------------------------------------------------------------------*/
 
 				case 'modif_profil':
@@ -203,8 +215,9 @@ session_start();
 				/*-------------------------------------------------------------------------------*/
 				/*---------------------------- Affichage du profil --------------------------*/
 				/*-------------------------------------------------------------------------------*/
+
 				case 'profil':
-					//On vérifie si un ID a bien été fourni
+					//On vérifie si un ID a bien été fourni et si il correspond à l'utilisateur connecté
 					if(isset($id)&&$id==$_SESSION['id'])
 					{
 						include_once 'views/v_profil.class.php';
@@ -233,6 +246,11 @@ session_start();
 					}
 					break;
 
+				/*-------------------------------------------------------------------------------*/
+				/*-------------------------- Réservation de trajet ------------------------*/
+				/*-------------------------------------------------------------------------------*/
+
+
 				case 'reserver':
 					include_once('models/ParticipeManager.class.php');
 					$pa_manager = new ParticipeManager($db);
@@ -244,6 +262,10 @@ session_start();
 					endif;
 					header('Location: super_controller.php?application=mes_trajets');
 					break;
+
+				/*-------------------------------------------------------------------------------*/
+				/*----------------------- Annulation de réservation ---------------------*/
+				/*-------------------------------------------------------------------------------*/
 
 				case 'annuler':
 					include_once('models/ParticipeManager.class.php');
@@ -257,6 +279,10 @@ session_start();
 					header('Location: super_controller.php?application=mes_trajets');
 					break;
 
+				/*-------------------------------------------------------------------------------*/
+				/*--------------------------- Annulation de trajet -------------------------*/
+				/*-------------------------------------------------------------------------------*/
+
 				case 'annuler_trajet':
 					include_once('models/TrajetManager.class.php');
 					$tr_manager = new TrajetManager($db);
@@ -268,6 +294,10 @@ session_start();
 					endif;
 					header('Location: super_controller.php?application=mes_trajets');
 					break;
+
+				/*-------------------------------------------------------------------------------*/
+				/*------------------------ Affichage de mes trajets ----------------------*/
+				/*-------------------------------------------------------------------------------*/
 
 				case 'mes_trajets':
 					include_once 'views/v_mes_trajets.class.php';
@@ -289,7 +319,7 @@ session_start();
 
 
 				/*-------------------------------------------------------------------------------*/
-				/*------------------------------ AJOUT VEHICULE ----------------------------*/
+				/*--------------------------------  VEHICULE ------------------------------*/
 				/*-------------------------------------------------------------------------------*/
 				case 'new_vehicule':
 					include_once('views/v_ajoutVehicule.class.php');
