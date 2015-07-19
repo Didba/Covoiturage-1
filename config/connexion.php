@@ -13,6 +13,6 @@
         echo "Echec de la connexion de connexion";
     }
 
-    define('SALT', '²ebdè"nk'); // A éventuellement ajouter au chiffrage des mots de passe
+    define('SALT', '²ebdè"nk');
 
 ?>
